@@ -1,10 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
-import { readableColor } from 'polished';
+import { readableColor, darken } from 'polished';
 import theme from './theme';
-
-// Assets
-import octopus1 from '../assets/images/octopus-1.png';
-import octopus3 from '../assets/images/octopus-3.png';
 
 const GlobalStyle = createGlobalStyle`
     * {
@@ -18,18 +14,15 @@ const GlobalStyle = createGlobalStyle`
     body {
         width: 100%;
         height: 100%;
-        
-        /* TODO: Work on it */
-        /* background-image: url(${octopus3}), url(${octopus1});
-        background-position: top left, top right;
-        background-size: auto, 600px;
-        background-repeat: no-repeat; */
-        
         background-color: ${theme.primary};
         color: ${readableColor(theme.primary)};
         font-kerning: normal;
         word-wrap: break-word;
         font-family: 'Inter', sans-serif;
+    }
+
+    ::selection {
+        background-color: ${darken(0.2, theme.yellow)};
     }
 `;
 

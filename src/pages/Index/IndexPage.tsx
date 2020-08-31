@@ -34,7 +34,6 @@ function IndexPage() {
 
         <hr />
 
-        {/* TODO: Add drop shadow */}
         <div className="introduction">
           <p>
             suas anotações <b>salvas</b> nas profundezas do <b>inexplorável.</b>

@@ -7,6 +7,7 @@ import { WrapperSelect } from './styles';
 const SwitchLanguage: React.FunctionComponent = () => {
   return (
     <>
+      {/* TODO: Refactor this. */}
       <WrapperSelect>
         <Language className="icon" />
 

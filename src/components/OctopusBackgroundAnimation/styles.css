@@ -1,0 +1,75 @@
+.octopus3,
+.octopus1 {
+  z-index: -1;
+  display: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+  width: 100px;
+  height: 100px;
+}
+
+/*
+ * Debug purposes 
+ */
+/* .octopus3 {
+  background-color: gray;
+  z-index: 1;
+} */
+/* .octopus1 {
+  background-color: gray;
+  z-index: 1;
+} */
+
+@media (min-width: 960px) {
+  .octopus3,
+  .octopus1 {
+    display: block;
+  }
+
+  .octopus3 {
+    width: 850px;
+    height: 500px;
+    background-size: 800px;
+    top: 3%;
+    left: -10%;
+  }
+
+  .octopus1 {
+    width: 410px;
+    height: 430px;
+    background-size: 400px;
+    top: 25%;
+    right: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .octopus3 {
+    width: 900px;
+    background-size: 850px;
+    top: 5%;
+    left: -2%;
+  }
+
+  .octopus1 {
+    top: 25%;
+    right: 3%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .octopus3 {
+    width: 1100px;
+    background-size: 1000px;
+    left: 0;
+  }
+
+  .octopus1 {
+    width: 590px;
+    height: 560px;
+    background-size: 550px;
+    top: 25%;
+    right: 8%;
+  }
+}

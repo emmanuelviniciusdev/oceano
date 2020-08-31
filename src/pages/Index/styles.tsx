@@ -24,6 +24,10 @@ export const WrapperLogo = styled.div`
       width: 360px;
     }
   }
+
+  @media (min-width: 960px) {
+    margin-top: 15px;
+  }
 `;
 
 export const BoxIntroduction = styled.div`
@@ -35,6 +39,7 @@ export const BoxIntroduction = styled.div`
   color: ${readableColor(theme.yellow)};
   display: flex;
   flex-direction: column;
+  box-shadow: 3px 4px 6px 2px rgba(0, 0, 0, 0.25);
 
   .login,
   .introduction {
@@ -83,7 +88,7 @@ export const BoxIntroduction = styled.div`
   @media (min-width: 960px) {
     width: 710px;
     min-height: 350px;
-    margin-top: 75px;
+    margin-top: 45px;
     flex-direction: row-reverse;
 
     .login h1 {

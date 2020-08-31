@@ -11,11 +11,14 @@ import NotFoundPage from './pages/NotFound/NotFoundPage';
 
 // Components
 import Footer from './components/Footer/Footer';
+import OctopusBackgroundAnimation from './components/OctopusBackgroundAnimation/OctopusBackgroundAnimation';
 
 function App() {
   return (
     <>
       <GlobalStyle />
+
+      <OctopusBackgroundAnimation />
 
       <main>
         <Container>
