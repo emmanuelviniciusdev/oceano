@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import theme from '../../styles/theme';
 
 export const WrapperSelect = styled.div`
+  /* background: red;  */
   min-width: 120px;
-  /* background: red; */
   display: flex;
   color: ${theme.gray};
+  align-items: center;
 
   .icon {
-    margin-right: 8px;
+    margin-right: 3px;
   }
 
   select {
@@ -19,7 +20,7 @@ export const WrapperSelect = styled.div`
     font-size: 16px;
     border: none;
     appearance: none;
-    outline-color: ${theme.secondary};
     cursor: pointer;
+    padding: 10px;
   }
 `;

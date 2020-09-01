@@ -1,0 +1,108 @@
+.shark1,
+.shark2,
+.shark3 {
+  z-index: -1;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: fixed;
+}
+
+/* Debug purposes */
+/* .shark1 {
+  background-color: gray;
+  z-index: 1;
+} */
+/* .shark2 {
+  background-color: gray;
+  z-index: 1;
+} */
+/* .shark3 {
+  background-color: gray;
+  z-index: 1;
+} */
+
+.shark1 {
+  background-size: 250px;
+  width: 260px;
+  height: 280px;
+  right: -2vw;
+  top: 34vh;
+}
+
+.shark2 {
+  background-size: 350px;
+  width: 305px;
+  height: 300px;
+  left: 0;
+  top: -2vh;
+}
+
+.shark3 {
+  background-size: 350px;
+  width: 360px;
+  height: 260px;
+  left: -20vw;
+  bottom: -3vh;
+}
+
+@media (min-width: 600px) {
+  .shark1 {
+    top: 40vh;
+    right: -5vw;
+  }
+
+  .shark2 {
+    background-size: 450px;
+    width: 350px;
+    height: 360px;
+    top: 0;
+  }
+
+  .shark3 {
+    background-size: 450px;
+    width: 460px;
+    height: 290px;
+    left: -20vw;
+    bottom: 0;
+  }
+}
+
+@media (min-width: 960px) {
+  .shark1 {
+    background-size: 400px;
+    width: 420px;
+    height: 370px;
+    top: -1vh;
+    right: -1vw;
+  }
+
+  .shark2 {
+    background-size: 600px;
+    width: 600px;
+    height: 590px;
+    top: -4vh;
+  }
+
+  .shark3 {
+    background-size: 550px;
+    width: 560px;
+    height: 320px;
+    left: 10vw;
+    bottom: 3vh;
+  }
+}
+
+@media (min-width: 1280px) {
+  .shark3 {
+    left: 20vw;
+  }
+}
+
+@media (min-width: 1920px) {
+  .shark2 {
+    background-size: 800px;
+    width: 800px;
+    height: 690px;
+    top: 0;
+  }
+}

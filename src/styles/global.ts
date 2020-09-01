@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { readableColor, darken } from 'polished';
+import { readableColor } from 'polished';
 import theme from './theme';
 
 const GlobalStyle = createGlobalStyle`
@@ -9,6 +9,10 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         -ms-text-size-adjust: 100%;
         -webkit-text-size-adjust: 100%;
+
+        &:focus {
+            outline: 3px solid ${theme.gray};
+        }
     }
 
     body {
@@ -22,7 +26,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ::selection {
-        background-color: ${darken(0.2, theme.yellow)};
+        background-color: ${theme.gray};
     }
 `;
 

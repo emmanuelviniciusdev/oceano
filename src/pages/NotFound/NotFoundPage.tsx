@@ -1,13 +1,29 @@
 import React from 'react';
+import ArrowBack from '@material-ui/icons/ArrowBack';
 
 // Styles
-// import {} from './styles';
+import { WrapperContent } from './styles';
+
+// Components
+import PurpledButton from '../../components/PurpledButton/PurpledButton';
 
 function NotFoundPage() {
   return (
-    <div>
-      <h1>not found 404</h1>
-    </div>
+    <>
+      <WrapperContent>
+        <div className="content">
+          <p className="not-found-code">404</p>
+          <h1>página não encontrada</h1>
+          <h2>perdido, marinheiro?</h2>
+          <PurpledButton
+            className="button-return"
+            text="retornar"
+            aria-label="retornar"
+            icon={<ArrowBack />}
+          />
+        </div>
+      </WrapperContent>
+    </>
   );
 }
 

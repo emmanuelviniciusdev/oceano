@@ -1,33 +1,38 @@
 import React from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom';
+
+// Setup
+import Routes from './Routes';
 
 // Styles
 import GlobalStyle from './styles/global';
 import { Container } from './styles/general';
 
-// Pages
-import IndexPage from './pages/Index/IndexPage';
-import NotFoundPage from './pages/NotFound/NotFoundPage';
-
 // Components
 import Footer from './components/Footer/Footer';
 import OctopusBackgroundAnimation from './components/OctopusBackgroundAnimation/OctopusBackgroundAnimation';
+import SharksBackgroundAnimation from './components/SharksBackgroundAnimation/SharksBackgroundAnimation';
+import { useLocation } from 'react-router-dom';
 
 function App() {
+  const currentLocation = useLocation();
+
   return (
     <>
       <GlobalStyle />
 
-      <OctopusBackgroundAnimation />
+      {/*
+        It renders the octopus background if route is not '/not-found'
+        or the sharks background if it is.
+      */}
+      {currentLocation.pathname !== '/not-found' ? (
+        <OctopusBackgroundAnimation />
+      ) : (
+        <SharksBackgroundAnimation />
+      )}
 
       <main>
         <Container>
-          <Router>
-            <Switch>
-              <Route path="/" exact children={IndexPage} />
-              <Route path="*" children={NotFoundPage} />
-            </Switch>
-          </Router>
+          <Routes />
         </Container>
       </main>
 
