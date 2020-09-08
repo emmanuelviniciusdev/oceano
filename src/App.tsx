@@ -24,7 +24,7 @@ function App() {
         It renders the octopus background if route is not '/not-found'
         or the sharks background if it is.
       */}
-      {currentLocation.pathname !== '/not-found' ? (
+      {currentLocation.pathname !== '/pagina-nao-encontrada' ? (
         <OctopusBackground />
       ) : (
         <SharksBackground />

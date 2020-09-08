@@ -2,7 +2,7 @@ import React from 'react';
 import { SvgIconProps } from '@material-ui/core';
 import { Button } from './styles';
 
-type PurpledButtonType = {
+type OceanButtonType = {
   /**
    * The button text
    */
@@ -16,8 +16,8 @@ type PurpledButtonType = {
   icon?: React.ReactElement<SvgIconProps>;
 };
 
-const PurpledButton: React.FunctionComponent<
-  PurpledButtonType & React.ButtonHTMLAttributes<HTMLButtonElement>
+const OceanButton: React.FunctionComponent<
+  OceanButtonType & React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ text, icon, ...props }) => {
   return (
     <>
@@ -31,4 +31,4 @@ const PurpledButton: React.FunctionComponent<
   );
 };
 
-export default PurpledButton;
+export default OceanButton;

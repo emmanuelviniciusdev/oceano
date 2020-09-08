@@ -5,7 +5,7 @@ import ArrowBack from '@material-ui/icons/ArrowBack';
 import { WrapperContent } from './styles';
 
 // Components
-import PurpledButton from '../../components/PurpledButton/PurpledButton';
+import OceanButton from '../../components/OceanButton/OceanButton';
 
 function NotFoundPage() {
   return (
@@ -15,7 +15,7 @@ function NotFoundPage() {
           <p className="not-found-code">404</p>
           <h1>página não encontrada</h1>
           <h2>perdido, marinheiro?</h2>
-          <PurpledButton
+          <OceanButton
             className="button-return"
             text="retornar"
             aria-label="retornar"

@@ -15,8 +15,8 @@ const Routes = () => {
       <Switch>
         <Route path="/" exact component={IndexPage} />
 
-        <Route path="/not-found" component={NotFoundPage} />
-        <Redirect to="/not-found" />
+        <Route path="/pagina-nao-encontrada" component={NotFoundPage} />
+        <Redirect to="/pagina-nao-encontrada" />
       </Switch>
     </>
   );
