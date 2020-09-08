@@ -9,8 +9,8 @@ import { Container } from './styles/general';
 
 // Components
 import Footer from './components/Footer/Footer';
-import OctopusBackgroundAnimation from './components/OctopusBackgroundAnimation/OctopusBackgroundAnimation';
-import SharksBackgroundAnimation from './components/SharksBackgroundAnimation/SharksBackgroundAnimation';
+import OctopusBackground from './components/OctopusBackground/OctopusBackground';
+import SharksBackground from './components/SharksBackground/SharksBackground';
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -25,9 +25,9 @@ function App() {
         or the sharks background if it is.
       */}
       {currentLocation.pathname !== '/not-found' ? (
-        <OctopusBackgroundAnimation />
+        <OctopusBackground />
       ) : (
-        <SharksBackgroundAnimation />
+        <SharksBackground />
       )}
 
       <main>

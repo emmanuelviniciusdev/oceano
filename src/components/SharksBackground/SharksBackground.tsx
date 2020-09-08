@@ -8,7 +8,7 @@ import shark3 from '../../assets/images/shark-3.png';
 // Styles
 import './styles.css';
 
-const SharksBackgroundAnimation = () => {
+const SharksBackground = () => {
   return (
     <>
       <div className="shark1" style={{ backgroundImage: `url(${shark1})` }} />
@@ -18,4 +18,4 @@ const SharksBackgroundAnimation = () => {
   );
 };
 
-export default SharksBackgroundAnimation;
+export default SharksBackground;
