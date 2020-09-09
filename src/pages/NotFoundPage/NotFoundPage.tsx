@@ -7,7 +7,7 @@ import { WrapperContent } from './styles';
 // Components
 import OceanButton from '../../components/OceanButton/OceanButton';
 
-function NotFoundPage() {
+const NotFoundPage = () => {
   return (
     <>
       <WrapperContent>
@@ -25,6 +25,6 @@ function NotFoundPage() {
       </WrapperContent>
     </>
   );
-}
+};
 
 export default NotFoundPage;

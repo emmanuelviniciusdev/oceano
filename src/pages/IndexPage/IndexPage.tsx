@@ -10,7 +10,7 @@ import { WrapperSwitchLanguage, WrapperLogo, BoxIntroduction } from './styles';
 import SwitchLanguage from '../../components/SwitchLanguage/SwitchLanguage';
 import ButtonSignInWithGoogle from '../../components/ButtonSignInWithGoogle/ButtonSignInWithGoogle';
 
-function IndexPage() {
+const IndexPage = () => {
   return (
     <>
       <WrapperSwitchLanguage>
@@ -49,6 +49,6 @@ function IndexPage() {
       </BoxIntroduction>
     </>
   );
-}
+};
 
 export default IndexPage;
