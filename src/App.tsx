@@ -27,7 +27,7 @@ function App() {
       )}
 
       <main>
-        <Container>
+        <Container style={{ marginBottom: '100px' }}>
           <Routes />
         </Container>
       </main>
