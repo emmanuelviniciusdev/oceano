@@ -5,7 +5,7 @@ export const WrapperSelect = styled.div`
   /* background: red;  */
   min-width: 120px;
   display: flex;
-  color: ${theme.gray};
+  color: ${theme.colors.gray};
   align-items: center;
 
   .icon {
@@ -20,7 +20,6 @@ export const WrapperSelect = styled.div`
     font-size: 16px;
     border: none;
     appearance: none;
-    cursor: pointer;
     padding: 10px;
   }
 `;

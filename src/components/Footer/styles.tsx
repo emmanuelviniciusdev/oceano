@@ -9,5 +9,5 @@ export const Footer = styled.footer`
   align-items: center;
   justify-content: center;
   bottom: 0;
-  background: ${theme.strongPrimary};
+  background: ${theme.colors.strongPrimary};
 `;

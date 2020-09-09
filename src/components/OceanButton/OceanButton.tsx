@@ -1,6 +1,6 @@
 import React from 'react';
 import { SvgIconProps } from '@material-ui/core';
-import { StyledOceanButton } from './styles';
+import { OceanButton as StyledOceanButton } from './styles';
 
 type OceanButtonType = {
   /**

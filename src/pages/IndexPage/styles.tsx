@@ -35,8 +35,8 @@ export const BoxIntroduction = styled.div`
   margin: 0 auto;
   margin-top: 35px;
   border-radius: 5px;
-  background-color: ${theme.yellow};
-  color: ${readableColor(theme.yellow)};
+  background-color: ${theme.colors.yellow};
+  color: ${readableColor(theme.colors.yellow)};
   display: flex;
   flex-direction: column;
   box-shadow: 3px 4px 6px 2px rgba(0, 0, 0, 0.25);

@@ -8,12 +8,12 @@ export const WrapperContent = styled.div`
   .not-found-code {
     font-size: 96px;
     font-weight: 900;
-    color: ${theme.strongPrimary};
+    color: ${theme.colors.strongPrimary};
   }
 
   h1,
   h2 {
-    color: ${theme.gray};
+    color: ${theme.colors.gray};
     margin-bottom: 10px;
   }
 
