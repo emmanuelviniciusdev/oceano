@@ -4,19 +4,19 @@ import React from 'react';
 import googleBrands from '../../assets/images/google-brands.svg';
 
 // Styles
-import { ButtonSignInWithGoogle as StyledButtonSignInWithGoogle } from './styles';
+import { ButtonSignIn } from '../../styles/general';
 
 const ButtonSignInWithGoogle = () => {
   return (
     <>
-      <StyledButtonSignInWithGoogle>
+      <ButtonSignIn>
         <div>
-          <img src={googleBrands} alt="Letra G representando Google" />
+          <img src={googleBrands} alt="Logo do Google" />
           <p>
-            Entrar usando o <b>Google</b>
+            entrar usando o <b>Google</b>
           </p>
         </div>
-      </StyledButtonSignInWithGoogle>
+      </ButtonSignIn>
     </>
   );
 };

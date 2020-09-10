@@ -54,9 +54,13 @@ export const BoxIntroduction = styled.div`
       font-weight: 900;
     }
 
-    .btn-login {
+    .btns-login {
       margin: 0 auto;
-      margin-top: 10px;
+      margin-top: 15px;
+
+      button {
+        margin-bottom: 5px;
+      }
     }
   }
 

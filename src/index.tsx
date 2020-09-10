@@ -6,10 +6,8 @@ import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/*
-      <HashRouter /> is being defined here to make it possible to use
-      router hooks inside any component of the application
-    */}
+    {/* <HashRouter /> is being defined here to make it possible to use
+        router hooks inside any component of the application */}
     <HashRouter>
       <App />
     </HashRouter>

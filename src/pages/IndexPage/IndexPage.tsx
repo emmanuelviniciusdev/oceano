@@ -9,6 +9,7 @@ import { WrapperSwitchLanguage, WrapperLogo, BoxIntroduction } from './styles';
 // Components
 import SwitchLanguage from '../../components/SwitchLanguage/SwitchLanguage';
 import ButtonSignInWithGoogle from '../../components/ButtonSignInWithGoogle/ButtonSignInWithGoogle';
+import ButtonSignInWithMicrosoft from '../../components/ButtonSignInWithMicrosoft/ButtonSignInWithMicrosoft';
 
 const IndexPage = () => {
   return (
@@ -27,8 +28,9 @@ const IndexPage = () => {
         <div className="login">
           <h1>iniciar sessão</h1>
 
-          <div className="btn-login">
+          <div className="btns-login">
             <ButtonSignInWithGoogle />
+            <ButtonSignInWithMicrosoft />
           </div>
         </div>
 
