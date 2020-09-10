@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
 import theme from '../../styles/theme';
 
-type TypeOceanButton = {
+type TypeOceanoButton = {
   styledTheme: string;
 };
 
-export const OceanButton = styled.button<TypeOceanButton>`
+export const OceanoButton = styled.button<TypeOceanoButton>`
   padding: 10px 20px;
-  min-width: 130px;
+  min-width: 100px;
   font-weight: bold;
   border-radius: 5px;
   box-shadow: 2px 2px 6px 1px rgba(0, 0, 0, 0.25);

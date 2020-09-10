@@ -1,8 +1,8 @@
 import React from 'react';
 import { SvgIconProps } from '@material-ui/core';
-import { OceanButton as StyledOceanButton } from './styles';
+import { OceanoButton as StyledOceanoButton } from './styles';
 
-type OceanButtonType = {
+type OceanoButtonType = {
   /**
    * The button text
    */
@@ -18,19 +18,19 @@ type OceanButtonType = {
   theme?: 'gray' | 'purple' | 'yellow';
 };
 
-const OceanButton: React.FunctionComponent<
-  OceanButtonType & React.ButtonHTMLAttributes<HTMLButtonElement>
+const OceanoButton: React.FunctionComponent<
+  OceanoButtonType & React.ButtonHTMLAttributes<HTMLButtonElement>
 > = ({ text, icon, theme = 'purple', ...props }) => {
   return (
     <>
-      <StyledOceanButton {...props} styledTheme={theme}>
+      <StyledOceanoButton {...props} styledTheme={theme}>
         <div className="button-content">
           <div className="icon">{icon}</div>
           <div className="text">{text}</div>
         </div>
-      </StyledOceanButton>
+      </StyledOceanoButton>
     </>
   );
 };
 
-export default OceanButton;
+export default OceanoButton;

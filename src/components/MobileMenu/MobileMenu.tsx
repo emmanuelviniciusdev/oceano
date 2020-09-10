@@ -12,7 +12,7 @@ import {
 } from './styles';
 
 // Components
-import OceanButton from '../OceanButton/OceanButton';
+import OceanoButton from '../OceanoButton/OceanoButton';
 
 const MobileMenu: React.FunctionComponent = () => {
   return (
@@ -25,21 +25,24 @@ const MobileMenu: React.FunctionComponent = () => {
         <p className="text-oceano">oceano</p>
 
         <WrapperButtonsMenu>
-          <OceanButton
+          <OceanoButton
             className="button-menu"
+            aria-label="criar uma nota"
             text="criar uma nota"
             icon={<AddIcon />}
           />
 
           {/* TODO: Verify the behavior of this button. Is it really going to be a button?  */}
-          <OceanButton
+          <OceanoButton
             className="button-menu"
+            aria-label="selecionar idioma"
             text="português"
             icon={<LanguageIcon />}
           />
 
-          <OceanButton
+          <OceanoButton
             className="button-menu"
+            aria-label="sair do oceano"
             text="sair"
             icon={<ExitToAppIcon />}
           />

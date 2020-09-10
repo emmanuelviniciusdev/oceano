@@ -14,6 +14,22 @@ export const TopBar = styled.nav`
   padding: 0 5px;
 `;
 
+export const WrapperShowDesktopButtons = styled.div`
+  display: none;
+
+  @media (min-width: 960px) {
+    display: block;
+  }
+`;
+
+export const TopBarContainer = styled.div`
+  width: 100%;
+  max-width: 1300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+`;
+
 export const WrapperInputSearch = styled.div`
   width: 80%;
   height: 50px;
@@ -30,6 +46,10 @@ export const WrapperInputSearch = styled.div`
     align-items: center;
     margin-right: 10px;
     margin-top: -5px;
+  }
+
+  @media (min-width: 960px) {
+    width: 40%;
   }
 `;
 
@@ -48,10 +68,31 @@ export const InputSearch = styled.input`
   }
 `;
 
+export const WrapperButtonsRightSide = styled.div`
+  button {
+    margin-right: 10px;
+  }
+`;
+
 export const OpenMenuButton = styled.button`
   width: 50px;
   height: 50px;
   background-color: ${theme.colors.secondary};
   color: ${theme.colors.gray};
   border: none;
+
+  @media (min-width: 960px) {
+    display: none;
+  }
+`;
+
+export const TextOceano = styled.p`
+  font-weight: bold;
+  font-size: 24px;
+  color: ${theme.colors.gray};
+  display: none;
+
+  @media (min-width: 1280px) {
+    display: block;
+  }
 `;
