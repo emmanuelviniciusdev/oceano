@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Setup
@@ -17,13 +17,6 @@ import SharksBackground from './components/SharksBackground/SharksBackground';
 function App() {
   const currentLocation = useLocation();
   const globalContext = useContext(AppContext);
-
-  useEffect(() => {
-    globalContext.language?.dispatch({
-      type: 'SET_LANGUAGE',
-      payload: 'en-us',
-    });
-  }, []);
 
   return (
     <>

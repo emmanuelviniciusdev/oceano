@@ -1,34 +1,12 @@
-import { ActionType } from '../../types/ReducerTypes';
+import { ActionType, LanguageStateType } from '../../types/ReducerTypes';
+import languages from '../../languages';
 
-// Languages
-import ptBr from '../../languages/pt-br.json';
-import enUs from '../../languages/en-us.json';
+const initialState: LanguageStateType = languages['pt-br'];
 
-type StateType = {
-  /**
-   * The name of the json file without its extension
-   */
-  default: string;
-
-  /**
-   * The name of the language
-   */
-  language: string;
-
-  /**
-   * All the translations from json file
-   */
-  translations: object;
-};
-
-const languages: { [key: string]: StateType } = {
-  'pt-br': ptBr,
-  'en-us': enUs,
-};
-
-const initialState: StateType = languages['pt-br'];
-
-function reducer(state: StateType, action: ActionType): StateType {
+function reducer(
+  state: LanguageStateType,
+  action: ActionType
+): LanguageStateType {
   switch (action.type) {
     case 'SET_LANGUAGE':
       return { ...state, ...(languages[action.payload] ?? languages['pt-br']) };
@@ -37,7 +15,18 @@ function reducer(state: StateType, action: ActionType): StateType {
   }
 }
 
+const actionCreators: { [key: string]: (...props: any) => ActionType } = {
+  /**
+   * @param language The name of the the json file without the extension. Example: 'pt-br'
+   */
+  setLanguage: (language: string) => ({
+    type: 'SET_LANGUAGE',
+    payload: language,
+  }),
+};
+
 export default {
   initialState,
   reducer,
+  actionCreators,
 };

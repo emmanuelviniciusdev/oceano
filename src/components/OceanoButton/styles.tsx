@@ -37,6 +37,15 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
       border: 2px solid ${theme.colors.gray};
     `}
 
+    ${(props) =>
+    props.styledTheme &&
+    props.styledTheme === 'transparent' &&
+    css`
+      background-color: transparent;
+      color: ${theme.colors.gray};
+      border: 2px solid transparent;
+    `}
+
   .button-content {
     display: flex;
     align-items: center;

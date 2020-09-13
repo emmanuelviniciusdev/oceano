@@ -1,20 +1,28 @@
 import React from 'react';
-import Language from '@material-ui/icons/Language';
+import LanguageIcon from '@material-ui/icons/Language';
 
 // Styles
-import { WrapperSelect } from './styles';
+import {} from './styles';
 
-const SwitchLanguage: React.FunctionComponent = () => {
+// Components
+import OceanoButton from '../OceanoButton/OceanoButton';
+
+type SwitchLanguageType = {
+  isNotTransparent?: boolean;
+};
+
+const SwitchLanguage: React.FunctionComponent<SwitchLanguageType> = ({
+  isNotTransparent = false,
+}) => {
   return (
     <>
-      <WrapperSelect>
-        <Language className="icon" />
-
-        <select aria-label="selecionar idioma">
-          <option>português</option>
-          <option>english</option>
-        </select>
-      </WrapperSelect>
+      <OceanoButton
+        className="button-menu"
+        aria-label="selecionar idioma"
+        text="português"
+        icon={<LanguageIcon />}
+        theme={isNotTransparent ? 'purple' : 'transparent'}
+      />
     </>
   );
 };

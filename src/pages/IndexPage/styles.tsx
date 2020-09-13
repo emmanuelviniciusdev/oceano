@@ -5,11 +5,11 @@ import { readableColor } from 'polished';
 export const WrapperSwitchLanguage = styled.div`
   /* background: green; */
   display: flex;
+  margin-top: 25px;
+  padding-right: 10px;
 
   div {
     margin-left: auto;
-    margin-top: 15px;
-    margin-right: 10px;
   }
 `;
 

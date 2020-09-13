@@ -15,7 +15,10 @@ type OceanoButtonType = {
    */
   icon?: React.ReactElement<SvgIconProps>;
 
-  theme?: 'gray' | 'purple' | 'yellow';
+  /**
+   * The button theme
+   */
+  theme?: 'gray' | 'purple' | 'yellow' | 'transparent';
 };
 
 const OceanoButton: React.FunctionComponent<
