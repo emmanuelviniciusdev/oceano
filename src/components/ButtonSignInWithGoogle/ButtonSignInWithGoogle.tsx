@@ -13,7 +13,7 @@ const ButtonSignInWithGoogle = () => {
         <div>
           <img src={googleBrands} alt="Logo do Google" />
           <p>
-            entrar usando o <b>Google</b>
+            Entrar usando o <b>Google</b>
           </p>
         </div>
       </ButtonSignIn>

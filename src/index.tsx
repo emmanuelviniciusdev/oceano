@@ -3,14 +3,17 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { HashRouter } from 'react-router-dom';
+import { AppContextProvider } from './store';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <HashRouter /> is being defined here to make it possible to use
+    <AppContextProvider>
+      {/* <HashRouter /> is being defined here to make it possible to use
         router hooks inside any component of the application */}
-    <HashRouter>
-      <App />
-    </HashRouter>
+      <HashRouter>
+        <App />
+      </HashRouter>
+    </AppContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

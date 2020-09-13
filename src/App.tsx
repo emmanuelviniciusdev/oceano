@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Setup
 import Routes from './Routes';
+import { AppContext } from './store';
 
 // Styles
 import GlobalStyle from './styles/global';
@@ -15,6 +16,14 @@ import SharksBackground from './components/SharksBackground/SharksBackground';
 
 function App() {
   const currentLocation = useLocation();
+  const globalContext = useContext(AppContext);
+
+  useEffect(() => {
+    globalContext.language?.dispatch({
+      type: 'SET_LANGUAGE',
+      payload: 'en-us',
+    });
+  }, []);
 
   return (
     <>
@@ -28,6 +37,7 @@ function App() {
 
       <main>
         <Container style={{ marginBottom: '100px' }}>
+          <p>{JSON.stringify(globalContext.language?.state)}</p>
           <Routes />
         </Container>
       </main>

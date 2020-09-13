@@ -13,7 +13,7 @@ const ButtonSignInWithMicrosoft = () => {
         <div>
           <img src={microsoftBox} alt="Logo da Microsoft" />
           <p>
-            entrar usando a <b>Microsoft</b>
+            Entrar usando a <b>Microsoft</b>
           </p>
         </div>
       </ButtonSignIn>
