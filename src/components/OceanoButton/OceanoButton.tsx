@@ -27,7 +27,7 @@ const OceanoButton: React.FunctionComponent<
   return (
     <>
       <StyledOceanoButton {...props} styledTheme={theme}>
-        <div className="button-content">
+        <div className="button-content" data-testid="ocean-button-content">
           <div className="icon">{icon}</div>
           <div className="text">{text}</div>
         </div>

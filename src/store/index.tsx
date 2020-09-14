@@ -9,9 +9,12 @@
 import React, {
   createContext,
   Dispatch,
+  Reducer,
+  ReducerAction,
   ReducerState,
   useReducer,
 } from 'react';
+import { LanguageStateType } from '../types/reducers/language';
 import { ActionType } from '../types/ReducerTypes';
 
 // Reducers
@@ -21,9 +24,17 @@ type AppContextProviderPropsType = {
   children: JSX.Element[] | JSX.Element;
 };
 
-type TransformReducerType = {
-  state: ReducerState<any>;
-  dispatch: Dispatch<ActionType>;
+/**
+ * 'S' represents the type of reducer state
+ */
+type ReducerType<S> = Reducer<S, ActionType>;
+
+/**
+ * 'S' represents the type of reducer state as well
+ */
+type TransformReducerType<S> = {
+  state: ReducerState<ReducerType<S>>;
+  dispatch: Dispatch<ReducerAction<ReducerType<S>>>;
 };
 
 /**
@@ -33,7 +44,7 @@ type TransformReducerType = {
  * to define its type here.
  */
 type AppGlobalContextType = {
-  language?: TransformReducerType;
+  language?: TransformReducerType<LanguageStateType>;
 };
 
 export const AppContext = createContext<AppGlobalContextType>({});
@@ -53,8 +64,6 @@ export function AppContextProvider({ children }: AppContextProviderPropsType) {
  *
  * @param reducer
  */
-function transformReducer(
-  reducer: [ReducerState<any>, Dispatch<ActionType>]
-): TransformReducerType {
+function transformReducer(reducer: [any, any]) {
   return { state: reducer[0], dispatch: reducer[1] };
 }

@@ -1,6 +1,6 @@
 import ptBr from './pt-br.json';
 import enUs from './en-us.json';
-import { LanguageStateType } from '../types/ReducerTypes';
+import { LanguageStateType } from '../types/reducers/language';
 
 /**
  * This object is a reference to all the languages of the application.
