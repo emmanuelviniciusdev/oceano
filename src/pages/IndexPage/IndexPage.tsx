@@ -11,7 +11,12 @@ import SwitchLanguage from '../../components/SwitchLanguage/SwitchLanguage';
 import ButtonSignInWithGoogle from '../../components/ButtonSignInWithGoogle/ButtonSignInWithGoogle';
 import ButtonSignInWithMicrosoft from '../../components/ButtonSignInWithMicrosoft/ButtonSignInWithMicrosoft';
 
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
 const IndexPage = () => {
+  const translation = useTranslation('IndexPage');
+
   return (
     <>
       <WrapperSwitchLanguage>
@@ -19,14 +24,12 @@ const IndexPage = () => {
           <SwitchLanguage />
         </div>
       </WrapperSwitchLanguage>
-
       <WrapperLogo>
         <img src={logo} alt="oceano" />
       </WrapperLogo>
-
       <BoxIntroduction>
         <div className="login">
-          <h1>iniciar sessão</h1>
+          <h1>{translation?.signIn?.title}</h1>
 
           <div className="btns-login">
             <ButtonSignInWithGoogle />
@@ -37,16 +40,21 @@ const IndexPage = () => {
         <hr />
 
         <div className="introduction">
-          <p>
-            suas anotações <b>salvas</b> nas profundezas do <b>inexplorável.</b>
-          </p>
-          <p>
-            diga <b>adeus</b> às suas antigas notinhas de papel e dê um{' '}
-            <b>olá</b> ao <b>oceano.</b>
-          </p>
-          <p>
-            <b>experimente.</b>
-          </p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: translation?.presentation?.paragraph1,
+            }}
+          ></p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: translation?.presentation?.paragraph2,
+            }}
+          ></p>
+          <p
+            dangerouslySetInnerHTML={{
+              __html: translation?.presentation?.paragraph3,
+            }}
+          ></p>
         </div>
       </BoxIntroduction>
     </>

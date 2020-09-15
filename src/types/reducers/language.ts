@@ -1,6 +1,6 @@
 export type LanguageStateType = {
   /**
-   * The name of the json file without its extension
+   * The name of the translations file without its extension
    */
   default: string;
 
@@ -10,7 +10,7 @@ export type LanguageStateType = {
   language: string;
 
   /**
-   * All the translations from json file
+   * All the translations from translations file
    */
-  translations: object;
+  translations: { [key: string]: any };
 };

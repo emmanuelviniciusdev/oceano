@@ -1,9 +1,10 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Setup
 import Routes from './Routes';
 import { AppContext } from './store';
+import languageReducer from './store/reducers/language';
 
 // Styles
 import GlobalStyle from './styles/global';
@@ -18,6 +19,17 @@ function App() {
   const currentLocation = useLocation();
   const globalContext = useContext(AppContext);
 
+  useEffect(() => {
+    /**
+     * Bootstraps the default language that user may have selected.
+     */
+    globalContext.language?.dispatch(
+      languageReducer.actionCreators.setLanguage(
+        localStorage.getItem('defaultLanguage') ?? 'pt-br'
+      )
+    );
+  }, []);
+
   return (
     <>
       <GlobalStyle />
@@ -30,7 +42,7 @@ function App() {
 
       <main>
         <Container style={{ marginBottom: '100px' }}>
-          <p>{JSON.stringify(globalContext.language?.state)}</p>
+          {/* <p>{JSON.stringify(globalContext.language?.state)}</p> */}
           <Routes />
         </Container>
       </main>

@@ -25,9 +25,12 @@ const SwitchLanguage: React.FunctionComponent<SwitchLanguageType> = ({
 }) => {
   const { language } = useContext(AppContext);
 
+  // TODO: Change the language on "HTML lang" as well
   function switchLanguage() {
     const nextLanguage =
       language?.state.default === 'pt-br' ? 'en-us' : 'pt-br';
+
+    localStorage.setItem('defaultLanguage', nextLanguage);
 
     language?.dispatch(
       languageReducer.actionCreators.setLanguage(nextLanguage)

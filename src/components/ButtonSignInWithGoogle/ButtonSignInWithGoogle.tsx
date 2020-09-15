@@ -6,15 +6,18 @@ import googleBrands from '../../assets/images/google-brands.svg';
 // Styles
 import { ButtonSignIn } from '../../styles/general';
 
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
 const ButtonSignInWithGoogle = () => {
+  const translation = useTranslation('ButtonSignInWithGoogle');
+
   return (
     <>
       <ButtonSignIn>
         <div>
-          <img src={googleBrands} alt="Logo do Google" />
-          <p>
-            Entrar usando o <b>Google</b>
-          </p>
+          <img src={googleBrands} alt={translation?.altImg} />
+          <p dangerouslySetInnerHTML={{ __html: translation?.text }}></p>
         </div>
       </ButtonSignIn>
     </>

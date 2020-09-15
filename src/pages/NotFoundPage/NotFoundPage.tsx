@@ -7,18 +7,23 @@ import { WrapperContent } from './styles';
 // Components
 import OceanoButton from '../../components/OceanoButton/OceanoButton';
 
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
 const NotFoundPage = () => {
+  const translation = useTranslation('NotFoundPage');
+
   return (
     <>
       <WrapperContent>
         <div className="content">
           <p className="not-found-code">404</p>
-          <h1>página não encontrada</h1>
-          <h2>perdido, marinheiro?</h2>
+          <h1>{translation?.h1}</h1>
+          <h2>{translation?.h2}</h2>
           <OceanoButton
             className="button-return"
-            text="retornar"
-            aria-label="retornar"
+            text={translation?.buttonReturn?.text}
+            aria-label={translation?.buttonReturn?.text}
             icon={<ArrowBack />}
           />
         </div>
