@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import ArrowBack from '@material-ui/icons/ArrowBack';
 
 // Styles
@@ -12,6 +13,7 @@ import useTranslation from '../../hooks/useTranslation';
 
 const NotFoundPage = () => {
   const translation = useTranslation('NotFoundPage');
+  const history = useHistory();
 
   return (
     <>
@@ -21,6 +23,7 @@ const NotFoundPage = () => {
           <h1>{translation?.h1}</h1>
           <h2>{translation?.h2}</h2>
           <OceanoButton
+            onClick={() => history.push('/')}
             className="button-return"
             text={translation?.buttonReturn?.text}
             aria-label={translation?.buttonReturn?.text}

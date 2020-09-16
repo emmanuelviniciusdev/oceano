@@ -23,7 +23,13 @@ const renderPageWithTitle = (props?: RouteComponentProps) => {
 };
 
 const Routes = () => {
-  // TODO: Improve the way the translated page titles are loaded
+  /**
+   * Page titles are being defined one by one for performance reasons.
+   *
+   * As it is not possible to abstract the 'useTranslation' inside a function
+   * and it would be costly to render the whole translations object at once,
+   * I decided to keep each page title in a unique constant.
+   */
   const notFoundPageTitle = useTranslation('NotFoundPage').pageTitle ?? '';
   const notesPageTitle = useTranslation('NotesPage').pageTitle ?? '';
 

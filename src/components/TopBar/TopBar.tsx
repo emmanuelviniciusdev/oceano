@@ -21,8 +21,14 @@ import {
 // Components
 import MobileMenu from '../MobileMenu/MobileMenu';
 import OceanoButton from '../OceanoButton/OceanoButton';
+import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
+
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
 
 const TopBar: React.FunctionComponent = () => {
+  const translation = useTranslation('TopBar');
+
   return (
     <>
       <StyledTopBar>
@@ -32,8 +38,8 @@ const TopBar: React.FunctionComponent = () => {
           <WrapperShowDesktopButtons>
             <OceanoButton
               className="button-menu"
-              aria-label="criar uma nota"
-              text="criar uma nota"
+              aria-label={translation?.buttonCreateNote?.text}
+              text={translation?.buttonCreateNote?.text}
               icon={<AddIcon />}
             />
           </WrapperShowDesktopButtons>
@@ -44,23 +50,20 @@ const TopBar: React.FunctionComponent = () => {
             <div className="icon">
               <SearchIcon />
             </div>
-            <InputSearch type="text" placeholder="procurando algo?" />
+            <InputSearch
+              type="text"
+              placeholder={translation?.inputSearch?.placeholder}
+            />
           </WrapperInputSearch>
 
           <WrapperShowDesktopButtons>
             <WrapperButtonsRightSide>
-              {/* TODO: Verify the behavior of this button. Is it really going to be a button?  */}
-              <OceanoButton
-                className="button-menu"
-                aria-label="selecionar idioma"
-                text="português"
-                icon={<LanguageIcon />}
-              />
+              <SwitchLanguage isNotTransparent />
 
               <OceanoButton
                 className="button-menu"
-                aria-label="sair do oceano"
-                text="sair"
+                aria-label={translation?.buttonSignOut?.ariaLabel}
+                text={translation?.buttonSignOut?.text}
                 icon={<ExitToAppIcon />}
               />
             </WrapperButtonsRightSide>

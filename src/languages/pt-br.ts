@@ -19,6 +19,19 @@ const content: LanguageStateType = {
       altImg: 'Logo da Microsoft',
     },
 
+    TopBar: {
+      buttonCreateNote: {
+        text: 'criar uma nota',
+      },
+      buttonSignOut: {
+        text: 'sair',
+        ariaLabel: 'sair do oceano',
+      },
+      inputSearch: {
+        placeholder: 'procurando algo?',
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:

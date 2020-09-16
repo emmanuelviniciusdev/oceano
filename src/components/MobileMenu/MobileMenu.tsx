@@ -13,6 +13,7 @@ import {
 
 // Components
 import OceanoButton from '../OceanoButton/OceanoButton';
+import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
 
 const MobileMenu: React.FunctionComponent = () => {
   return (
@@ -32,13 +33,7 @@ const MobileMenu: React.FunctionComponent = () => {
             icon={<AddIcon />}
           />
 
-          {/* TODO: Verify the behavior of this button. Is it really going to be a button?  */}
-          <OceanoButton
-            className="button-menu"
-            aria-label="selecionar idioma"
-            text="português"
-            icon={<LanguageIcon />}
-          />
+          <SwitchLanguage isNotTransparent />
 
           <OceanoButton
             className="button-menu"

@@ -19,6 +19,19 @@ const content: LanguageStateType = {
       altImg: "Microsoft's logo",
     },
 
+    TopBar: {
+      buttonCreateNote: {
+        text: 'create a note',
+      },
+      buttonSignOut: {
+        text: 'leave',
+        ariaLabel: 'sign out from oceano',
+      },
+      inputSearch: {
+        placeholder: 'trying to find something?',
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:
