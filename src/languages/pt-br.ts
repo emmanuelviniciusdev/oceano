@@ -32,6 +32,12 @@ const content: LanguageStateType = {
       },
     },
 
+    Breadcrumbs: {
+      homeButton: {
+        text: 'início',
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:
