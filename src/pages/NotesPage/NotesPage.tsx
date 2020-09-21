@@ -1,7 +1,9 @@
 import React from 'react';
+import { DndProvider } from 'react-dnd-multi-backend';
+import HTML5toTouch from 'react-dnd-multi-backend/dist/esm/HTML5toTouch';
 
 // Styles
-import { Content, WrapperNotes } from './styles';
+import { Content, WrapperBreadcrumbs, WrapperNotes } from './styles';
 import { Container } from '../../styles/general';
 
 // Components
@@ -16,12 +18,18 @@ const NotesPage = () => {
 
       <Container>
         <Content>
-          <Breadcrumbs />
-
-          <WrapperNotes>
-            <Note />
-          </WrapperNotes>
+          <WrapperBreadcrumbs>
+            <Breadcrumbs />
+          </WrapperBreadcrumbs>
         </Content>
+
+        <DndProvider options={HTML5toTouch}>
+          <WrapperNotes>
+            {Array.from({ length: 7 }).map(() => (
+              <Note key={Math.random()} />
+            ))}
+          </WrapperNotes>
+        </DndProvider>
       </Container>
     </>
   );
