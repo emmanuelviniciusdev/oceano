@@ -22,6 +22,12 @@ export const WrapperNotes = styled.div`
     margin-bottom: 25px;
   }
 
+  @media (min-width: 700px) {
+    div {
+      margin: 0 15px 30px 15px;
+    }
+  }
+
   @media (min-width: 800px) {
     div {
       margin: 0 25px 50px 25px;

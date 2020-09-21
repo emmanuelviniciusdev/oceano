@@ -9,7 +9,7 @@ import { Container } from '../../styles/general';
 // Components
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import TopBar from '../../components/TopBar/TopBar';
-import Note from '../../components/Note/Note';
+import NoteOrFolder from '../../components/NoteOrFolder/NoteOrFolder';
 
 const NotesPage = () => {
   return (
@@ -25,8 +25,11 @@ const NotesPage = () => {
 
         <DndProvider options={HTML5toTouch}>
           <WrapperNotes>
-            {Array.from({ length: 7 }).map(() => (
-              <Note key={Math.random()} />
+            {Array.from({ length: 7 }).map((v, i) => (
+              <NoteOrFolder
+                key={Math.random()}
+                type={i % 2 === 0 ? 'folder' : 'folder'}
+              />
             ))}
           </WrapperNotes>
         </DndProvider>

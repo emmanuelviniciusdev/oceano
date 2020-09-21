@@ -9,6 +9,9 @@ const GlobalStyle = createGlobalStyle`
         box-sizing: border-box;
         -ms-text-size-adjust: 100%;
         -webkit-text-size-adjust: 100%;
+        font-family: 'Inter', sans-serif;
+        font-kerning: normal;
+        word-wrap: break-word;
 
         &:focus {
             outline: 3px solid ${theme.colors.gray};
@@ -20,9 +23,6 @@ const GlobalStyle = createGlobalStyle`
         height: 100%;
         background-color: ${theme.colors.primary};
         color: ${readableColor(theme.colors.primary)};
-        font-kerning: normal;
-        word-wrap: break-word;
-        font-family: 'Inter', sans-serif;
     }
 
     button, select {
