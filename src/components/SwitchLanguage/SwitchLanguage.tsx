@@ -3,15 +3,12 @@
  * only two languages (portuguese and english).
  */
 
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import LanguageIcon from '@material-ui/icons/Language';
 
 // Setup
 import { AppContext } from '../../store';
 import languageReducer from '../../store/reducers/language';
-
-// Styles
-import {} from './styles';
 
 // Components
 import OceanoButton from '../OceanoButton/OceanoButton';

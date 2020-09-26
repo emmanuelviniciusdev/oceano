@@ -35,7 +35,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   return (
     <>
       <StyledNoteOrFolder ref={dragAndDropConnectionAttach} type={type}>
-        <textarea defaultValue={defaultNoteOrFolderTitles[type]} disabled />
+        <p>{defaultNoteOrFolderTitles[type]}</p>
       </StyledNoteOrFolder>
     </>
   );

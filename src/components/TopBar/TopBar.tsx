@@ -1,9 +1,7 @@
 import React from 'react';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
-import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
-import LanguageIcon from '@material-ui/icons/Language';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // Styles
@@ -19,7 +17,7 @@ import {
 } from './styles';
 
 // Components
-import MobileMenu from '../MobileMenu/MobileMenu';
+// import MobileMenu from '../MobileMenu/MobileMenu';
 import OceanoButton from '../OceanoButton/OceanoButton';
 import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
 

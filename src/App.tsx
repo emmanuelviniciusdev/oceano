@@ -28,6 +28,12 @@ function App() {
         localStorage.getItem('defaultLanguage') ?? 'pt-br'
       )
     );
+
+    /**
+     * Ignore intellisense and leave '[]' empty because this 'useEffect()' has to be
+     * triggered only when the app starts by the first time
+     */
+    // eslint-disable-next-line
   }, []);
 
   return (

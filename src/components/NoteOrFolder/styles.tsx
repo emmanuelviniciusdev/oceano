@@ -10,18 +10,16 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
   border-radius: ${theme.borderRadius};
   box-shadow: 3px 4px 6px 2px rgba(0, 0, 0, 0.25);
 
-  textarea {
+  p {
     width: 100%;
     height: 100%;
     background: transparent;
     color: #000;
     font-weight: bold;
     font-size: 36px;
-    border: none;
-    outline: none !important;
-    resize: none;
     overflow: hidden;
     padding: 20px;
+    text-align: left;
   }
 
   ${(props) =>
@@ -31,7 +29,7 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
       backdrop-filter: blur(8px);
       border-color: ${theme.colors.gray};
 
-      textarea {
+      p {
         color: ${theme.colors.gray};
       }
     `}

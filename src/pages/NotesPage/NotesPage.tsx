@@ -28,7 +28,7 @@ const NotesPage = () => {
             {Array.from({ length: 7 }).map((v, i) => (
               <NoteOrFolder
                 key={Math.random()}
-                type={i % 2 === 0 ? 'folder' : 'folder'}
+                type={i % 2 === 0 ? 'note' : 'folder'}
               />
             ))}
           </WrapperNotes>
