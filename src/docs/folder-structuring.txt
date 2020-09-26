@@ -1,0 +1,68 @@
+./components/
+	./ComponentName/
+		ComponentName.tsx
+		styles.tsx
+		
+====================================================================================
+
+./hooks/
+	useHookName.ts
+		
+====================================================================================
+		
+./languages/
+	index.ts
+	languagename-locale.ts
+	
+====================================================================================
+	
+./pages/
+	./PageName/
+		PageName.tsx
+		styles.tsx
+		
+====================================================================================
+		
+./store/
+	index.tsx
+	
+	./reducers/
+	    reducername.tsx
+			
+====================================================================================
+		
+./styles/
+	stylename.ts
+	
+====================================================================================
+
+./types-and-interfaces/
+	./components/
+		ComponentName.types.ts	
+		ComponentName.interfaces.ts
+		
+	./hooks/
+		useHookName.types.ts	
+		useHookName.interfaces.ts
+
+    ./language/
+		languagename-locale.types.ts	
+		languagename-locale.interfaces.ts
+
+    ./pages/
+		PageName.types.ts	
+		PageName.interfaces.ts
+
+    ./store/
+		general.types.ts	
+		general.interfaces.ts
+
+        ./reducers/
+            general.types.ts
+            general.interfaces.ts
+            reducername.types.ts	
+		    reducername.interfaces.ts
+
+    ./styles/
+		stylename.types.ts	
+		stylename.interfaces.ts

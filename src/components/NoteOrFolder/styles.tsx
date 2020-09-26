@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import theme from '../../styles/theme';
-import { NoteOrFolderType } from './types';
+import { NoteOrFolderType } from '../../types-and-interfaces/components/NoteOrFolder.types';
 
 export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
   width: 350px;

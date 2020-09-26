@@ -1,4 +1,4 @@
-import { LanguageStateType } from '../types/reducers/language';
+import { LanguageStateType } from '../types-and-interfaces/store/reducers/language.types';
 
 const content: LanguageStateType = {
   default: 'pt-br',

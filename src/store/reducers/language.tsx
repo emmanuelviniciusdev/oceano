@@ -1,6 +1,8 @@
-import { ActionType } from '../../types/ReducerTypes';
-import { LanguageStateType } from '../../types/reducers/language';
 import languages from '../../languages';
+
+// Types
+import { ActionType } from '../../types-and-interfaces/store/reducers/general.types';
+import { LanguageStateType } from '../../types-and-interfaces/store/reducers/language.types';
 
 const initialState: LanguageStateType = languages['pt-br'];
 

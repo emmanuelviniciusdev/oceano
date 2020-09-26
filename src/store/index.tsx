@@ -6,46 +6,16 @@
  * Each reducer (contained inside './reducers') represents a functionality of the application.
  */
 
-import React, {
-  createContext,
-  Dispatch,
-  Reducer,
-  ReducerAction,
-  ReducerState,
-  useReducer,
-} from 'react';
-import { LanguageStateType } from '../types/reducers/language';
-import { ActionType } from '../types/ReducerTypes';
+import React, { createContext, useReducer } from 'react';
 
 // Reducers
 import languageReducer from './reducers/language';
 
-type AppContextProviderPropsType = {
-  children: JSX.Element[] | JSX.Element;
-};
-
-/**
- * 'S' represents the type of reducer state
- */
-type ReducerType<S> = Reducer<S, ActionType>;
-
-/**
- * 'S' represents the type of reducer state as well
- */
-type TransformReducerType<S> = {
-  state: ReducerState<ReducerType<S>>;
-  dispatch: Dispatch<ReducerAction<ReducerType<S>>>;
-};
-
-/**
- * This is what AppContext will return.
- *
- * Everytime we add a new reducer to our global context we have
- * to define its type here.
- */
-type AppGlobalContextType = {
-  language?: TransformReducerType<LanguageStateType>;
-};
+// Types
+import {
+  AppContextProviderPropsType,
+  AppGlobalContextType,
+} from '../types-and-interfaces/store/general.types';
 
 export const AppContext = createContext<AppGlobalContextType>({});
 

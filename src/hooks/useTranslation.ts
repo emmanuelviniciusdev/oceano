@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState } from 'react';
+
+// Setup
 import { AppContext } from '../store';
 
-type TranslationsType = { [key: string]: any };
+// Types
+import { TranslationsType } from '../types-and-interfaces/hooks/useTranslation.types';
 
 /**
  * This hook returns the translations of the selected language.

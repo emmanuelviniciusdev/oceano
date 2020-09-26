@@ -16,9 +16,8 @@ import {} from './styles';
 // Components
 import OceanoButton from '../OceanoButton/OceanoButton';
 
-type SwitchLanguageType = {
-  isNotTransparent?: boolean;
-};
+// Types
+import { SwitchLanguageType } from '../../types-and-interfaces/components/SwitchLanguage.types';
 
 const SwitchLanguage: React.FunctionComponent<SwitchLanguageType> = ({
   isNotTransparent = false,

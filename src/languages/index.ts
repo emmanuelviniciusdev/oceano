@@ -1,6 +1,8 @@
 import ptBr from './pt-br';
 import enUs from './en-us';
-import { LanguageStateType } from '../types/reducers/language';
+
+// Types
+import { LanguageStateType } from '../types-and-interfaces/store/reducers/language.types';
 
 /**
  * This object is a reference to all the languages of the application.

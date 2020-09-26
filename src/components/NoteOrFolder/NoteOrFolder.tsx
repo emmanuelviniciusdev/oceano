@@ -5,7 +5,7 @@ import { useDrag, useDrop } from 'react-dnd';
 import { StyledNoteOrFolder } from './styles';
 
 // Types
-import { NoteOrFolderType } from './types';
+import { NoteOrFolderType } from '../../types-and-interfaces/components/NoteOrFolder.types';
 
 const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   type = 'note',
