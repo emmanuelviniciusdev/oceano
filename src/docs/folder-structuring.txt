@@ -1,6 +1,7 @@
 ./components/
 	./ComponentName/
 		ComponentName.tsx
+		ComponentName.spec.tsx
 		styles.tsx
 		
 ====================================================================================
