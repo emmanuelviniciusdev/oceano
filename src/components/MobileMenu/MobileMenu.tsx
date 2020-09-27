@@ -1,7 +1,6 @@
 import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
-import LanguageIcon from '@material-ui/icons/Language';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 // Styles
@@ -15,7 +14,12 @@ import {
 import OceanoButton from '../OceanoButton/OceanoButton';
 import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
 
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
 const MobileMenu: React.FunctionComponent = () => {
+  const translation = useTranslation('TopBar');
+
   return (
     <>
       <WrapperMobileMenu>
@@ -28,8 +32,8 @@ const MobileMenu: React.FunctionComponent = () => {
         <WrapperButtonsMenu>
           <OceanoButton
             className="button-menu"
-            aria-label="criar uma nota"
-            text="criar uma nota"
+            aria-label={translation?.buttonCreateNote?.text}
+            text={translation?.buttonCreateNote?.text}
             icon={<AddIcon />}
           />
 
@@ -37,8 +41,8 @@ const MobileMenu: React.FunctionComponent = () => {
 
           <OceanoButton
             className="button-menu"
-            aria-label="sair do oceano"
-            text="sair"
+            aria-label={translation?.buttonSignOut?.ariaLabel}
+            text={translation?.buttonSignOut?.text}
             icon={<ExitToAppIcon />}
           />
         </WrapperButtonsMenu>

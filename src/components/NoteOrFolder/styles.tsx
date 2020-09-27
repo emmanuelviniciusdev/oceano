@@ -9,6 +9,7 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
   border: solid 8px #000;
   border-radius: ${theme.borderRadius};
   box-shadow: 3px 4px 6px 2px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 
   p {
     width: 100%;
@@ -20,6 +21,7 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
     overflow: hidden;
     padding: 20px;
     text-align: left;
+    user-select: none;
   }
 
   ${(props) =>

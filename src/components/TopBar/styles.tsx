@@ -88,6 +88,7 @@ export const OpenMenuButton = styled.button`
 `;
 
 export const TextOceano = styled.p`
+  user-select: none;
   font-weight: bold;
   font-size: 24px;
   color: ${theme.colors.gray};

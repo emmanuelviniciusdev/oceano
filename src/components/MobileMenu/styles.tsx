@@ -6,6 +6,7 @@ export const WrapperMobileMenu = styled.div`
   height: 100%;
   position: fixed;
   top: 0;
+  left: 0;
   z-index: 2;
   background-color: ${theme.colors.secondary};
   text-align: center;
@@ -15,6 +16,11 @@ export const WrapperMobileMenu = styled.div`
     font-weight: bold;
     color: ${theme.colors.gray};
     margin-top: 30px;
+    user-select: none;
+  }
+
+  @media (min-width: 960px) {
+    display: none;
   }
 `;
 
