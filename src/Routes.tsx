@@ -1,5 +1,12 @@
 import React from 'react';
-import { Switch, Route, Redirect, RouteComponentProps } from 'react-router-dom';
+import {
+  Switch,
+  Route,
+  Redirect,
+  RouteComponentProps,
+  useLocation,
+} from 'react-router-dom';
+import { motion } from 'framer-motion';
 
 // Pages
 import IndexPage from './pages/IndexPage/IndexPage';
@@ -33,29 +40,50 @@ const Routes = () => {
   const notFoundPageTitle = useTranslation('NotFoundPage').pageTitle ?? '';
   const notesPageTitle = useTranslation('NotesPage').pageTitle ?? '';
 
+  const currentLocation = useLocation();
+
   return (
     <>
       {/* <HashRouter /> is defined in 'index.tsx' to make it possible
       to use router hooks inside any component of the application */}
-      <Switch>
-        <Route
-          path="/"
-          exact
-          render={() => renderPageWithTitle()(<IndexPage />)}
-        />
-        <Route
-          path="/notas"
-          render={() => renderPageWithTitle()(<NotesPage />, notesPageTitle)}
-        />
-        <Route
-          path="/pagina-nao-encontrada"
-          render={() =>
-            renderPageWithTitle()(<NotFoundPage />, notFoundPageTitle)
-          }
-        />
+      <motion.div
+        key={currentLocation.pathname}
+        initial="initialPage"
+        animate="animatePage"
+        variants={{
+          initialPage: {
+            opacity: 0,
+            y: 300,
+          },
+          animatePage: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              delay: 0.2,
+            },
+          },
+        }}
+      >
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() => renderPageWithTitle()(<IndexPage />)}
+          />
+          <Route
+            path="/notas"
+            render={() => renderPageWithTitle()(<NotesPage />, notesPageTitle)}
+          />
+          <Route
+            path="/pagina-nao-encontrada"
+            render={() =>
+              renderPageWithTitle()(<NotFoundPage />, notFoundPageTitle)
+            }
+          />
 
-        <Redirect to="/pagina-nao-encontrada" />
-      </Switch>
+          <Redirect to="/pagina-nao-encontrada" />
+        </Switch>
+      </motion.div>
     </>
   );
 };

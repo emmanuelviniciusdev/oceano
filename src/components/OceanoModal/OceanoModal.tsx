@@ -18,7 +18,7 @@ import { OceanoModalType } from '../../types-and-interfaces/components/OceanoMod
 const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
   title,
   text,
-  open = !false,
+  open = false,
   children,
 }) => {
   const [isOpened, setIsOpened] = useState(open);

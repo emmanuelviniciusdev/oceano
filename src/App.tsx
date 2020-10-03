@@ -14,6 +14,7 @@ import { Container } from './styles/general';
 import Footer from './components/Footer/Footer';
 import OctopusBackground from './components/OctopusBackground/OctopusBackground';
 import SharksBackground from './components/SharksBackground/SharksBackground';
+import TopBar from './components/TopBar/TopBar';
 
 function App() {
   const currentLocation = useLocation();
@@ -28,6 +29,18 @@ function App() {
         localStorage.getItem('defaultLanguage') ?? 'pt-br'
       )
     );
+
+    /**
+     * This is to ensure that page will always load or reload
+     * with its scroll at the top.
+     *
+     * This was implemented because page transition effects from
+     * 'framer-motion' may impact in scroll position.
+     *
+     * The timeout is '200' because page transition effect delay
+     * is set to 0.2 seconds.
+     */
+    setTimeout(() => window.scrollTo(0, 0), 200);
 
     /**
      * Ignore intellisense and leave '[]' empty because this 'useEffect()' has to be
@@ -48,7 +61,9 @@ function App() {
 
       <main>
         <Container style={{ marginBottom: '100px' }}>
-          {/* <p>{JSON.stringify(globalContext.language?.state)}</p> */}
+          {/* Workaround until implement user authentication */}
+          {['/notas'].includes(currentLocation.pathname) && <TopBar />}
+
           <Routes />
         </Container>
       </main>
