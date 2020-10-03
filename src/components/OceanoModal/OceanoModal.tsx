@@ -26,7 +26,7 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
   useEffect(() => setIsOpened(open), [open]);
 
   /**
-   * It adds a listener for 'ESC' key. When pressed, 'isOpened' is set to false.
+   * It adds a listener for 'ESC' key. When pressed, the modal is closed.
    */
   useEffect(() => {
     document.addEventListener('keydown', (e) => {
