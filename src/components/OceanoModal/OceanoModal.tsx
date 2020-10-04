@@ -19,6 +19,7 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
   title,
   text,
   open = false,
+  onClose,
   children,
 }) => {
   const [isOpened, setIsOpened] = useState(open);
@@ -34,7 +35,11 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
     });
   }, []);
 
-  const closeModal = () => setIsOpened(false);
+  const closeModal = () => {
+    if (onClose) onClose();
+
+    setIsOpened(false);
+  };
 
   return (
     <>
@@ -48,16 +53,20 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
                 animate={{ scale: 1 }}
                 exit={{ scale: 0.7 }}
               >
-                <ModalContent>
+                <ModalContent data-testid="oceano-modal-content">
                   <ModalCloseButton
                     data-testid="oceano-modal-close-button"
                     onClick={closeModal}
                   >
                     <CloseIcon fontSize="inherit" />
                   </ModalCloseButton>
-                  <ModalTitle>{title}</ModalTitle>
-                  <ModalText>{text}</ModalText>
-                  <ModalActions>{children}</ModalActions>
+                  <ModalTitle data-testid="oceano-modal-title">
+                    {title}
+                  </ModalTitle>
+                  <ModalText data-testid="oceano-modal-text">{text}</ModalText>
+                  <ModalActions data-testid="oceano-modal-actions">
+                    {children}
+                  </ModalActions>
                 </ModalContent>
               </motion.div>
             </ModalBackground>

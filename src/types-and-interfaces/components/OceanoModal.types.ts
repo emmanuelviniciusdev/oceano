@@ -3,7 +3,11 @@ export type OceanoModalType = {
   text: string;
   open?: boolean;
   /**
-   * The action buttons
+   * Function to be called when modal is going to be closed
+   */
+  onClose?: () => void;
+  /**
+   * The action elements
    */
   children?: React.ReactNode;
 };

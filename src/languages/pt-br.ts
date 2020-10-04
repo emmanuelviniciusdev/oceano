@@ -38,6 +38,27 @@ const content: LanguageStateType = {
       },
     },
 
+    NoteOrFolder: {
+      defaultTitles: {
+        note: 'clique para começar a editar...',
+        folder: 'minha nova pasta...',
+      },
+
+      actionModalLabels: {
+        title: 'o que você deseja fazer?',
+        actionTexts: {
+          'dropping-note-over-note':
+            '* você acabou de mover uma nota para cima de outra nota',
+          'dropping-note-over-folder':
+            '* você acabou de mover uma nota para cima de uma pasta',
+          'dropping-folder-over-folder':
+            '* você acabou de mover uma pasta para cima de outra pasta',
+          'dropping-folder-over-note':
+            '* você acabou de mover uma pasta para cima de uma nota',
+        },
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:

@@ -10,6 +10,12 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
   border-radius: ${theme.borderRadius};
   box-shadow: 3px 4px 6px 2px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  transition: 0.2s all;
+
+  &:hover {
+    transition: 0.2s all;
+    transform: scale(1.1);
+  }
 
   p {
     width: 100%;
