@@ -33,6 +33,8 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeModal();
     });
+
+    return () => document.removeEventListener('keydown', () => {});
   }, []);
 
   const closeModal = () => {
