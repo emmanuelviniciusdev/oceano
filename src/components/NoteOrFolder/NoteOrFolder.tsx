@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 
 // Styles
@@ -6,6 +6,7 @@ import { StyledNoteOrFolder } from './styles';
 
 // Components
 import OceanoModal from '../OceanoModal/OceanoModal';
+import OceanoContextMenu from '../OceanoContextMenu/OceanoContextMenu';
 
 // Types
 import {
@@ -24,6 +25,8 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   type = 'note',
   title,
 }) => {
+  const NoteOrFolderRef = useRef<HTMLDivElement | null>(null);
+
   const translation = useTranslation('NoteOrFolder');
 
   const [isModalOpened, setIsModalOpened] = useState(false);
@@ -73,9 +76,14 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       return 'dropping-folder-over-note';
   };
 
-  const dragAndDropConnectionAttach = (e: HTMLDivElement) => {
+  const dragAndDropConnectionAttach = (e: HTMLDivElement | null) => {
     connectDragSource(e);
     connectDropSource(e);
+  };
+
+  const onNoteOrFolderRef = (e: HTMLDivElement | null) => {
+    NoteOrFolderRef.current = e;
+    dragAndDropConnectionAttach(e);
   };
 
   return (
@@ -87,8 +95,10 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         text={translation?.actionModalLabels?.actionTexts?.[dropActionType]}
       ></OceanoModal>
 
+      <OceanoContextMenu componentRef={NoteOrFolderRef.current} />
+
       <StyledNoteOrFolder
-        ref={dragAndDropConnectionAttach}
+        ref={onNoteOrFolderRef}
         type={type}
         data-testid={type === 'note' ? 'note-item' : 'folder-item'}
       >
