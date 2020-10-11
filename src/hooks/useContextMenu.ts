@@ -85,6 +85,8 @@ export default function useContextMenu(
   };
 
   useEffect(() => {
+    // console.log(componentRef);
+
     document.addEventListener('click', handleClick);
     componentRef?.addEventListener('contextmenu', handleContextMenu);
 

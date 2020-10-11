@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
+import DeleteForever from '@material-ui/icons/DeleteForever';
+import TextFields from '@material-ui/icons/TextFields';
 
 // Styles
 import { StyledNoteOrFolder } from './styles';
@@ -7,6 +9,7 @@ import { StyledNoteOrFolder } from './styles';
 // Components
 import OceanoModal from '../OceanoModal/OceanoModal';
 import OceanoContextMenu from '../OceanoContextMenu/OceanoContextMenu';
+import OceanoButton from '../OceanoButton/OceanoButton';
 
 // Types
 import {
@@ -95,7 +98,18 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         text={translation?.actionModalLabels?.actionTexts?.[dropActionType]}
       ></OceanoModal>
 
-      <OceanoContextMenu componentRef={NoteOrFolderRef.current} />
+      <OceanoContextMenu componentRef={NoteOrFolderRef.current}>
+        <OceanoButton
+          theme="transparent"
+          icon={<TextFields />}
+          text="renomear nota"
+        />
+        <OceanoButton
+          theme="transparent"
+          icon={<DeleteForever />}
+          text="deletar nota"
+        />
+      </OceanoContextMenu>
 
       <StyledNoteOrFolder
         ref={onNoteOrFolderRef}

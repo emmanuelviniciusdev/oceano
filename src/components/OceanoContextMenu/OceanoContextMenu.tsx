@@ -1,10 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-// testes porpuses
-import DeleteForever from '@material-ui/icons/DeleteForever';
-import TextFields from '@material-ui/icons/TextFields';
-import OceanoButton from '../OceanoButton/OceanoButton';
 
 // Styles
 import { StyledOceanoContextMenu, Content } from './styles';
@@ -17,6 +12,7 @@ import useContextMenu from '../../hooks/useContextMenu';
 
 const OceanoContextMenu: React.FunctionComponent<OceanoContextMenuType> = ({
   componentRef,
+  children,
 }) => {
   const uniqueId = useRef(`oceanocontextmenu-id-${uuidv4()}`);
 
@@ -30,21 +26,11 @@ const OceanoContextMenu: React.FunctionComponent<OceanoContextMenuType> = ({
       {showContextMenu && (
         <StyledOceanoContextMenu
           id={uniqueId.current}
+          data-testid="oceano-contextmenu"
           xPosition={xPosition}
           yPosition={yPosition}
         >
-          <Content>
-            <OceanoButton
-              theme="transparent"
-              icon={<TextFields />}
-              text="renomear nota"
-            />
-            <OceanoButton
-              theme="transparent"
-              icon={<DeleteForever />}
-              text="deletar nota"
-            />
-          </Content>
+          <Content>{children}</Content>
         </StyledOceanoContextMenu>
       )}
     </>
