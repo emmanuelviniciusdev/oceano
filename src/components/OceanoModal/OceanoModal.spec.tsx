@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * // TODO: Implement an end-to-end test to this.
+ * // TODO: Implement end-to-end test to this.
  *
  * When the click event is triggered from this test, the modal's DOM doesn't disappear
  * as expected. This bug occurs because something related to <AnimatePresence /> component

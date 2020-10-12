@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
-import DeleteForever from '@material-ui/icons/DeleteForever';
-import TextFields from '@material-ui/icons/TextFields';
+
+// Icons
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import TextFieldsIcon from '@material-ui/icons/TextFields';
+import SaveIcon from '@material-ui/icons/Save';
+import ThumbUpAltSharpIcon from '@material-ui/icons/ThumbUpAltSharp';
 
 // Styles
-import { StyledNoteOrFolder } from './styles';
+import { StyledNoteOrFolder, WrapperBtnSaveTitle } from './styles';
 
 // Components
 import OceanoModal from '../OceanoModal/OceanoModal';
@@ -28,11 +32,14 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   type = 'note',
   title,
 }) => {
-  const NoteOrFolderRef = useRef<HTMLDivElement | null>(null);
+  const noteOrFolderRef = useRef<HTMLDivElement | null>(null);
+  const textareaToEditTitleRef = useRef<HTMLTextAreaElement | null>(null);
 
   const translation = useTranslation('NoteOrFolder');
 
-  const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isDnDModalOpened, setIsDnDModalOpened] = useState(false);
+  const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
+  const [isRenaming, setIsRenaming] = useState(false);
   const [dropActionType, setDropActionType] = useState<DropActionTypes | ''>(
     ''
   );
@@ -58,7 +65,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       if (!returnedDropActionType) return;
 
       setDropActionType(returnedDropActionType);
-      setIsModalOpened(true);
+      setIsDnDModalOpened(true);
     },
   });
 
@@ -85,29 +92,86 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   };
 
   const onNoteOrFolderRef = (e: HTMLDivElement | null) => {
-    NoteOrFolderRef.current = e;
+    noteOrFolderRef.current = e;
     dragAndDropConnectionAttach(e);
   };
+
+  const renameNoteOrFolder = () => {
+    setIsRenaming(false);
+    console.log('on rename...');
+  };
+
+  const deleteNoteOrFolder = () => {
+    setIsDeleteModalOpened(false);
+    console.log('on delete...');
+  };
+
+  /**
+   * Titles in general
+   */
+  const defaultTitle = title || translation?.defaultTitles?.[type];
+  const contextMenuRenameBtnTitle =
+    translation?.actionContextmenuLabels?.[
+      type === 'note' ? 'renameNote' : 'renameFolder'
+    ];
+  const contextMenuDeleteBtnTitle =
+    translation?.actionContextmenuLabels?.[
+      type === 'note' ? 'deleteNote' : 'deleteFolder'
+    ];
+  const modalDeleteTitles =
+    translation?.actionDeleteModalLabels?.[
+      type === 'note' ? 'deletingNote' : 'deletingFolder'
+    ];
 
   return (
     <>
       <OceanoModal
-        open={isModalOpened}
-        onClose={() => setIsModalOpened(false)}
-        title={translation?.actionModalLabels?.title}
-        text={translation?.actionModalLabels?.actionTexts?.[dropActionType]}
+        open={isDnDModalOpened}
+        onClose={() => setIsDnDModalOpened(false)}
+        title={translation?.actionDnDModalLabels?.title}
+        text={translation?.actionDnDModalLabels?.actionTexts?.[dropActionType]}
       ></OceanoModal>
 
-      <OceanoContextMenu componentRef={NoteOrFolderRef.current}>
+      <OceanoModal
+        open={isDeleteModalOpened}
+        onClose={() => setIsDeleteModalOpened(false)}
+        title={modalDeleteTitles?.title}
+        text={modalDeleteTitles?.actionText}
+      >
+        <OceanoButton
+          theme="purple"
+          icon={<DeleteForeverIcon />}
+          text={modalDeleteTitles?.buttonConfirmDelete?.text}
+          aria-label={modalDeleteTitles?.buttonConfirmDelete?.text}
+          onClick={deleteNoteOrFolder}
+        />
+      </OceanoModal>
+
+      <OceanoContextMenu componentRef={noteOrFolderRef.current}>
         <OceanoButton
           theme="transparent"
-          icon={<TextFields />}
-          text="renomear nota"
+          icon={<TextFieldsIcon />}
+          text={contextMenuRenameBtnTitle}
+          aria-label={contextMenuRenameBtnTitle}
+          onClick={() => {
+            setIsRenaming(true);
+
+            /**
+             * This setTimeout 0 is a way to get around the delay of the DOM
+             * in rendering textarea after call 'setRenaming(true)'
+             */
+            setTimeout(() => {
+              textareaToEditTitleRef.current?.focus();
+              textareaToEditTitleRef.current?.select();
+            }, 0);
+          }}
         />
         <OceanoButton
           theme="transparent"
-          icon={<DeleteForever />}
-          text="deletar nota"
+          icon={<DeleteForeverIcon />}
+          text={contextMenuDeleteBtnTitle}
+          aria-label={contextMenuDeleteBtnTitle}
+          onClick={() => setIsDeleteModalOpened(true)}
         />
       </OceanoContextMenu>
 
@@ -116,7 +180,32 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         type={type}
         data-testid={type === 'note' ? 'note-item' : 'folder-item'}
       >
-        <p>{title || translation?.defaultTitles?.[type]}</p>
+        {isRenaming /*|| title === 'Minha nova super pasta!!!'*/ ? (
+          <>
+            <textarea
+              ref={textareaToEditTitleRef}
+              defaultValue={defaultTitle}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  renameNoteOrFolder();
+                }
+              }}
+            />
+
+            <WrapperBtnSaveTitle>
+              <OceanoButton
+                theme={type === 'note' ? 'yellow' : 'transparent'}
+                icon={<SaveIcon />}
+                text={translation?.buttonSaveEditTitle?.text}
+                aria-label={translation?.buttonSaveEditTitle?.text}
+                onClick={renameNoteOrFolder}
+              />
+            </WrapperBtnSaveTitle>
+          </>
+        ) : (
+          <p>{defaultTitle}</p>
+        )}
       </StyledNoteOrFolder>
     </>
   );

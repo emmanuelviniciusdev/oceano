@@ -51,6 +51,9 @@ const NotesPage = () => {
                   <NoteOrFolder
                     id={String(Math.random())}
                     type={arrayIndex % 2 === 0 ? 'note' : 'folder'}
+                    title={
+                      arrayIndex === 1 ? 'Minha nova super pasta!!!' : undefined
+                    }
                   />
                 </motion.div>
               </MotionDivWrapperNoteOrFolder>

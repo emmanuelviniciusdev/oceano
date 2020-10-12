@@ -1,12 +1,19 @@
 import React from 'react';
-import { fireEvent, render, RenderResult } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  RenderResult,
+  screen,
+  wait,
+} from '@testing-library/react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import NoteOrFolder from './NoteOrFolder';
 
 jest.mock('../../hooks/useTranslation', () => {
   return jest.fn(() => ({
-    actionModalLabels: {
+    actionDnDModalLabels: {
       title: 'o que você deseja fazer?',
       actionTexts: {
         'dropping-note-over-note':
@@ -81,7 +88,6 @@ describe('NoteOrFolder', () => {
         title="Minha pasta 1"
         key={Math.random()}
       />,
-
       <NoteOrFolder
         id="note-2"
         type="note"
@@ -150,4 +156,19 @@ describe('NoteOrFolder', () => {
       'Minha nota 1',
       '* você acabou de mover uma pasta para cima de uma nota'
     ));
+
+  /**
+   * // TODO: Implement end-to-end test to this.
+   *
+   * It is not possible to implement unit tests for these use cases.
+   *
+   * This is because we have to mock two 'useRef' instances, that is being rendered at the
+   * same time, with two different values. Without these references it is not possible to
+   * trigger 'contextmenu' event and others still.
+   *
+   * I've tried to make custom props to get these references separetely in the test but
+   * this approach did not work too.
+   */
+  it('should correctly edit the title of a note/folder', () => {});
+  it('should correctly delete a note/folder', () => {});
 });

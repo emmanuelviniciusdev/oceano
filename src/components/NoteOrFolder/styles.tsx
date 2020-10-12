@@ -5,6 +5,7 @@ import { NoteOrFolderType } from '../../types-and-interfaces/components/NoteOrFo
 export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
   width: 350px;
   height: 250px;
+  position: relative;
   background-color: ${theme.colors.yellow};
   border: solid 8px #000;
   border-radius: ${theme.borderRadius};
@@ -17,7 +18,8 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
     transform: scale(1.1);
   }
 
-  p {
+  p,
+  textarea {
     width: 100%;
     height: 100%;
     background: transparent;
@@ -27,7 +29,15 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
     overflow: hidden;
     padding: 20px;
     text-align: left;
+  }
+
+  p {
     user-select: none;
+  }
+
+  textarea {
+    resize: none;
+    outline: none;
   }
 
   ${(props) =>
@@ -37,8 +47,17 @@ export const StyledNoteOrFolder = styled.div<NoteOrFolderType>`
       backdrop-filter: blur(8px);
       border-color: ${theme.colors.gray};
 
-      p {
+      p,
+      textarea {
         color: ${theme.colors.gray};
       }
     `}
+`;
+
+export const WrapperBtnSaveTitle = styled.div`
+  /* background: green; */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1;
 `;

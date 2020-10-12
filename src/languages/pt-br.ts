@@ -43,8 +43,7 @@ const content: LanguageStateType = {
         note: 'clique para começar a editar...',
         folder: 'minha nova pasta...',
       },
-
-      actionModalLabels: {
+      actionDnDModalLabels: {
         title: 'o que você deseja fazer?',
         actionTexts: {
           'dropping-note-over-note':
@@ -56,6 +55,33 @@ const content: LanguageStateType = {
           'dropping-folder-over-note':
             '* você acabou de mover uma pasta para cima de uma nota',
         },
+      },
+      actionDeleteModalLabels: {
+        deletingNote: {
+          title: 'deletar nota',
+          actionText:
+            'Você está prestes a deletar permanentemente uma nota. Esta ação não tem mais volta. Deseja continuar?',
+          buttonConfirmDelete: {
+            text: 'sim, deletar',
+          },
+        },
+        deletingFolder: {
+          title: 'deletar pasta',
+          actionText:
+            'Você está prestes a deletar permanentemente uma pasta e todo seu conteúdo. Esta ação não tem mais volta. Deseja continuar?',
+          buttonConfirmDelete: {
+            text: 'sim, deletar',
+          },
+        },
+      },
+      actionContextmenuLabels: {
+        renameNote: 'renomear nota',
+        deleteNote: 'deletar nota',
+        renameFolder: 'renomear pasta',
+        deleteFolder: 'deletar pasta',
+      },
+      buttonSaveEditTitle: {
+        text: 'salvar',
       },
     },
 

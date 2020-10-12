@@ -43,8 +43,7 @@ const content: LanguageStateType = {
         note: 'click to start editing...',
         folder: 'my new folder...',
       },
-
-      actionModalLabels: {
+      actionDnDModalLabels: {
         title: 'what do you want to do?',
         actionTexts: {
           'dropping-note-over-note':
@@ -54,6 +53,33 @@ const content: LanguageStateType = {
             '* you just moved a folder on top of another folder',
           'dropping-folder-over-note': '* you just moved a folder over a note',
         },
+      },
+      actionDeleteModalLabels: {
+        deletingNote: {
+          title: 'delete note',
+          actionText:
+            'You are about to permanently delete a note. This action has no return. Do you wish to continue?',
+          buttonConfirmDelete: {
+            text: 'yes, delete it',
+          },
+        },
+        deletingFolder: {
+          title: 'delete folder',
+          actionText:
+            'You are about to permanently delete a folder and all of its contents. This action has no return. Do you wish to continue?',
+          buttonConfirmDelete: {
+            text: 'yes, delete it',
+          },
+        },
+      },
+      actionContextmenuLabels: {
+        renameNote: 'rename note',
+        deleteNote: 'delete note',
+        renameFolder: 'rename folder',
+        deleteFolder: 'delete folder',
+      },
+      buttonSaveEditTitle: {
+        text: 'save',
       },
     },
 
