@@ -18,7 +18,7 @@ export const ModalBackground = styled.div`
 
 export const ModalContent = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100vh;
   padding: 30px 40px;
   background-color: ${theme.colors.primary};
   position: relative;
@@ -58,7 +58,7 @@ export const ModalText = styled.p`
   color: ${theme.colors.gray};
   margin-top: 20px;
 
-  @media (min-width: 700px) {
+  @media (min-width: 650px) {
     width: 70%;
   }
 
@@ -77,16 +77,20 @@ export const ModalActions = styled.div`
     margin-bottom: 10px;
   }
 
-  @media (min-width: 600px) {
+  @media (min-width: 450px) {
     width: 65%;
   }
 
-  @media (min-width: 700px) {
+  @media (min-width: 570px) {
     width: 50%;
   }
 
   @media (min-width: 800px) {
     width: 40%;
+  }
+
+  @media (min-width: 900px) {
+    width: 35%;
   }
 
   @media (min-width: 960px) {

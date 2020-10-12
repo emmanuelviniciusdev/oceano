@@ -5,7 +5,6 @@ import { useDrag, useDrop } from 'react-dnd';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import SaveIcon from '@material-ui/icons/Save';
-import ThumbUpAltSharpIcon from '@material-ui/icons/ThumbUpAltSharp';
 
 // Styles
 import { StyledNoteOrFolder, WrapperBtnSaveTitle } from './styles';
@@ -140,6 +139,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       >
         <OceanoButton
           theme="purple"
+          style={{ width: 'auto' }}
           icon={<DeleteForeverIcon />}
           text={modalDeleteTitles?.buttonConfirmDelete?.text}
           aria-label={modalDeleteTitles?.buttonConfirmDelete?.text}
