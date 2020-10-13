@@ -53,16 +53,19 @@ function App() {
     <>
       <GlobalStyle />
 
-      {currentLocation.pathname !== '/pagina-nao-encontrada' ? (
-        <OctopusBackground />
-      ) : (
+      {currentLocation.pathname === '/pagina-nao-encontrada' && (
         <SharksBackground />
       )}
+
+      {currentLocation.pathname !== '/pagina-nao-encontrada' &&
+        currentLocation.pathname !== '/minha-nota' && <OctopusBackground />}
 
       <main>
         <Container style={{ marginBottom: '100px' }}>
           {/* Workaround until implement user authentication */}
-          {['/notas'].includes(currentLocation.pathname) && <TopBar />}
+          {['/notas', '/minha-nota'].includes(currentLocation.pathname) && (
+            <TopBar />
+          )}
 
           <Routes />
         </Container>

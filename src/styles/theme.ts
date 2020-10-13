@@ -16,6 +16,7 @@ export default {
      */
     gray: '#BCBCBC',
     yellow: '#EDEEC9',
+    slightlyStrongYellow: '#E1E2C0',
     white: '#FFFFFF',
   },
 

@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 import IndexPage from './pages/IndexPage/IndexPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import NotesPage from './pages/NotesPage/NotesPage';
+import MyNotePage from './pages/MyNotePage/MyNotePage';
 
 // Custom hooks
 import useTranslation from './hooks/useTranslation';
@@ -73,6 +74,10 @@ const Routes = () => {
           <Route
             path="/notas"
             render={() => renderPageWithTitle()(<NotesPage />, notesPageTitle)}
+          />
+          <Route
+            path="/minha-nota"
+            render={() => renderPageWithTitle()(<MyNotePage />)}
           />
           <Route
             path="/pagina-nao-encontrada"
