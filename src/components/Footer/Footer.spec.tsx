@@ -7,8 +7,8 @@ jest.mock('react-router-dom', () => ({
   useLocation: jest.fn(() => ({ pathname: '/minha-nota' })),
 }));
 
-describe('TopBar', () => {
-  it("should not be rendered on 'my note' page", () => {
+describe('Footer', () => {
+  it("should not render footer on 'my note' page", () => {
     render(<Footer />);
     expect(screen.queryByTestId('footer')).not.toBeInTheDocument();
   });
