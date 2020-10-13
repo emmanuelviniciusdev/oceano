@@ -1,8 +1,13 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+
+// Icons
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
 import AddIcon from '@material-ui/icons/Add';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 // Styles
 import {
@@ -26,50 +31,75 @@ import useTranslation from '../../hooks/useTranslation';
 
 const TopBar: React.FunctionComponent = () => {
   const translation = useTranslation('TopBar');
+  const currentLocation = useLocation();
+
+  const isMyNotePage = currentLocation.pathname === '/minha-nota';
 
   return (
     <>
       <StyledTopBar>
-        <TopBarContainer>
-          <TextOceano>oceano</TextOceano>
+        <TopBarContainer isMyNotePage={isMyNotePage}>
+          <TextOceano isMyNotePage={isMyNotePage}>oceano</TextOceano>
 
-          <WrapperShowDesktopButtons>
-            <OceanoButton
-              className="button-menu"
-              aria-label={translation?.buttonCreateNote?.text}
-              text={translation?.buttonCreateNote?.text}
-              icon={<AddIcon />}
-            />
-          </WrapperShowDesktopButtons>
+          {!isMyNotePage && (
+            <>
+              <WrapperShowDesktopButtons>
+                <OceanoButton
+                  className="button-menu"
+                  aria-label={translation?.buttonCreateNote?.text}
+                  text={translation?.buttonCreateNote?.text}
+                  icon={<AddIcon />}
+                />
+              </WrapperShowDesktopButtons>
 
-          {/* TODO: When I start with unit testing, implement a box-shadow color switch when
-          the user focuses on input search (acessibility questions...). */}
-          <WrapperInputSearch>
-            <div className="icon">
-              <SearchIcon />
-            </div>
-            <InputSearch
-              type="text"
-              placeholder={translation?.inputSearch?.placeholder}
-            />
-          </WrapperInputSearch>
+              <WrapperInputSearch>
+                <div className="icon">
+                  <SearchIcon />
+                </div>
+                <InputSearch
+                  type="text"
+                  placeholder={translation?.inputSearch?.placeholder}
+                />
+              </WrapperInputSearch>
 
-          <WrapperShowDesktopButtons>
-            <WrapperButtonsRightSide>
-              <SwitchLanguage isNotTransparent />
+              <WrapperShowDesktopButtons>
+                <WrapperButtonsRightSide>
+                  <SwitchLanguage isNotTransparent />
 
-              <OceanoButton
-                className="button-menu"
-                aria-label={translation?.buttonSignOut?.ariaLabel}
-                text={translation?.buttonSignOut?.text}
-                icon={<ExitToAppIcon />}
-              />
-            </WrapperButtonsRightSide>
-          </WrapperShowDesktopButtons>
+                  <OceanoButton
+                    className="button-menu"
+                    aria-label={translation?.buttonSignOut?.ariaLabel}
+                    text={translation?.buttonSignOut?.text}
+                    icon={<ExitToAppIcon />}
+                  />
+                </WrapperButtonsRightSide>
+              </WrapperShowDesktopButtons>
 
-          <OpenMenuButton>
-            <MenuIcon fontSize="large" />
-          </OpenMenuButton>
+              <OpenMenuButton>
+                <MenuIcon fontSize="large" />
+              </OpenMenuButton>
+            </>
+          )}
+
+          {isMyNotePage && (
+            <>
+              <WrapperButtonsRightSide>
+                <OceanoButton
+                  className="button-menu"
+                  aria-label="voltar"
+                  text="voltar"
+                  icon={<ArrowBackIcon />}
+                />
+
+                <OceanoButton
+                  className="button-menu"
+                  aria-label="deletar"
+                  text="deletar"
+                  icon={<DeleteForeverIcon />}
+                />
+              </WrapperButtonsRightSide>
+            </>
+          )}
         </TopBarContainer>
       </StyledTopBar>
 

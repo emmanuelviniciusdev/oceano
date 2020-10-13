@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import theme from '../../styles/theme';
+import { TopBarStyleType } from '../../types-and-interfaces/components/TopBar.types';
 
 export const TopBar = styled.nav`
   width: 100%;
@@ -23,12 +24,27 @@ export const WrapperShowDesktopButtons = styled.div`
   }
 `;
 
-export const TopBarContainer = styled.div`
+export const TopBarContainer = styled.div<TopBarStyleType>`
   width: 100%;
   max-width: 1300px;
   display: flex;
   align-items: center;
   justify-content: space-around;
+
+  ${(props) =>
+    props.isMyNotePage &&
+    css`
+      justify-content: flex-end;
+
+      @media (min-width: 960px) {
+        justify-content: space-between;
+        padding: 0 60px;
+      }
+
+      @media (min-width: 1300px) {
+        padding: 0 30px;
+      }
+    `}
 `;
 
 export const WrapperInputSearch = styled.div`
@@ -87,12 +103,20 @@ export const OpenMenuButton = styled.button`
   }
 `;
 
-export const TextOceano = styled.p`
+export const TextOceano = styled.p<TopBarStyleType>`
   user-select: none;
   font-weight: bold;
   font-size: 24px;
   color: ${theme.colors.gray};
   display: none;
+
+  ${(props) =>
+    props.isMyNotePage &&
+    css`
+      @media (min-width: 960px) {
+        display: block;
+      }
+    `}
 
   @media (min-width: 1280px) {
     display: block;
