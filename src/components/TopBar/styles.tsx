@@ -13,7 +13,7 @@ export const TopBar = styled.nav`
   align-items: center;
   justify-content: space-around;
   padding: 0 5px;
-  z-index: 1;
+  z-index: 2;
 `;
 
 export const WrapperShowDesktopButtons = styled.div`

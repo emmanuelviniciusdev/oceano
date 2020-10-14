@@ -1,16 +1,11 @@
 import React, { useEffect } from 'react';
-import TextareaAutosize from 'react-textarea-autosize';
 
 // Components
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
+import MyNote from '../../components/MyNote/MyNote';
 
 // Styles
-import {
-  GlobalStyle,
-  WrapperBreadcrumbs,
-  WrapperContent,
-  WrapperContentEditor,
-} from './styles';
+import { GlobalStyle, WrapperBreadcrumbs, WrapperContent } from './styles';
 
 const MyNotePage = () => {
   useEffect(() => {
@@ -26,13 +21,7 @@ const MyNotePage = () => {
           <Breadcrumbs />
         </WrapperBreadcrumbs>
 
-        <WrapperContentEditor>
-          <TextareaAutosize
-            className="title-textarea"
-            defaultValue="clique para começar a editar..."
-            placeholder="título"
-          />
-        </WrapperContentEditor>
+        <MyNote />
       </WrapperContent>
     </>
   );
