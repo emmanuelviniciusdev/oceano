@@ -20,6 +20,12 @@ jest.mock('../../hooks/useTranslation', () =>
     inputSearch: {
       placeholder: 'procurando algo?',
     },
+    buttonReturnFromMyNotePage: {
+      text: 'voltar',
+    },
+    buttonDeleteFromMyNotePage: {
+      text: 'deletar',
+    },
   }))
 );
 

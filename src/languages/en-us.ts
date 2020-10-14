@@ -30,6 +30,12 @@ const content: LanguageStateType = {
       inputSearch: {
         placeholder: 'trying to find something?',
       },
+      buttonReturnFromMyNotePage: {
+        text: 'return',
+      },
+      buttonDeleteFromMyNotePage: {
+        text: 'delete',
+      },
     },
 
     Breadcrumbs: {
@@ -80,6 +86,16 @@ const content: LanguageStateType = {
       },
       buttonSaveEditTitle: {
         text: 'save',
+      },
+    },
+
+    MyNote: {
+      textareaTitle: {
+        placeholder: 'title',
+      },
+      statusIndicator: {
+        oceanoAutosavesText: 'oceano autosaves your note',
+        savingText: 'saving...',
       },
     },
 

@@ -86,15 +86,15 @@ const TopBar: React.FunctionComponent = () => {
               <WrapperButtonsRightSide>
                 <OceanoButton
                   className="button-menu"
-                  aria-label="voltar"
-                  text="voltar"
+                  aria-label={translation?.buttonReturnFromMyNotePage?.text}
+                  text={translation?.buttonReturnFromMyNotePage?.text}
                   icon={<ArrowBackIcon />}
                 />
 
                 <OceanoButton
                   className="button-menu"
-                  aria-label="deletar"
-                  text="deletar"
+                  aria-label={translation?.buttonDeleteFromMyNotePage?.text}
+                  text={translation?.buttonDeleteFromMyNotePage?.text}
                   icon={<DeleteForeverIcon />}
                 />
               </WrapperButtonsRightSide>
