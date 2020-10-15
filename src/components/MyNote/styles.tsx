@@ -77,10 +77,10 @@ export const StatusIndicator = styled.div`
   min-width: 100px;
   min-height: 50px;
   position: relative;
-  background: ${theme.colors.gray};
+  background: ${theme.colors.clownfishBlack};
   padding: 10px 15px;
   margin-top: 10px;
-  border: solid 3px #000;
+  border: solid 3px ${theme.colors.clownfishOrange};
   border-radius: ${theme.borderRadius};
   display: flex;
   align-items: center;
@@ -88,17 +88,18 @@ export const StatusIndicator = styled.div`
 
   .label {
     margin-left: 10px;
-    color: #000;
+    color: ${theme.colors.white};
     font-weight: 500;
     text-align: center;
   }
 
   .icon {
-    color: #000;
+    color: ${theme.colors.white};
     font-size: 23px;
     margin-top: 5px;
 
     .oceano-bubble-loading {
+      background-color: ${theme.colors.white};
       margin-top: -5px;
     }
   }
