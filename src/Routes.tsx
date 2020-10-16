@@ -1,10 +1,11 @@
 import React from 'react';
 import {
-  Switch,
   Route,
-  Redirect,
   RouteComponentProps,
   useLocation,
+  useHistory,
+  Redirect,
+  Switch,
 } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -19,19 +20,16 @@ import OfflinePage from './pages/OfflinePage/OfflinePage';
 import useTranslation from './hooks/useTranslation';
 
 /**
+ * It defines a title to the page after 'oceano' prefix.
  *
- * @param title The title of the page. Note: it goes after the predefined prefix.
+ * @param title The title of the page
  */
-const renderPageWithTitle = (props?: RouteComponentProps) => {
-  return (component: JSX.Element, title?: string): JSX.Element => {
-    const prefix = 'oceano';
-    document.title = title ? prefix + ' — ' + title : prefix;
-
-    return component;
-  };
+const setPageTitle = (title?: string) => {
+  const prefix = 'oceano';
+  document.title = title ? prefix + ' — ' + title : prefix;
 };
 
-const Routes = () => {
+const Routes: React.FunctionComponent = () => {
   /**
    * Page titles are being defined one by one for performance reasons.
    *
@@ -44,6 +42,43 @@ const Routes = () => {
   const offlinePageTitle = useTranslation('OfflinePage').pageTitle ?? '';
 
   const currentLocation = useLocation();
+  const history = useHistory();
+
+  // TODO: Move this type to '/types-and-interfaces'
+  type RenderMiddlewareAdditionalPropsType = {
+    pageTitle?: string;
+  };
+
+  /**
+   * This function is meant to be literally a middleware to apply into the routes. This will execute
+   * something and then return the component page.
+   *
+   * @param component The page component
+   * @param additionalProps Additional props
+   * @param routeComponentProps The parameter from callback of the 'render' prop from component '<Route />'
+   */
+  const renderMiddleware = (
+    component: JSX.Element,
+    additionalProps: RenderMiddlewareAdditionalPropsType,
+    routeComponentProps?: RouteComponentProps
+  ): JSX.Element => {
+    const { pageTitle } = additionalProps;
+
+    /**
+     * It sets page title
+     */
+    setPageTitle(pageTitle);
+
+    /**
+     * It redirects user to offline page if the browser's network status is
+     * offline.
+     */
+    if (!navigator.onLine && currentLocation.pathname !== '/offline') {
+      history.push('/offline');
+    }
+
+    return component;
+  };
 
   return (
     <>
@@ -71,26 +106,30 @@ const Routes = () => {
           <Route
             path="/"
             exact
-            render={() => renderPageWithTitle()(<IndexPage />)}
+            render={() => renderMiddleware(<IndexPage />, {})}
           />
           <Route
             path="/notas"
-            render={() => renderPageWithTitle()(<NotesPage />, notesPageTitle)}
+            render={() =>
+              renderMiddleware(<NotesPage />, { pageTitle: notesPageTitle })
+            }
           />
           <Route
             path="/minha-nota"
-            render={() => renderPageWithTitle()(<MyNotePage />)}
+            render={() => renderMiddleware(<MyNotePage />, {})}
           />
           <Route
             path="/offline"
             render={() =>
-              renderPageWithTitle()(<OfflinePage />, offlinePageTitle)
+              renderMiddleware(<OfflinePage />, { pageTitle: offlinePageTitle })
             }
           />
           <Route
             path="/pagina-nao-encontrada"
             render={() =>
-              renderPageWithTitle()(<NotFoundPage />, notFoundPageTitle)
+              renderMiddleware(<NotFoundPage />, {
+                pageTitle: notFoundPageTitle,
+              })
             }
           />
 

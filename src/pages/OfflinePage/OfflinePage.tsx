@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 // Icons
 import WifiOffIcon from '@material-ui/icons/WifiOff';
@@ -22,6 +23,19 @@ import useTranslation from '../../hooks/useTranslation';
 
 const OfflinePage = () => {
   const translation = useTranslation('OfflinePage');
+  const history = useHistory();
+
+  useEffect(() => {
+    window.addEventListener('online', () => {
+      if (navigator.onLine) {
+        history.push('/');
+      }
+    });
+
+    return () => {
+      window.removeEventListener('online', () => {});
+    };
+  });
 
   return (
     <>
