@@ -118,6 +118,16 @@ const content: LanguageStateType = {
       pageTitle: 'minhas notas',
     },
 
+    OfflinePage: {
+      pageTitle: 'offline',
+      imgTurtle: {
+        alt:
+          'uma tartaruga com três bolhas, de diferentes tamanhos, acima de sua cabeça',
+      },
+      h1: 'sem internet',
+      h2: 'tentando reconexão...',
+    },
+
     NotFoundPage: {
       pageTitle: 'página não encontrada',
       h1: 'página não encontrada',

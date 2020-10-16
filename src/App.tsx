@@ -57,8 +57,9 @@ function App() {
         <SharksBackground />
       )}
 
-      {currentLocation.pathname !== '/pagina-nao-encontrada' &&
-        currentLocation.pathname !== '/minha-nota' && <OctopusBackground />}
+      {!['/pagina-nao-encontrada', '/minha-nota', '/offline'].includes(
+        currentLocation.pathname
+      ) && <OctopusBackground />}
 
       <main>
         <Container style={{ marginBottom: '100px' }}>

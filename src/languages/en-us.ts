@@ -116,6 +116,15 @@ const content: LanguageStateType = {
       pageTitle: 'my notes',
     },
 
+    OfflinePage: {
+      pageTitle: 'offline',
+      imgTurtle: {
+        alt: 'a turtle with three bubbles, of different sizes, above its head',
+      },
+      h1: "you're offline",
+      h2: 'trying to reconnect...',
+    },
+
     NotFoundPage: {
       pageTitle: 'page not found',
       h1: 'the page was not found',

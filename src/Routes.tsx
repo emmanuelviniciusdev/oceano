@@ -13,6 +13,7 @@ import IndexPage from './pages/IndexPage/IndexPage';
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import NotesPage from './pages/NotesPage/NotesPage';
 import MyNotePage from './pages/MyNotePage/MyNotePage';
+import OfflinePage from './pages/OfflinePage/OfflinePage';
 
 // Custom hooks
 import useTranslation from './hooks/useTranslation';
@@ -40,6 +41,7 @@ const Routes = () => {
    */
   const notFoundPageTitle = useTranslation('NotFoundPage').pageTitle ?? '';
   const notesPageTitle = useTranslation('NotesPage').pageTitle ?? '';
+  const offlinePageTitle = useTranslation('OfflinePage').pageTitle ?? '';
 
   const currentLocation = useLocation();
 
@@ -78,6 +80,12 @@ const Routes = () => {
           <Route
             path="/minha-nota"
             render={() => renderPageWithTitle()(<MyNotePage />)}
+          />
+          <Route
+            path="/offline"
+            render={() =>
+              renderPageWithTitle()(<OfflinePage />, offlinePageTitle)
+            }
           />
           <Route
             path="/pagina-nao-encontrada"

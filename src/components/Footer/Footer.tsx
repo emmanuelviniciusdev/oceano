@@ -7,9 +7,14 @@ import { Footer as StyledFooter } from './styles';
 const Footer = () => {
   const currentLocation = useLocation();
 
+  /**
+   * Routes that footer is not rendered
+   */
+  const blockedRoutes = ['/minha-nota', '/offline'];
+
   return (
     <>
-      {currentLocation.pathname !== '/minha-nota' && (
+      {!blockedRoutes.includes(currentLocation.pathname) && (
         <StyledFooter data-testid="footer">
           <p>
             Handcrafted with{' '}
