@@ -18,6 +18,7 @@ import {
   WrapperContentEditor,
   WrapperEditorJs,
 } from './styles';
+import { OceanoBubbleLoading } from '../../styles/general';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -138,7 +139,12 @@ const MyNote = () => {
             >
               <StatusIndicator>
                 <div className="icon">
-                  <div className="oceano-bubble-loading" />
+                  <OceanoBubbleLoading
+                    width={30}
+                    height={30}
+                    backgroundColor="#FFF"
+                    className="oceano-bubble-loading"
+                  />
                 </div>
                 <div className="label">
                   {translation?.statusIndicator?.savingText}

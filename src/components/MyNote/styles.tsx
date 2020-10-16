@@ -99,7 +99,6 @@ export const StatusIndicator = styled.div`
     margin-top: 5px;
 
     .oceano-bubble-loading {
-      background-color: ${theme.colors.white};
       margin-top: -5px;
     }
   }
