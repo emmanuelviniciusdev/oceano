@@ -3,7 +3,7 @@ import theme from '../../styles/theme';
 
 export const GlobalStyle = createGlobalStyle`
   body {
-    background-color: ${theme.colors.yellow};
+    background-color: ${theme.colors.yellow} !important;
   }
 `;
 
