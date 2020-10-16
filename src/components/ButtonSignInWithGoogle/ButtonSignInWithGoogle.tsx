@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Assets
@@ -9,19 +9,24 @@ import { ButtonSignIn } from '../../styles/general';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
+import AcceptanceOfTerms from '../AcceptanceOfTerms/AcceptanceOfTerms';
+
+// Components
 
 const ButtonSignInWithGoogle = () => {
   const translation = useTranslation('ButtonSignInWithGoogle');
-  const history = useHistory();
+  const [acceptanceIsOpen, setAcceptanceIsOpen] = useState(false);
 
   return (
     <>
-      <ButtonSignIn onClick={() => history.push('notas')}>
+      <ButtonSignIn onClick={() => setAcceptanceIsOpen(true)}>
         <div>
           <img src={googleBrands} alt={translation?.altImg} />
           <p dangerouslySetInnerHTML={{ __html: translation?.text }}></p>
         </div>
       </ButtonSignIn>
+
+      {!acceptanceIsOpen && <AcceptanceOfTerms />}
     </>
   );
 };
