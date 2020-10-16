@@ -43,6 +43,9 @@
 ====================================================================================
 
 ./types-and-interfaces/
+	filefromsrc.types.ts
+	filefromsrc.interfaces.ts
+
 	./components/
 		ComponentName.types.ts	
 		ComponentName.interfaces.ts

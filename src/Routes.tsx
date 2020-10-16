@@ -19,6 +19,9 @@ import OfflinePage from './pages/OfflinePage/OfflinePage';
 // Custom hooks
 import useTranslation from './hooks/useTranslation';
 
+// Types
+import { RenderMiddlewareAdditionalPropsType } from './types-and-interfaces/Routes.types';
+
 /**
  * It defines a title to the page after 'oceano' prefix.
  *
@@ -43,11 +46,6 @@ const Routes: React.FunctionComponent = () => {
 
   const currentLocation = useLocation();
   const history = useHistory();
-
-  // TODO: Move this type to '/types-and-interfaces'
-  type RenderMiddlewareAdditionalPropsType = {
-    pageTitle?: string;
-  };
 
   /**
    * This function is meant to be literally a middleware to apply into the routes. This will execute
