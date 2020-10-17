@@ -11,7 +11,13 @@ const OceanoButton: React.FunctionComponent<
     <>
       <StyledOceanoButton {...props} styledTheme={theme}>
         <div className="button-content" data-testid="ocean-button-content">
-          <div className="icon">{icon}</div>
+          {/* Workaround to solve problems related to position when there is no icon defined */}
+          {!icon ? (
+            <div className="no-icon" />
+          ) : (
+            <div className="icon">{icon}</div>
+          )}
+
           <div className="text">{text}</div>
         </div>
       </StyledOceanoButton>
