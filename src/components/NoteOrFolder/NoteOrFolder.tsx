@@ -124,28 +124,32 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
 
   return (
     <>
-      <OceanoModal
-        open={isDnDModalOpened}
-        onClose={() => setIsDnDModalOpened(false)}
-        title={translation?.actionDnDModalLabels?.title}
-        text={translation?.actionDnDModalLabels?.actionTexts?.[dropActionType]}
-      ></OceanoModal>
+      {isDnDModalOpened && (
+        <OceanoModal
+          onClose={() => setIsDnDModalOpened(false)}
+          title={translation?.actionDnDModalLabels?.title}
+          text={
+            translation?.actionDnDModalLabels?.actionTexts?.[dropActionType]
+          }
+        ></OceanoModal>
+      )}
 
-      <OceanoModal
-        open={isDeleteModalOpened}
-        onClose={() => setIsDeleteModalOpened(false)}
-        title={modalDeleteTitles?.title}
-        text={modalDeleteTitles?.actionText}
-      >
-        <OceanoButton
-          theme="purple"
-          style={{ width: 'auto' }}
-          icon={<DeleteForeverIcon />}
-          text={modalDeleteTitles?.buttonConfirmDelete?.text}
-          aria-label={modalDeleteTitles?.buttonConfirmDelete?.text}
-          onClick={deleteNoteOrFolder}
-        />
-      </OceanoModal>
+      {isDeleteModalOpened && (
+        <OceanoModal
+          onClose={() => setIsDeleteModalOpened(false)}
+          title={modalDeleteTitles?.title}
+          text={modalDeleteTitles?.actionText}
+        >
+          <OceanoButton
+            theme="purple"
+            style={{ width: 'auto' }}
+            icon={<DeleteForeverIcon />}
+            text={modalDeleteTitles?.buttonConfirmDelete?.text}
+            aria-label={modalDeleteTitles?.buttonConfirmDelete?.text}
+            onClick={deleteNoteOrFolder}
+          />
+        </OceanoModal>
+      )}
 
       <OceanoContextMenu componentRef={noteOrFolderRef.current}>
         <OceanoButton

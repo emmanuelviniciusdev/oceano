@@ -18,14 +18,9 @@ import { OceanoModalType } from '../../types-and-interfaces/components/OceanoMod
 const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
   title,
   text,
-  open = false,
   onClose,
   children,
 }) => {
-  const [isOpened, setIsOpened] = useState(open);
-
-  useEffect(() => setIsOpened(open), [open]);
-
   /**
    * It adds a listener for 'ESC' key. When pressed, the modal is closed.
    */
@@ -39,41 +34,37 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
 
   const closeModal = () => {
     if (onClose) onClose();
-
-    setIsOpened(false);
   };
 
   return (
     <>
       <AnimatePresence>
-        {isOpened && (
-          <div data-testid="oceano-modal-wrapper">
-            <ModalBackground>
-              <motion.div
-                key="motion-wrapper-modal-content"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.7 }}
-              >
-                <ModalContent data-testid="oceano-modal-content">
-                  <ModalCloseButton
-                    data-testid="oceano-modal-close-button"
-                    onClick={closeModal}
-                  >
-                    <CloseIcon fontSize="inherit" />
-                  </ModalCloseButton>
-                  <ModalTitle data-testid="oceano-modal-title">
-                    {title}
-                  </ModalTitle>
-                  <ModalText data-testid="oceano-modal-text">{text}</ModalText>
-                  <ModalActions data-testid="oceano-modal-actions">
-                    {children}
-                  </ModalActions>
-                </ModalContent>
-              </motion.div>
-            </ModalBackground>
-          </div>
-        )}
+        <div data-testid="oceano-modal-wrapper">
+          <ModalBackground>
+            <motion.div
+              key="motion-wrapper-modal-content"
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.7 }}
+            >
+              <ModalContent data-testid="oceano-modal-content">
+                <ModalCloseButton
+                  data-testid="oceano-modal-close-button"
+                  onClick={closeModal}
+                >
+                  <CloseIcon fontSize="inherit" />
+                </ModalCloseButton>
+                <ModalTitle data-testid="oceano-modal-title">
+                  {title}
+                </ModalTitle>
+                <ModalText data-testid="oceano-modal-text">{text}</ModalText>
+                <ModalActions data-testid="oceano-modal-actions">
+                  {children}
+                </ModalActions>
+              </ModalContent>
+            </motion.div>
+          </ModalBackground>
+        </div>
       </AnimatePresence>
     </>
   );
