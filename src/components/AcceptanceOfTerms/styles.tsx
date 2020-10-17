@@ -1,16 +1,6 @@
 import styled from 'styled-components';
 import theme from '../../styles/theme';
 
-export const Background = styled.div`
-  background-color: ${theme.colors.primary};
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  overflow-y: scroll;
-`;
-
 export const ButtonClose = styled.button`
   width: 40px;
   height: 40px;
@@ -24,8 +14,25 @@ export const ButtonClose = styled.button`
   border: none;
 `;
 
+export const Background = styled.div`
+  background-color: ${theme.colors.primary};
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+
+  @media (min-width: 960px) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`;
+
 export const WrapperContent = styled.div`
-  /* background: gray; */
+  /* background: green; */
   width: 90%;
   display: flex;
   flex-direction: column;
@@ -33,6 +40,13 @@ export const WrapperContent = styled.div`
   margin: 0 auto;
   margin-top: 50px;
   margin-bottom: 100px;
+
+  @media (min-width: 960px) {
+    width: 650px;
+    height: 100 !important;
+    margin: 0;
+    margin-top: -60px;
+  }
 `;
 
 export const Content = styled.div`
@@ -44,6 +58,10 @@ export const Content = styled.div`
     font-weight: 900 !important;
     text-align: left;
     color: ${theme.colors.gray};
+  }
+
+  @media (min-width: 600px) {
+    width: 100%;
   }
 `;
 
@@ -62,10 +80,12 @@ export const WrapperTerms = styled.div`
 `;
 
 export const ActionContent = styled.div`
+  /* background: green; */
   margin-top: 20px;
 
   button {
     margin: 0 10px 10px 0 !important;
+    display: block;
   }
 
   .wrapper-checkbox-acceptance {
@@ -76,12 +96,18 @@ export const ActionContent = styled.div`
     margin-bottom: 20px;
 
     input {
-      margin-right: 15px;
+      margin-right: 10px;
     }
 
     label {
       text-align: left;
       color: ${theme.colors.gray};
+    }
+  }
+
+  @media (min-width: 600px) {
+    button {
+      display: inline-block;
     }
   }
 `;

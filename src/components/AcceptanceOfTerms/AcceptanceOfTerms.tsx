@@ -1,6 +1,7 @@
 import React from 'react';
 
 // Icons
+import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import CloseIcon from '@material-ui/icons/Close';
@@ -82,7 +83,10 @@ const AcceptanceOfTerms = () => {
               </div>
               <OceanoButton icon={<ArrowBackIcon />} text="voltar" />
               <OceanoButton icon={<ArrowForwardIcon />} text="próximo" />
-              <OceanoButton text="criar conta com a microsoft" />
+              <OceanoButton
+                icon={<ArrowRightAltIcon />}
+                text="criar conta usando a microsoft"
+              />
             </ActionContent>
           </Content>
         </WrapperContent>
