@@ -1,3 +1,4 @@
+import { darken, lighten } from 'polished';
 import styled, { css } from 'styled-components';
 import theme from '../../styles/theme';
 
@@ -15,10 +16,23 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
   border: 2px solid #000;
 
   ${(props) =>
+    props.disabled &&
+    css`
+      cursor: not-allowed;
+    `}
+
+  ${(props) =>
     props.styledTheme &&
     props.styledTheme === 'gray' &&
     css`
       background-color: ${theme.colors.gray};
+
+      ${props.disabled &&
+      `
+        background-color: ${lighten(0.2, theme.colors.gray)};
+        color: ${lighten(0.35, theme.colors.black)};
+        border-color: ${lighten(0.35, theme.colors.black)};
+      `}
     `}
 
   ${(props) =>
@@ -26,6 +40,13 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
     props.styledTheme === 'yellow' &&
     css`
       background-color: ${theme.colors.yellow};
+
+      ${props.disabled &&
+      `
+        background-color: ${lighten(0.03, theme.colors.yellow)};
+        color: ${lighten(0.35, theme.colors.black)};
+        border-color: ${lighten(0.35, theme.colors.black)};
+      `}
     `}
 
   ${(props) =>
@@ -35,6 +56,13 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
       background-color: ${theme.colors.secondary};
       color: ${theme.colors.gray};
       border: 2px solid ${theme.colors.gray};
+
+      ${props.disabled &&
+      `
+        background-color: ${lighten(0.2, theme.colors.secondary)};
+        color: ${lighten(0.1, theme.colors.gray)};
+        border-color: ${lighten(0.1, theme.colors.gray)};
+      `}
     `}
 
     ${(props) =>
@@ -44,7 +72,13 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
       background-color: transparent;
       color: ${theme.colors.gray};
       border: 2px solid transparent;
+
+      ${props.disabled &&
+      `
+        color: ${darken(0.2, theme.colors.gray)};
+      `}
     `}
+
 
   .button-content {
     display: flex;

@@ -26,7 +26,12 @@ const ButtonSignInWithGoogle = () => {
         </div>
       </ButtonSignIn>
 
-      {!acceptanceIsOpen && <AcceptanceOfTerms />}
+      {acceptanceIsOpen && (
+        <AcceptanceOfTerms
+          authType="google"
+          onClose={() => setAcceptanceIsOpen(false)}
+        />
+      )}
     </>
   );
 };

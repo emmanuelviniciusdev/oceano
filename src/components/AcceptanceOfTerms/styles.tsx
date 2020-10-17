@@ -5,8 +5,8 @@ export const ButtonClose = styled.button`
   width: 40px;
   height: 40px;
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 20px;
+  right: 20px;
   font-size: 36px;
   line-height: 1.35;
   color: ${theme.colors.gray};
@@ -100,6 +100,7 @@ export const ActionContent = styled.div`
     }
 
     label {
+      cursor: pointer;
       text-align: left;
       color: ${theme.colors.gray};
     }

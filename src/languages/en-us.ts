@@ -99,6 +99,27 @@ const content: LanguageStateType = {
       },
     },
 
+    AcceptanceOfTerms: {
+      'terms-of-use': {
+        title: 'Terms of Use',
+      },
+      'privacy-policy': {
+        title: 'Privacy Policy',
+      },
+      buttonNext: {
+        text: 'next',
+      },
+      buttonReturn: {
+        text: 'return',
+      },
+      buttonCreateAccount: {
+        text: 'create account with',
+      },
+      buttonClose: {
+        title: 'close',
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:

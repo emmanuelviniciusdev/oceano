@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 // Icons
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -8,6 +9,15 @@ import CloseIcon from '@material-ui/icons/Close';
 
 // Components
 import OceanoButton from '../OceanoButton/OceanoButton';
+import TextTermsOfUse from '../TextTermsOfUse/TextTermsOfUse';
+import TextPrivacyPolicy from '../TextPrivacyPolicy/TextPrivacyPolicy';
+
+// Types
+import {
+  AcceptanceOfTermsType,
+  ContentComponentType,
+  TypeOfContentType,
+} from '../../types-and-interfaces/components/AcceptanceOfTerms.types';
 
 // Styles
 import {
@@ -19,79 +29,133 @@ import {
   ButtonClose,
 } from './styles';
 
-const AcceptanceOfTerms = () => {
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
+const contentEffectVariants = {
+  initial: { x: -20, opacity: 0 },
+  animate: { x: 0, opacity: 1 },
+};
+
+const TermsOfUseContent = ({ translation, type }: ContentComponentType) => (
+  <>
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={contentEffectVariants}
+    >
+      <h1>{translation?.[type]?.title}</h1>
+      <WrapperTerms>
+        <TextTermsOfUse />
+      </WrapperTerms>
+    </motion.div>
+  </>
+);
+
+const PrivacyPolicyContent = ({ translation, type }: ContentComponentType) => (
+  <>
+    <motion.div
+      initial="initial"
+      animate="animate"
+      variants={contentEffectVariants}
+    >
+      <h1>{translation?.[type]?.title}</h1>
+      <WrapperTerms>
+        <TextPrivacyPolicy />
+      </WrapperTerms>
+    </motion.div>
+  </>
+);
+
+const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
+  authType,
+  onClose,
+}) => {
+  const translation = useTranslation('AcceptanceOfTerms');
+
+  const [contentType, setContentType] = useState<TypeOfContentType>(
+    'terms-of-use'
+  );
+  const [userAcceptTerms, setUserAcceptTerms] = useState(false);
+
+  /**
+   * It adds a listener for 'ESC' key. When pressed, the modal is closed.
+   */
+  useEffect(() => {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && onClose) onClose();
+    });
+
+    return () => document.removeEventListener('keydown', () => {});
+  }, []);
+
   return (
-    <>
+    <div data-testid="modal-acceptance-of-terms">
       <Background>
-        <ButtonClose>
+        <ButtonClose
+          title={translation?.buttonClose?.title}
+          aria-label={translation?.buttonClose?.title}
+          data-testid="close-button"
+          onClick={() => onClose && onClose()}
+        >
           <CloseIcon fontSize="inherit" />
         </ButtonClose>
 
         <WrapperContent>
           <Content>
-            <h1>Política de Privacidade</h1>
-
-            <WrapperTerms>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-                sed nunc viverra, consequat sapien sed, pulvinar felis. Sed quam
-                orci, molestie sed ligula ac, vestibulum sagittis diam. Aliquam
-                vitae pharetra ipsum. Etiam luctus tellus vel mi ultrices, et
-                egestas sapien venenatis. Praesent at mi varius, egestas massa
-                vel, finibus mauris. Donec molestie tortor dolor, non dignissim
-                diam auctor id. Pellentesque consectetur rutrum orci.
-                Suspendisse potenti. Donec non ultricies ante, in mollis magna.
-                Aliquam vitae dapibus leo.
-              </p>
-              <p>
-                Nulla scelerisque urna vitae dignissim maximus. Pellentesque non
-                nisl et odio ultrices convallis. Vivamus volutpat congue
-                imperdiet. Phasellus venenatis elit sed erat auctor, at cursus
-                quam aliquet. Orci varius natoque penatibus et magnis dis
-                parturient montes, nascetur ridiculus mus. Quisque rutrum, augue
-                vitae facilisis tincidunt, nunc libero lacinia ligula, at
-                tincidunt felis nisl vitae neque. Mauris id egestas metus,
-                blandit pharetra nunc. Praesent consequat, orci at sagittis
-                dignissim, nunc sapien cursus nisl, non volutpat arcu ipsum id
-                orci. Proin bibendum elit tellus. Pellentesque non tortor in
-                enim pulvinar porta. Aenean risus tortor, mattis rhoncus est
-                rhoncus, semper tristique quam. Mauris at convallis libero.
-                Etiam a est tempus, rhoncus nisi id, dictum lorem. Suspendisse
-                orci eros, auctor at sodales ut, efficitur a dui.
-              </p>
-              <p>
-                Curabitur ut odio at ex laoreet faucibus. Sed congue bibendum
-                rhoncus. Pellentesque sapien nibh, tempor vel arcu eget,
-                molestie suscipit magna. Curabitur lobortis turpis at mollis
-                volutpat. Aenean at augue lobortis, tincidunt quam quis,
-                accumsan diam. Phasellus eget ex vitae lorem commodo feugiat.
-                Etiam nisi mi, ultrices ut sem eget, facilisis mattis mauris.
-                Nam facilisis justo nibh. Fusce vitae enim nibh. Quisque et
-                bibendum nibh. Cras varius orci ultricies, mollis nunc vitae,
-                gravida augue. Curabitur id tempor lorem. Praesent lacinia neque
-                ut pharetra hendrerit.
-              </p>
-            </WrapperTerms>
+            {contentType === 'terms-of-use' && (
+              <TermsOfUseContent translation={translation} type={contentType} />
+            )}
+            {contentType === 'privacy-policy' && (
+              <PrivacyPolicyContent
+                translation={translation}
+                type={contentType}
+              />
+            )}
 
             <ActionContent>
-              <div className="wrapper-checkbox-acceptance">
-                <input type="checkbox" id="checkbox-acceptance" />
-                <label htmlFor="checkbox-acceptance">
-                  li e aceito os <b>termos de uso</b> e a{' '}
-                  <b>política de privacidade</b>
-                </label>
-              </div>
-              <OceanoButton icon={<ArrowBackIcon />} text="voltar" />
-              <OceanoButton icon={<ArrowForwardIcon />} text="próximo" />
-              <OceanoButton
-                icon={<ArrowRightAltIcon />}
-                text="criar conta usando a microsoft"
-              />
+              {contentType === 'terms-of-use' && (
+                <OceanoButton
+                  icon={<ArrowForwardIcon />}
+                  text={translation?.buttonNext?.text}
+                  aria-label={translation?.buttonNext?.text}
+                  onClick={() => setContentType('privacy-policy')}
+                />
+              )}
+
+              {contentType === 'privacy-policy' && (
+                <>
+                  <div className="wrapper-checkbox-acceptance">
+                    <input
+                      type="checkbox"
+                      id="checkbox-acceptance"
+                      checked={userAcceptTerms}
+                      onChange={() => setUserAcceptTerms(!userAcceptTerms)}
+                    />
+                    <label htmlFor="checkbox-acceptance">
+                      li e aceito os <b>termos de uso</b> e a{' '}
+                      <b>política de privacidade</b>
+                    </label>
+                  </div>
+                  <OceanoButton
+                    icon={<ArrowBackIcon />}
+                    text={translation?.buttonReturn?.text}
+                    aria-label={translation?.buttonReturn?.text}
+                    onClick={() => setContentType('terms-of-use')}
+                  />
+                  <OceanoButton
+                    disabled={!userAcceptTerms}
+                    icon={<ArrowRightAltIcon />}
+                    text={`${translation?.buttonCreateAccount?.text} ${authType}`}
+                    aria-label={`${translation?.buttonCreateAccount?.text} ${authType}`}
+                  />
+                </>
+              )}
             </ActionContent>
           </Content>
         </WrapperContent>
       </Background>
-    </>
+    </div>
   );
 };
 

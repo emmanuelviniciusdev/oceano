@@ -101,6 +101,27 @@ const content: LanguageStateType = {
       },
     },
 
+    AcceptanceOfTerms: {
+      'terms-of-use': {
+        title: 'Termos de Uso',
+      },
+      'privacy-policy': {
+        title: 'Política de Privacidade',
+      },
+      buttonNext: {
+        text: 'próximo',
+      },
+      buttonReturn: {
+        text: 'voltar',
+      },
+      buttonCreateAccount: {
+        text: 'criar conta usando',
+      },
+      buttonClose: {
+        title: 'fechar',
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:
