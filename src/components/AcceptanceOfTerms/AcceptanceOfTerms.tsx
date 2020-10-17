@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Icons
@@ -78,16 +78,22 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   );
   const [userAcceptTerms, setUserAcceptTerms] = useState(false);
 
-  /**
-   * It adds a listener for 'ESC' key. When pressed, the modal is closed.
-   */
-  useEffect(() => {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && onClose) onClose();
-    });
+  const checkIfEscape = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
 
-    return () => document.removeEventListener('keydown', () => {});
-  }, []);
+  useEffect(() => {
+    window.addEventListener('keydown', checkIfEscape, false);
+
+    return () => {
+      window.removeEventListener('keydown', checkIfEscape, false);
+    };
+  }, [checkIfEscape]);
 
   return (
     <div data-testid="modal-acceptance-of-terms">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -21,20 +21,25 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
   onClose,
   children,
 }) => {
+  const checkIfEscape = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && onClose) {
+        onClose();
+      }
+    },
+    [onClose]
+  );
+
   /**
    * It adds a listener for 'ESC' key. When pressed, the modal is closed.
    */
   useEffect(() => {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
-    });
+    window.addEventListener('keydown', checkIfEscape, false);
 
-    return () => document.removeEventListener('keydown', () => {});
-  }, []);
-
-  const closeModal = () => {
-    if (onClose) onClose();
-  };
+    return () => {
+      window.removeEventListener('keydown', checkIfEscape, false);
+    };
+  }, [checkIfEscape]);
 
   return (
     <>
@@ -50,7 +55,7 @@ const OceanoModal: React.FunctionComponent<OceanoModalType> = ({
               <ModalContent data-testid="oceano-modal-content">
                 <ModalCloseButton
                   data-testid="oceano-modal-close-button"
-                  onClick={closeModal}
+                  onClick={() => onClose && onClose()}
                 >
                   <CloseIcon fontSize="inherit" />
                 </ModalCloseButton>
