@@ -27,11 +27,19 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
     css`
       background-color: ${theme.colors.gray};
 
+      .oceano-bubble-loading {
+        background-color: #000 !important;
+      }
+
       ${props.disabled &&
       `
         background-color: ${lighten(0.2, theme.colors.gray)};
         color: ${lighten(0.35, theme.colors.black)};
         border-color: ${lighten(0.35, theme.colors.black)};
+
+        .oceano-bubble-loading {
+          background-color: ${lighten(0.35, theme.colors.black)} !important;
+        }
       `}
     `}
 
@@ -41,11 +49,19 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
     css`
       background-color: ${theme.colors.yellow};
 
+      .oceano-bubble-loading {
+        background-color: #000 !important;
+      }
+
       ${props.disabled &&
       `
         background-color: ${lighten(0.03, theme.colors.yellow)};
         color: ${lighten(0.35, theme.colors.black)};
         border-color: ${lighten(0.35, theme.colors.black)};
+
+        .oceano-bubble-loading {
+          background-color: ${lighten(0.35, theme.colors.black)} !important;
+        }
       `}
     `}
 
@@ -57,11 +73,19 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
       color: ${theme.colors.gray};
       border: 2px solid ${theme.colors.gray};
 
+      .oceano-bubble-loading {
+        background-color: ${theme.colors.gray} !important;
+      }
+
       ${props.disabled &&
       `
         background-color: ${lighten(0.2, theme.colors.secondary)};
         color: ${lighten(0.1, theme.colors.gray)};
         border-color: ${lighten(0.1, theme.colors.gray)};
+
+        .oceano-bubble-loading {
+          background-color: ${lighten(0.1, theme.colors.gray)} !important;
+        }
       `}
     `}
 
@@ -73,9 +97,17 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
       color: ${theme.colors.gray};
       border: 2px solid transparent;
 
+      .oceano-bubble-loading {
+        background-color: ${theme.colors.gray} !important;
+      }
+
       ${props.disabled &&
       `
         color: ${darken(0.2, theme.colors.gray)};
+
+        .oceano-bubble-loading {
+          background-color: ${darken(0.2, theme.colors.gray)} !important;
+        }
       `}
     `}
 

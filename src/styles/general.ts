@@ -37,13 +37,13 @@ export const ButtonSignIn = styled.button`
 type OceanoBubbleLoadingType = {
   width: number;
   height: number;
-  backgroundColor: string;
+  backgroundColor?: string;
 };
 
 export const OceanoBubbleLoading = styled.div<OceanoBubbleLoadingType>`
   width: ${(props) => props.width}px;
   height: ${(props) => props.width}px;
-  background-color: ${(props) => props.backgroundColor};
+  background-color: ${(props) => props.backgroundColor || '#fff'};
 
   border-radius: 100%;
   -webkit-animation: sk-scaleout 1s infinite ease-in-out;

@@ -1,5 +1,12 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { motion } from 'framer-motion';
+import { useHistory } from 'react-router-dom';
 
 // Icons
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -77,13 +84,17 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   authType,
   onClose,
 }) => {
+  const isComponentUnmounted = useRef(false);
+
   const translation = useTranslation('AcceptanceOfTerms');
+  const history = useHistory();
   const { user: userContext } = useContext(AppContext);
 
   const [contentType, setContentType] = useState<TypeOfContentType>(
     'terms-of-use'
   );
   const [userAcceptTerms, setUserAcceptTerms] = useState(false);
+  const [isRegisteringUser, setIsRegisteringUser] = useState(false);
 
   const checkIfEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -97,23 +108,28 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   const continueWithUserRegistration = async () => {
     // TODO: Implement error messages
     if (!userContext?.state) {
-      console.log('user is not logged in');
+      if (onClose) onClose();
       return;
     }
 
-    try {
-      const essentialUserData = {
-        email: userContext.state.email,
-        displayName: userContext.state.displayName,
-      };
+    setIsRegisteringUser(true);
 
+    try {
       /**
        * Save user data into 'users' collection
        */
-      registerUser(userContext.state.uid, essentialUserData);
+      await registerUser(userContext.state.uid, {
+        email: userContext.state.email,
+        displayName: userContext.state.displayName,
+      });
+
+      if (onClose) onClose();
+
+      history.push('/notas');
     } catch (err) {
-      console.log(err);
-      console.log('something went wrong');
+      // Error message...
+    } finally {
+      if (!isComponentUnmounted.current) setIsRegisteringUser(false);
     }
   };
 
@@ -124,6 +140,12 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
       window.removeEventListener('keydown', checkIfEscape, false);
     };
   }, [checkIfEscape]);
+
+  useEffect(() => {
+    return () => {
+      isComponentUnmounted.current = true;
+    };
+  }, []);
 
   return (
     <div data-testid="modal-acceptance-of-terms">
@@ -165,6 +187,7 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
                     <input
                       type="checkbox"
                       id="checkbox-acceptance"
+                      data-testid="checkbox-acceptance"
                       checked={userAcceptTerms}
                       onChange={() => setUserAcceptTerms(!userAcceptTerms)}
                     />
@@ -180,7 +203,8 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
                     onClick={() => setContentType('terms-of-use')}
                   />
                   <OceanoButton
-                    disabled={!userAcceptTerms}
+                    isLoading={isRegisteringUser}
+                    disabled={!userAcceptTerms || isRegisteringUser}
                     icon={<ArrowRightAltIcon />}
                     text={`${translation?.buttonCreateAccount?.text} ${authType}`}
                     aria-label={`${translation?.buttonCreateAccount?.text} ${authType}`}

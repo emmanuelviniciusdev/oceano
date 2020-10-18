@@ -18,12 +18,14 @@ import { signInWithGogle } from '../../services/auth';
 
 const ButtonSignInWithGoogle = () => {
   const translation = useTranslation('ButtonSignInWithGoogle');
+  const history = useHistory();
+
   const [acceptanceIsOpen, setAcceptanceIsOpen] = useState(false);
 
   const handleSignIn = async () => {
     try {
-      const user = await signInWithGogle();
-      console.log('user is logged in');
+      await signInWithGogle();
+      history.push('/notas');
     } catch (err) {
       if (err.message === 'oceano-auth/user-did-not-accept-terms') {
         setAcceptanceIsOpen(true);

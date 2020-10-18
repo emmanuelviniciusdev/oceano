@@ -1,5 +1,14 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react';
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  wait,
+} from '@testing-library/react';
 import React from 'react';
+import { act } from 'react-dom/test-utils';
+import { registerUser } from '../../services/user';
+import { AppContext } from '../../store';
 import AcceptanceOfTerms from './AcceptanceOfTerms';
 
 jest.mock('../../hooks/useTranslation', () => {
@@ -25,9 +34,32 @@ jest.mock('../../hooks/useTranslation', () => {
   }));
 });
 
+const mockedRegisterUser = jest.fn(() => Promise.resolve());
+
+jest.mock('../../services/user', () =>
+  jest.fn(() => ({
+    registerUser: mockedRegisterUser,
+  }))
+);
+
 describe('AcceptanceOfTerms', () => {
   beforeEach(() => {
-    render(<AcceptanceOfTerms authType="microsoft" />);
+    render(
+      <AppContext.Provider
+        value={{
+          user: {
+            state: {
+              uid: 'uid-hash',
+              displayName: 'Tracy',
+              email: 'tracy@domain.com',
+            },
+            dispatch: jest.fn(),
+          },
+        }}
+      >
+        <AcceptanceOfTerms authType="microsoft" />
+      </AppContext.Provider>
+    );
   });
 
   it('should render terms of use on the first rendering', () => {
