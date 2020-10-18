@@ -37,10 +37,16 @@
 	
 ====================================================================================
 
-./declarations
+./declarations/
 	declarationname.d.ts
 
 ====================================================================================
+
+./services/
+	servicename.ts
+
+====================================================================================
+
 
 ./types-and-interfaces/
 	filefromsrc.types.ts
@@ -75,3 +81,11 @@
     ./styles/
 		stylename.types.ts	
 		stylename.interfaces.ts
+	
+	./services/
+		servicename.types.ts
+		servicename.interfaces.ts
+
+	./collection/
+		collectionname.types.ts
+		collectionname.interfaces.ts

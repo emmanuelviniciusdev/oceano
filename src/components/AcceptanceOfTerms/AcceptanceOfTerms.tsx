@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 // Icons
@@ -31,6 +31,12 @@ import {
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
+
+// Setup
+import { AppContext } from '../../store';
+
+// Services
+import { registerUser } from '../../services/user';
 
 const contentEffectVariants = {
   initial: { x: -20, opacity: 0 },
@@ -72,6 +78,7 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   onClose,
 }) => {
   const translation = useTranslation('AcceptanceOfTerms');
+  const { user: userContext } = useContext(AppContext);
 
   const [contentType, setContentType] = useState<TypeOfContentType>(
     'terms-of-use'
@@ -86,6 +93,29 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
     },
     [onClose]
   );
+
+  const continueWithUserRegistration = async () => {
+    // TODO: Implement error messages
+    if (!userContext?.state) {
+      console.log('user is not logged in');
+      return;
+    }
+
+    try {
+      const essentialUserData = {
+        email: userContext.state.email,
+        displayName: userContext.state.displayName,
+      };
+
+      /**
+       * Save user data into 'users' collection
+       */
+      registerUser(userContext.state.uid, essentialUserData);
+    } catch (err) {
+      console.log(err);
+      console.log('something went wrong');
+    }
+  };
 
   useEffect(() => {
     window.addEventListener('keydown', checkIfEscape, false);
@@ -154,6 +184,7 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
                     icon={<ArrowRightAltIcon />}
                     text={`${translation?.buttonCreateAccount?.text} ${authType}`}
                     aria-label={`${translation?.buttonCreateAccount?.text} ${authType}`}
+                    onClick={continueWithUserRegistration}
                   />
                 </>
               )}

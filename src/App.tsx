@@ -5,6 +5,7 @@ import { useLocation } from 'react-router-dom';
 import Routes from './Routes';
 import { AppContext } from './store';
 import languageReducer from './store/reducers/language';
+import userReducer from './store/reducers/user';
 
 // Styles
 import GlobalStyle from './styles/global';
@@ -15,6 +16,10 @@ import Footer from './components/Footer/Footer';
 import OctopusBackground from './components/OctopusBackground/OctopusBackground';
 import SharksBackground from './components/SharksBackground/SharksBackground';
 import TopBar from './components/TopBar/TopBar';
+
+// Firebase
+import firebase from './firebase';
+import 'firebase/auth';
 
 function App() {
   const currentLocation = useLocation();
@@ -29,6 +34,26 @@ function App() {
         localStorage.getItem('defaultLanguage') ?? 'pt-br'
       )
     );
+
+    /**
+     * It keeps watching for changes on user authentication status.
+     */
+    firebase.auth().onAuthStateChanged((user) => {
+      console.log(user);
+
+      if (!user) {
+        globalContext.user?.dispatch(userReducer.actionCreators.setUser(null));
+        return;
+      }
+
+      globalContext.user?.dispatch(
+        userReducer.actionCreators.setUser({
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName,
+        })
+      );
+    });
 
     /**
      * This is to ensure that page will always load or reload
@@ -51,6 +76,8 @@ function App() {
 
   return (
     <>
+      {JSON.stringify(globalContext.user)}
+
       <GlobalStyle />
 
       {currentLocation.pathname === '/pagina-nao-encontrada' && (

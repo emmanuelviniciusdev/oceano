@@ -3,13 +3,14 @@
  *
  * As we can see we are not using Redux, but using Context API instead.
  *
- * Each reducer (contained inside './reducers') represents a functionality of the application.
+ * Each reducer (contained inside './reducers') represents a module of the application.
  */
 
 import React, { createContext, useReducer } from 'react';
 
 // Reducers
 import languageReducer from './reducers/language';
+import userReducer from './reducers/user';
 
 // Types
 import {
@@ -23,6 +24,9 @@ export function AppContextProvider({ children }: AppContextProviderPropsType) {
   const store: AppGlobalContextType = {
     language: transformReducer(
       useReducer(languageReducer.reducer, languageReducer.initialState)
+    ),
+    user: transformReducer(
+      useReducer(userReducer.reducer, userReducer.initialState)
     ),
   };
 

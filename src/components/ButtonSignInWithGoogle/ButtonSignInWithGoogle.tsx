@@ -9,17 +9,31 @@ import { ButtonSignIn } from '../../styles/general';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
-import AcceptanceOfTerms from '../AcceptanceOfTerms/AcceptanceOfTerms';
 
 // Components
+import AcceptanceOfTerms from '../AcceptanceOfTerms/AcceptanceOfTerms';
+
+// Services
+import { signInWithGogle } from '../../services/auth';
 
 const ButtonSignInWithGoogle = () => {
   const translation = useTranslation('ButtonSignInWithGoogle');
   const [acceptanceIsOpen, setAcceptanceIsOpen] = useState(false);
 
+  const handleSignIn = async () => {
+    try {
+      const user = await signInWithGogle();
+      console.log('user is logged in');
+    } catch (err) {
+      if (err.message === 'oceano-auth/user-did-not-accept-terms') {
+        setAcceptanceIsOpen(true);
+      }
+    }
+  };
+
   return (
     <>
-      <ButtonSignIn onClick={() => setAcceptanceIsOpen(true)}>
+      <ButtonSignIn onClick={handleSignIn}>
         <div>
           <img src={googleBrands} alt={translation?.altImg} />
           <p dangerouslySetInnerHTML={{ __html: translation?.text }}></p>
