@@ -43,7 +43,7 @@ async function registerUser(uid: string, data: UserCollectionType) {
   try {
     await users().doc(uid).set(data);
   } catch (err) {
-    throw new Error(err);
+    throw err;
   }
 }
 

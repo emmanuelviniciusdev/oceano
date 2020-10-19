@@ -30,10 +30,12 @@ const ButtonSignInWithGoogle = () => {
       await signInWithGogle();
       history.push('/notas');
     } catch (err) {
-      if (err.message === 'oceano-auth/user-did-not-accept-terms') {
+      if (err.code === 'oceano-auth/user-did-not-accept-terms') {
         setAcceptanceIsOpen(true);
         return;
       }
+
+      if (err.code === 'auth/popup-closed-by-user') return;
 
       console.error(err);
       setShowUnknownSignInError(true);
@@ -63,7 +65,11 @@ const ButtonSignInWithGoogle = () => {
               type="error"
               onClose={() => setShowUnknownSignInError(false)}
             >
-              erro ao iniciar sessão usando <b>google</b>
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: translation?.unknownSignInErrorMsg,
+                }}
+              ></span>
             </OceanoNotification>
           )}
         </AnimatePresence>

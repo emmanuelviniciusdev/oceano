@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
 
 // Icons
@@ -18,6 +18,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import OceanoButton from '../OceanoButton/OceanoButton';
 import TextTermsOfUse from '../TextTermsOfUse/TextTermsOfUse';
 import TextPrivacyPolicy from '../TextPrivacyPolicy/TextPrivacyPolicy';
+import OceanoNotification from '../OceanoNotification/OceanoNotification';
 
 // Types
 import {
@@ -35,6 +36,7 @@ import {
   ActionContent,
   ButtonClose,
 } from './styles';
+import { StackNotifications } from '../../styles/general';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -95,6 +97,13 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   );
   const [userAcceptTerms, setUserAcceptTerms] = useState(false);
   const [isRegisteringUser, setIsRegisteringUser] = useState(false);
+  const [
+    showNotAuthenticatedUserError,
+    setShowNotAuthenticatedUserError,
+  ] = useState(false);
+  const [showFinishingSignUpError, setShowFinishingSignUpError] = useState(
+    false
+  );
 
   const checkIfEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -106,9 +115,8 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   );
 
   const continueWithUserRegistration = async () => {
-    // TODO: Implement error messages
     if (!userContext?.state) {
-      if (onClose) onClose();
+      setShowNotAuthenticatedUserError(true);
       return;
     }
 
@@ -127,7 +135,8 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
 
       history.push('/notas');
     } catch (err) {
-      // Error message...
+      console.error(err);
+      setShowFinishingSignUpError(true);
     } finally {
       if (!isComponentUnmounted.current) setIsRegisteringUser(false);
     }
@@ -191,10 +200,12 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
                       checked={userAcceptTerms}
                       onChange={() => setUserAcceptTerms(!userAcceptTerms)}
                     />
-                    <label htmlFor="checkbox-acceptance">
-                      li e aceito os <b>termos de uso</b> e a{' '}
-                      <b>política de privacidade</b>
-                    </label>
+                    <label
+                      htmlFor="checkbox-acceptance"
+                      dangerouslySetInnerHTML={{
+                        __html: translation?.termsAcceptanceText,
+                      }}
+                    />
                   </div>
                   <OceanoButton
                     icon={<ArrowBackIcon />}
@@ -216,6 +227,29 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
           </Content>
         </WrapperContent>
       </Background>
+
+      <StackNotifications>
+        <AnimatePresence>
+          {showNotAuthenticatedUserError && (
+            <OceanoNotification
+              key="user-not-authenticated"
+              type="error"
+              onClose={() => setShowNotAuthenticatedUserError(false)}
+            >
+              {translation?.notAuthenticatedUserErrorMsg}
+            </OceanoNotification>
+          )}
+          {showFinishingSignUpError && (
+            <OceanoNotification
+              key="finishing-sign-up-error"
+              type="error"
+              onClose={() => setShowFinishingSignUpError(false)}
+            >
+              {translation?.finishingSignUpErrorMsg}
+            </OceanoNotification>
+          )}
+        </AnimatePresence>
+      </StackNotifications>
     </div>
   );
 };

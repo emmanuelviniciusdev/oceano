@@ -12,6 +12,7 @@ const content: LanguageStateType = {
     ButtonSignInWithGoogle: {
       text: 'Entrar usando o <b>Google</b>',
       altImg: 'Logo da Google',
+      unknownSignInErrorMsg: `erro ao iniciar sessão usando <b>google</b>`,
     },
 
     ButtonSignInWithMicrosoft: {
@@ -120,6 +121,10 @@ const content: LanguageStateType = {
       buttonClose: {
         title: 'fechar',
       },
+      notAuthenticatedUserErrorMsg: 'usuário não autenticado',
+      finishingSignUpErrorMsg: 'erro ao finalizar a criação da conta',
+      termsAcceptanceText:
+        'li e aceito os <b>termos de uso</b> e a <b>política de privacidade</b>',
     },
 
     IndexPage: {

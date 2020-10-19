@@ -19,7 +19,13 @@ async function signInWithGogle() {
     );
 
     if (!areTermsAccepted) {
-      throw new Error('oceano-auth/user-did-not-accept-terms');
+      // TODO: Implement an abstraction for this
+      let error = new Error();
+      error = Object.assign(error, {
+        code: 'oceano-auth/user-did-not-accept-terms',
+      });
+
+      throw error;
     }
 
     return signInResult.user;
