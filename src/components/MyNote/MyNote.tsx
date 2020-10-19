@@ -6,19 +6,11 @@ import List from '@editorjs/list';
 import Delimiter from '@editorjs/delimiter';
 import Checklist from '@editorjs/checklist';
 import Embed from '@editorjs/embed';
-import { AnimatePresence, motion } from 'framer-motion';
-
-// Icons
-import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import { AnimatePresence } from 'framer-motion';
 
 // Styles
-import {
-  StatusIndicator,
-  StackIndicators,
-  WrapperContentEditor,
-  WrapperEditorJs,
-} from './styles';
-import { OceanoBubbleLoading } from '../../styles/general';
+import { WrapperContentEditor, WrapperEditorJs } from './styles';
+import { OceanoBubbleLoading, StackNotifications } from '../../styles/general';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -26,18 +18,15 @@ import useTranslation from '../../hooks/useTranslation';
 // Types
 import { SaveNoteParams } from '../../types-and-interfaces/components/MyNote.types';
 
+// Components
+import OceanoNotification from '../OceanoNotification/OceanoNotification';
+
 const editorJsTools = {
   header: Header,
   list: List,
   delimiter: Delimiter,
   checklist: Checklist,
   embed: Embed,
-};
-
-const statusIndicatorVariantsForMotionEffect = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1 },
-  exit: { opacity: 0 },
 };
 
 const MyNote = () => {
@@ -108,52 +97,33 @@ const MyNote = () => {
         </WrapperEditorJs>
       </WrapperContentEditor>
 
-      <StackIndicators>
+      <StackNotifications>
         <AnimatePresence>
           {showAutosaveInfo && (
-            <motion.div
+            <OceanoNotification
               key="oceano-autosaves-indicator"
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={statusIndicatorVariantsForMotionEffect}
+              type="clownfish"
             >
-              <StatusIndicator>
-                <div className="icon">
-                  <ThumbUpIcon fontSize="inherit" />
-                </div>
-                <div className="label">
-                  {translation?.statusIndicator?.oceanoAutosavesText}
-                </div>
-              </StatusIndicator>
-            </motion.div>
+              {translation?.statusIndicator?.oceanoAutosavesText}
+            </OceanoNotification>
           )}
-
           {isSavingNote && (
-            <motion.div
+            <OceanoNotification
               key="saving-indicator"
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              variants={statusIndicatorVariantsForMotionEffect}
+              type="clownfish"
+              icon={
+                <OceanoBubbleLoading
+                  className="oceano-bubble-loading"
+                  width={24}
+                  height={24}
+                />
+              }
             >
-              <StatusIndicator>
-                <div className="icon">
-                  <OceanoBubbleLoading
-                    width={30}
-                    height={30}
-                    backgroundColor="#FFF"
-                    className="oceano-bubble-loading"
-                  />
-                </div>
-                <div className="label">
-                  {translation?.statusIndicator?.savingText}
-                </div>
-              </StatusIndicator>
-            </motion.div>
+              {translation?.statusIndicator?.savingText}
+            </OceanoNotification>
           )}
         </AnimatePresence>
-      </StackIndicators>
+      </StackNotifications>
     </>
   );
 };
