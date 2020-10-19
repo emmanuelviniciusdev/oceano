@@ -71,3 +71,14 @@ export const OceanoBubbleLoading = styled.div<OceanoBubbleLoadingType>`
     }
   }
 `;
+
+export const StackNotifications = styled.div`
+  position: fixed;
+  left: 30px;
+  right: 30px;
+  bottom: 20px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+`;
