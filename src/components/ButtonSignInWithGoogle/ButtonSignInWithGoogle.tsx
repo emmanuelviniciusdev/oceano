@@ -18,6 +18,14 @@ import OceanoNotification from '../OceanoNotification/OceanoNotification';
 // Services
 import { signInWithGogle } from '../../services/auth';
 
+/**
+ * // TODO: Abstract this sign in logic to a single place.
+ *
+ * As the logic to sign in with google and github are the same, to avoid
+ * repeat code it would be a good idea to abstract all this logic to
+ * another place and leave the sign in buttons to just trigger sign in,
+ * without keeping any logic related to it.
+ */
 const ButtonSignInWithGoogle = () => {
   const translation = useTranslation('ButtonSignInWithGoogle');
   const history = useHistory();
