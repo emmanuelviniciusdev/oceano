@@ -12,6 +12,9 @@ import { AnimatePresence } from 'framer-motion';
 import { WrapperContentEditor, WrapperEditorJs } from './styles';
 import { OceanoBubbleLoading, StackNotifications } from '../../styles/general';
 
+// Icons
+import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
@@ -103,6 +106,8 @@ const MyNote = () => {
             <OceanoNotification
               key="oceano-autosaves-indicator"
               type="clownfish"
+              icon={<ThumbUpIcon />}
+              timeout={2000}
             >
               {translation?.statusIndicator?.oceanoAutosavesText}
             </OceanoNotification>

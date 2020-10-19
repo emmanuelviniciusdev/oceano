@@ -11,9 +11,9 @@ const typeThemes = {
     color: theme.colors.white,
   },
   warning: {
-    backgroundColor: theme.colors.slightlySoftYellow,
-    borderColor: theme.colors.strongYellow,
-    color: theme.colors.black,
+    backgroundColor: theme.colors.orange,
+    borderColor: theme.colors.clownfishOrange,
+    color: theme.colors.white,
   },
   error: {
     backgroundColor: theme.colors.red,

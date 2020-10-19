@@ -19,6 +19,7 @@ export default {
     yellow: '#EDEEC9',
     slightlyStrongYellow: '#E1E2C0',
     strongYellow: '#C2C2A4',
+    orange: '#FF9F2E',
     clownfishOrange: '#C96717',
     clownfishBlack: '#0B0F16',
     red: '#DB4437',
