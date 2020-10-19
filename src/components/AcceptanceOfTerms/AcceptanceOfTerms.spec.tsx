@@ -1,14 +1,5 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  screen,
-  wait,
-} from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import React from 'react';
-import { act } from 'react-dom/test-utils';
-import { registerUser } from '../../services/user';
-import { AppContext } from '../../store';
 import AcceptanceOfTerms from './AcceptanceOfTerms';
 
 jest.mock('../../hooks/useTranslation', () => {
@@ -34,32 +25,15 @@ jest.mock('../../hooks/useTranslation', () => {
   }));
 });
 
-const mockedRegisterUser = jest.fn(() => Promise.resolve());
-
 jest.mock('../../services/user', () =>
   jest.fn(() => ({
-    registerUser: mockedRegisterUser,
+    registerUser: jest.fn(),
   }))
 );
 
 describe('AcceptanceOfTerms', () => {
   beforeEach(() => {
-    render(
-      <AppContext.Provider
-        value={{
-          user: {
-            state: {
-              uid: 'uid-hash',
-              displayName: 'Tracy',
-              email: 'tracy@domain.com',
-            },
-            dispatch: jest.fn(),
-          },
-        }}
-      >
-        <AcceptanceOfTerms authType="microsoft" />
-      </AppContext.Provider>
-    );
+    render(<AcceptanceOfTerms authType="microsoft" />);
   });
 
   it('should render terms of use on the first rendering', () => {
@@ -71,11 +45,25 @@ describe('AcceptanceOfTerms', () => {
   it('should render privacy policy when click on the next button', () => {
     fireEvent.click(screen.getByText('próximo'));
 
+    const buttonCreateAccount = screen.getByText(
+      'criar conta usando microsoft'
+    );
+
+    /**
+     * Must be rendered in the document
+     */
     expect(screen.getByText('Política de Privacidade')).toBeInTheDocument();
-    expect(
-      screen.getByText('criar conta usando microsoft')
-    ).toBeInTheDocument();
+    expect(buttonCreateAccount).toBeInTheDocument();
     expect(screen.getByText('voltar')).toBeInTheDocument();
+
+    /**
+     * Must behave as expected
+     */
+    expect(buttonCreateAccount).toBeDisabled();
+
+    fireEvent.click(screen.getByTestId('checkbox-acceptance'));
+
+    expect(buttonCreateAccount).not.toBeDisabled();
 
     // screen.debug();
   });
