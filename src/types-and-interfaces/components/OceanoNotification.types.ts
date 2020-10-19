@@ -9,9 +9,5 @@ export type OceanoNotificationType = {
    * Time in milliseconds
    */
   timeout?: number;
-  /**
-   * Notification text
-   */
-  children: string;
   onClose?: () => void;
 };

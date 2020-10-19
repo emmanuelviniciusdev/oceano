@@ -35,7 +35,7 @@ const OceanoNotification: React.FunctionComponent<OceanoNotificationType> = ({
     }, timeout);
   }, [onClose, timeout]);
 
-  useEffect(() => triggerClose, [triggerClose]);
+  useEffect(() => triggerClose(), [triggerClose]);
 
   return (
     <>
