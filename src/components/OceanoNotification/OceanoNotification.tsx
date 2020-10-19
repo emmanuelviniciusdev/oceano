@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 // Icons
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
@@ -39,20 +39,18 @@ const OceanoNotification: React.FunctionComponent<OceanoNotificationType> = ({
 
   return (
     <>
-      <AnimatePresence>
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <StyledNotification type={type}>
-            <NotificationIcon type={type}>
-              {icon ? icon : notificationDefaultIcons[type]}
-            </NotificationIcon>
-            <NotificationText type={type}>{children}</NotificationText>
-          </StyledNotification>
-        </motion.div>
-      </AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <StyledNotification type={type}>
+          <NotificationIcon type={type}>
+            {icon ? icon : notificationDefaultIcons[type]}
+          </NotificationIcon>
+          <NotificationText type={type}>{children}</NotificationText>
+        </StyledNotification>
+      </motion.div>
     </>
   );
 };
