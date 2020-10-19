@@ -15,9 +15,9 @@ const content: LanguageStateType = {
       unknownSignInErrorMsg: `error signing in using <b>google</b>`,
     },
 
-    ButtonSignInWithMicrosoft: {
-      text: 'Sign in with <b>Microsoft</b>',
-      altImg: "Microsoft's logo",
+    ButtonSignInWithGithub: {
+      text: 'Sign in with <b>Github</b>',
+      altImg: "Github's logo",
     },
 
     TopBar: {

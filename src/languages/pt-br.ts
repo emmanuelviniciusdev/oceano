@@ -10,14 +10,14 @@ const content: LanguageStateType = {
    */
   translations: {
     ButtonSignInWithGoogle: {
-      text: 'Entrar usando o <b>Google</b>',
+      text: 'Entrar usando a <b>Google</b>',
       altImg: 'Logo da Google',
       unknownSignInErrorMsg: `erro ao iniciar sessão usando <b>google</b>`,
     },
 
-    ButtonSignInWithMicrosoft: {
-      text: 'Entrar usando a <b>Microsoft</b>',
-      altImg: 'Logo da Microsoft',
+    ButtonSignInWithGithub: {
+      text: 'Entrar usando o <b>Github</b>',
+      altImg: 'Logo do Github',
     },
 
     TopBar: {

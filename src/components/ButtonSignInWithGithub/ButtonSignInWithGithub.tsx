@@ -1,7 +1,7 @@
 import React from 'react';
 
 // Assets
-import microsoftBox from '../../assets/images/microsoft-box.png';
+import githubImg from '../../assets/images/github.webp';
 
 // Styles
 import { ButtonSignIn } from '../../styles/general';
@@ -9,14 +9,14 @@ import { ButtonSignIn } from '../../styles/general';
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
-const ButtonSignInWithMicrosoft = () => {
-  const translation = useTranslation('ButtonSignInWithMicrosoft');
+const ButtonSignInWithGithub = () => {
+  const translation = useTranslation('ButtonSignInWithGithub');
 
   return (
     <>
       <ButtonSignIn>
         <div>
-          <img src={microsoftBox} alt={translation?.altImg} />
+          <img src={githubImg} alt={translation?.altImg} />
           <p dangerouslySetInnerHTML={{ __html: translation?.text }}></p>
         </div>
       </ButtonSignIn>
@@ -24,4 +24,4 @@ const ButtonSignInWithMicrosoft = () => {
   );
 };
 
-export default ButtonSignInWithMicrosoft;
+export default ButtonSignInWithGithub;

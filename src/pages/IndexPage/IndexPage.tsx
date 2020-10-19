@@ -9,7 +9,7 @@ import { WrapperSwitchLanguage, WrapperLogo, BoxIntroduction } from './styles';
 // Components
 import SwitchLanguage from '../../components/SwitchLanguage/SwitchLanguage';
 import ButtonSignInWithGoogle from '../../components/ButtonSignInWithGoogle/ButtonSignInWithGoogle';
-import ButtonSignInWithMicrosoft from '../../components/ButtonSignInWithMicrosoft/ButtonSignInWithMicrosoft';
+import ButtonSignInWithGithub from '../../components/ButtonSignInWithGithub/ButtonSignInWithGithub';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -33,7 +33,7 @@ const IndexPage = () => {
 
           <div className="btns-login">
             <ButtonSignInWithGoogle />
-            <ButtonSignInWithMicrosoft />
+            <ButtonSignInWithGithub />
           </div>
         </div>
 
