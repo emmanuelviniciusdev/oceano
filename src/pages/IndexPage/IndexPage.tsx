@@ -8,8 +8,7 @@ import { WrapperSwitchLanguage, WrapperLogo, BoxIntroduction } from './styles';
 
 // Components
 import SwitchLanguage from '../../components/SwitchLanguage/SwitchLanguage';
-import ButtonSignInWithGoogle from '../../components/ButtonSignInWithGoogle/ButtonSignInWithGoogle';
-import ButtonSignInWithGithub from '../../components/ButtonSignInWithGithub/ButtonSignInWithGithub';
+import SignInMethods from '../../components/SignInMethods/SignInMethods';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -32,8 +31,7 @@ const IndexPage = () => {
           <h1>{translation?.signIn?.title}</h1>
 
           <div className="btns-login">
-            <ButtonSignInWithGoogle />
-            <ButtonSignInWithGithub />
+            <SignInMethods />
           </div>
         </div>
 

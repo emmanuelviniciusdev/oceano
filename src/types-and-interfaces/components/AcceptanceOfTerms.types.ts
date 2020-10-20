@@ -1,9 +1,10 @@
 import { TranslationsType } from '../hooks/useTranslation.types';
+import { SignInMethodType } from './SignInMethods.types';
 
 export type TypeOfContentType = 'terms-of-use' | 'privacy-policy';
 
 export type AcceptanceOfTermsType = {
-  authType: 'google' | 'microsoft';
+  authType: SignInMethodType;
   onClose?: () => void;
 };
 

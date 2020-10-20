@@ -9,10 +9,15 @@ const content: LanguageStateType = {
    * {NameOfTheComponent: {...}}
    */
   translations: {
+    SignInMethods: {
+      unknownSignInErrorMsg: `error signing in using`,
+      accountExistsWithThisEmailErrorMsg: (email: string) =>
+        `<b>${email}</b> has already been registered in the oceano with another login method`,
+    },
+
     ButtonSignInWithGoogle: {
       text: 'Sign in with <b>Google</b>',
       altImg: "Google's logo",
-      unknownSignInErrorMsg: `error signing in using <b>google</b>`,
     },
 
     ButtonSignInWithGithub: {

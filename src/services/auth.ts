@@ -4,11 +4,17 @@ import 'firebase/auth';
 // Services
 import { checkIfUserExistsInCollectionByUID } from './user';
 
-async function signInWithGogle() {
-  const googleProvider = new firebase.auth.GoogleAuthProvider();
+async function signInWith(method: 'google' | 'github') {
+  if (!method) return;
+
+  const providers = {
+    google: firebase.auth.GoogleAuthProvider,
+    github: firebase.auth.GithubAuthProvider,
+  };
 
   try {
-    const signInResult = await firebase.auth().signInWithPopup(googleProvider);
+    const provider = new providers[method]();
+    const signInResult = await firebase.auth().signInWithPopup(provider);
 
     /**
      * If user does not exist in the collection yet, it means the user
@@ -34,4 +40,4 @@ async function signInWithGogle() {
   }
 }
 
-export { signInWithGogle };
+export { signInWith };
