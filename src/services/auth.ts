@@ -17,6 +17,14 @@ async function signInWith(method: 'google' | 'github') {
     const signInResult = await firebase.auth().signInWithPopup(provider);
 
     /**
+     * // TODO: Implement an email verification flow
+     */
+    if (method === 'github' && !signInResult.user?.emailVerified) {
+      await signInResult.user?.sendEmailVerification();
+      console.log('email verification has been sent');
+    }
+
+    /**
      * If user does not exist in the collection yet, it means the user
      * did not accept the terms.
      */
