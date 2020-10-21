@@ -13,6 +13,8 @@ const content: LanguageStateType = {
       unknownSignInErrorMsg: `error signing in using`,
       accountExistsWithThisEmailErrorMsg: (email: string) =>
         `<b>${email}</b> has already been registered in the oceano with another login method`,
+      warningEmailVerificationMsg: (method: string) =>
+        `an account confirmation link has been sent to your <b>${method}</b> email address`,
     },
 
     ButtonSignInWithGoogle: {
@@ -129,6 +131,11 @@ const content: LanguageStateType = {
         'there was an error completing the account creation',
       termsAcceptanceText:
         'I have read and accept the <b>terms of use</b> and <b>privacy policy</b>',
+      modalEmailVerification: {
+        title: 'account verification',
+        text: (method: string) =>
+          `A link to confirm the authenticity of your account has been sent to your ${method} email.`,
+      },
     },
 
     IndexPage: {

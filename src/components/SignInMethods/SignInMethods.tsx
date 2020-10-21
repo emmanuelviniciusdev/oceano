@@ -9,7 +9,7 @@ import OceanoNotification from '../OceanoNotification/OceanoNotification';
 import AcceptanceOfTerms from '../AcceptanceOfTerms/AcceptanceOfTerms';
 
 // Services
-import { signInWith } from '../../services/auth';
+import { signInWith, signOut } from '../../services/auth';
 
 // Styles
 import { StackNotifications } from '../../styles/general';
@@ -26,6 +26,10 @@ const SignInMethods = () => {
   const history = useHistory();
 
   const [acceptanceIsOpen, setAcceptanceIsOpen] = useState(false);
+  const [
+    warningEmailVerificationIsOpen,
+    setWarningEmailVerificationIsOpen,
+  ] = useState(false);
   const [showUnknownSigInError, setShowUnknownSignInError] = useState(false);
   const [
     accountExistsWithThisEmailError,
@@ -50,11 +54,9 @@ const SignInMethods = () => {
         return;
       }
 
-      if (
-        err.code === 'auth/account-exists-with-different-credential' &&
-        err.email
-      ) {
-        setAccountExistsWithThisEmailError(err.email);
+      if (err.code === 'oceano-auth/user-did-not-verify-email') {
+        await signOut();
+        setWarningEmailVerificationIsOpen(true);
         return;
       }
 
@@ -70,6 +72,7 @@ const SignInMethods = () => {
       /**
        * Unknown errors
        */
+      await signOut();
       console.error(err);
       setShowUnknownSignInError(true);
     }
@@ -111,6 +114,22 @@ const SignInMethods = () => {
                 dangerouslySetInnerHTML={{
                   __html: translation?.accountExistsWithThisEmailErrorMsg(
                     accountExistsWithThisEmailError
+                  ),
+                }}
+              />
+            </OceanoNotification>
+          )}
+          {warningEmailVerificationIsOpen && (
+            <OceanoNotification
+              key="warning-email-verification"
+              type="warning"
+              timeout={10000}
+              onClose={() => setWarningEmailVerificationIsOpen(false)}
+            >
+              <span
+                dangerouslySetInnerHTML={{
+                  __html: translation?.warningEmailVerificationMsg(
+                    signingInWith
                   ),
                 }}
               />

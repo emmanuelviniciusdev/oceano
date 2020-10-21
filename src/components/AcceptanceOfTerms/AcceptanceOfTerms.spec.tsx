@@ -25,15 +25,12 @@ jest.mock('../../hooks/useTranslation', () => {
   }));
 });
 
-jest.mock('../../services/user', () =>
-  jest.fn(() => ({
-    registerUser: jest.fn(),
-  }))
-);
+jest.mock('../../services/user', () => jest.fn());
+jest.mock('../../services/auth', () => jest.fn());
 
 describe('AcceptanceOfTerms', () => {
   beforeEach(() => {
-    render(<AcceptanceOfTerms authType="microsoft" />);
+    render(<AcceptanceOfTerms authType="github" />);
   });
 
   it('should render terms of use on the first rendering', () => {
@@ -45,9 +42,7 @@ describe('AcceptanceOfTerms', () => {
   it('should render privacy policy when click on the next button', () => {
     fireEvent.click(screen.getByText('próximo'));
 
-    const buttonCreateAccount = screen.getByText(
-      'criar conta usando microsoft'
-    );
+    const buttonCreateAccount = screen.getByText('criar conta usando github');
 
     /**
      * Must be rendered in the document
@@ -75,10 +70,7 @@ describe('AcceptanceOfTerms', () => {
 
     const { rerender } = render(
       isOpen && (
-        <AcceptanceOfTerms
-          authType="microsoft"
-          onClose={() => (isOpen = false)}
-        />
+        <AcceptanceOfTerms authType="github" onClose={() => (isOpen = false)} />
       )
     );
 
@@ -91,10 +83,7 @@ describe('AcceptanceOfTerms', () => {
      */
     rerender(
       isOpen && (
-        <AcceptanceOfTerms
-          authType="microsoft"
-          onClose={() => (isOpen = false)}
-        />
+        <AcceptanceOfTerms authType="github" onClose={() => (isOpen = false)} />
       )
     );
 

@@ -13,6 +13,8 @@ const content: LanguageStateType = {
       unknownSignInErrorMsg: `erro ao iniciar sessão usando`,
       accountExistsWithThisEmailErrorMsg: (email: string) =>
         `<b>${email}</b> já foi registrado no oceano com outro método de login`,
+      warningEmailVerificationMsg: (method: string) =>
+        `um link de confirmação de conta foi enviado para o seu endereço de e-mail da(o) <b>${method}</b>`,
     },
 
     ButtonSignInWithGoogle: {
@@ -130,6 +132,11 @@ const content: LanguageStateType = {
       finishingSignUpErrorMsg: 'erro ao finalizar a criação da conta',
       termsAcceptanceText:
         'li e aceito os <b>termos de uso</b> e a <b>política de privacidade</b>',
+      modalEmailVerification: {
+        title: 'confirmação de conta',
+        text: (method: string) =>
+          `Um link para confirmar a autenticidade de sua conta foi enviado para o seu e-mail da(o) ${method}.`,
+      },
     },
 
     IndexPage: {

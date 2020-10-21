@@ -46,9 +46,24 @@ function App() {
         return;
       }
 
+      /**
+       * Send an email verification on each auth state change if user has
+       * not been verified your email yet.
+       *
+       * Sending an email verification "on each state change" means sending
+       * an email verification whenever user tries to login in the app.
+       */
+      if (!user.emailVerified) {
+        user.sendEmailVerification().catch((err) => {
+          console.error(err);
+          console.log('error sending email verification');
+        });
+      }
+
       globalContext.user?.dispatch(
         userReducer.actionCreators.setUser({
           uid: user.uid,
+          isEmailVerified: user.emailVerified,
           email: user.email,
           displayName: user.displayName,
         })

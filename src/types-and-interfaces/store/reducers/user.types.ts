@@ -1,5 +1,5 @@
-export type UserStateType = {
-  uid: string;
-  displayName: string | null;
-  email: string | null;
-} | null;
+import { UserCollectionType } from '../../collections/users.types';
+
+export type UserStateType =
+  | ({ uid: string; isEmailVerified: boolean } & UserCollectionType)
+  | null;

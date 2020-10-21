@@ -19,6 +19,7 @@ import OceanoButton from '../OceanoButton/OceanoButton';
 import TextTermsOfUse from '../TextTermsOfUse/TextTermsOfUse';
 import TextPrivacyPolicy from '../TextPrivacyPolicy/TextPrivacyPolicy';
 import OceanoNotification from '../OceanoNotification/OceanoNotification';
+import OceanoModal from '../OceanoModal/OceanoModal';
 
 // Types
 import {
@@ -46,6 +47,7 @@ import { AppContext } from '../../store';
 
 // Services
 import { registerUser } from '../../services/user';
+import { signOut } from '../../services/auth';
 
 const contentEffectVariants = {
   initial: { x: -20, opacity: 0 },
@@ -104,6 +106,9 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   const [showFinishingSignUpError, setShowFinishingSignUpError] = useState(
     false
   );
+  const [showEmailVerificationModal, setShowEmailVerificationModal] = useState(
+    false
+  );
 
   const checkIfEscape = useCallback(
     (e: KeyboardEvent) => {
@@ -130,6 +135,16 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
         email: userContext.state.email,
         displayName: userContext.state.displayName,
       });
+
+      /**
+       * If user's email is not verified the user is signed out and a modal is opened
+       * to inform the user that a link to verify your email has been sent
+       */
+      if (!userContext.state.isEmailVerified) {
+        await signOut();
+        setShowEmailVerificationModal(true);
+        return;
+      }
 
       if (onClose) onClose();
 
@@ -227,6 +242,17 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
           </Content>
         </WrapperContent>
       </Background>
+
+      {showEmailVerificationModal && (
+        <OceanoModal
+          title={translation?.modalEmailVerification.title}
+          text={translation?.modalEmailVerification.text(authType)}
+          onClose={() => {
+            if (onClose) onClose();
+            setShowEmailVerificationModal(false);
+          }}
+        />
+      )}
 
       <StackNotifications>
         <AnimatePresence>
