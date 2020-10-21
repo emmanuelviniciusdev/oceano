@@ -44,6 +44,7 @@ const content: LanguageStateType = {
       buttonDeleteFromMyNotePage: {
         text: 'deletar',
       },
+      signOutErrorMsg: 'erro ao tentar sair do oceano',
     },
 
     Breadcrumbs: {

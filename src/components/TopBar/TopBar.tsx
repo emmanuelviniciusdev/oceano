@@ -1,5 +1,5 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 
 // Icons
 import SearchIcon from '@material-ui/icons/Search';
@@ -29,11 +29,30 @@ import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
+// Services
+import { signOut } from '../../services/auth';
+import { StackNotifications } from '../../styles/general';
+import { AnimatePresence } from 'framer-motion';
+import OceanoNotification from '../OceanoNotification/OceanoNotification';
+
 const TopBar: React.FunctionComponent = () => {
   const translation = useTranslation('TopBar');
   const currentLocation = useLocation();
+  const history = useHistory();
+
+  const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
 
   const isMyNotePage = currentLocation.pathname === '/minha-nota';
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      history.push('/');
+    } catch (err) {
+      console.error(err);
+      setShowSignOutErrorMsg(true);
+    }
+  };
 
   return (
     <>
@@ -71,6 +90,7 @@ const TopBar: React.FunctionComponent = () => {
                     aria-label={translation?.buttonSignOut?.ariaLabel}
                     text={translation?.buttonSignOut?.text}
                     icon={<ExitToAppIcon />}
+                    onClick={handleSignOut}
                   />
                 </WrapperButtonsRightSide>
               </WrapperShowDesktopButtons>
@@ -104,6 +124,20 @@ const TopBar: React.FunctionComponent = () => {
       </StyledTopBar>
 
       {/* <MobileMenu /> */}
+
+      <StackNotifications>
+        <AnimatePresence>
+          {showSignOutErrorMsg && (
+            <OceanoNotification
+              key="sign-out-error"
+              type="error"
+              onClose={() => setShowSignOutErrorMsg(false)}
+            >
+              {translation?.signOutErrorMsg}
+            </OceanoNotification>
+          )}
+        </AnimatePresence>
+      </StackNotifications>
     </>
   );
 };

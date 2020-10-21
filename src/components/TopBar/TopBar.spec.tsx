@@ -29,6 +29,8 @@ jest.mock('../../hooks/useTranslation', () =>
   }))
 );
 
+jest.mock('../../services/auth', () => jest.fn());
+
 describe('TopBar', () => {
   it("should render the proper buttons when the router path is from 'my note' page", () => {
     render(
