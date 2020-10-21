@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Route,
   RouteComponentProps,
@@ -8,6 +8,10 @@ import {
   Switch,
 } from 'react-router-dom';
 import { motion } from 'framer-motion';
+
+// Setup
+import firebase from './firebase';
+import 'firebase/auth';
 
 // Pages
 import IndexPage from './pages/IndexPage/IndexPage';
@@ -47,6 +51,14 @@ const Routes: React.FunctionComponent = () => {
   const currentLocation = useLocation();
   const history = useHistory();
 
+  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>();
+
+  useEffect(() => {
+    firebase
+      .auth()
+      .onAuthStateChanged((user) => setIsUserLoggedIn(Boolean(user)));
+  }, []);
+
   /**
    * This function is meant to be literally a middleware to apply into the routes. This will execute
    * something and then return the component page.
@@ -59,8 +71,20 @@ const Routes: React.FunctionComponent = () => {
     component: JSX.Element,
     additionalProps: RenderMiddlewareAdditionalPropsType,
     routeComponentProps?: RouteComponentProps
-  ): JSX.Element => {
-    const { pageTitle } = additionalProps;
+  ) => {
+    const {
+      pageTitle,
+      isPrivate,
+      isBlockedFromAuthenticatedUsers,
+    } = additionalProps;
+
+    if (isPrivate && isUserLoggedIn === false) {
+      return <Redirect to="/" />;
+    }
+
+    if (isBlockedFromAuthenticatedUsers && isUserLoggedIn === true) {
+      return <Redirect to="/notas" />;
+    }
 
     /**
      * It sets page title
@@ -80,60 +104,78 @@ const Routes: React.FunctionComponent = () => {
 
   return (
     <>
-      {/* <HashRouter /> is defined in 'index.tsx' to make it possible
-      to use router hooks inside any component of the application */}
-      <motion.div
-        key={currentLocation.pathname}
-        initial="initialPage"
-        animate="animatePage"
-        variants={{
-          initialPage: {
-            opacity: 0,
-            y: 300,
-          },
-          animatePage: {
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 0.2,
-            },
-          },
-        }}
-      >
-        <Switch>
-          <Route
-            path="/"
-            exact
-            render={() => renderMiddleware(<IndexPage />, {})}
-          />
-          <Route
-            path="/notas"
-            render={() =>
-              renderMiddleware(<NotesPage />, { pageTitle: notesPageTitle })
-            }
-          />
-          <Route
-            path="/minha-nota"
-            render={() => renderMiddleware(<MyNotePage />, {})}
-          />
-          <Route
-            path="/offline"
-            render={() =>
-              renderMiddleware(<OfflinePage />, { pageTitle: offlinePageTitle })
-            }
-          />
-          <Route
-            path="/pagina-nao-encontrada"
-            render={() =>
-              renderMiddleware(<NotFoundPage />, {
-                pageTitle: notFoundPageTitle,
-              })
-            }
-          />
+      {/* This verification is to ensure that 'isUserLoggedIn' will not be accessed as undefined by 'renderMiddleware'. If this
+      happened, it would not be possible to determine if user is logged in or not, because 'firebase.auth().onAuthStateChanged'
+      is an asynchronous function, which means that in the first time 'isUserLoggedIn' will be undefined. */}
+      {isUserLoggedIn !== undefined && (
+        <>
+          {/* <HashRouter /> is defined in 'index.tsx' to make it possible
+          to use router hooks inside any component of the application */}
+          <motion.div
+            key={currentLocation.pathname}
+            initial="initialPage"
+            animate="animatePage"
+            variants={{
+              initialPage: {
+                opacity: 0,
+                y: 300,
+              },
+              animatePage: {
+                opacity: 1,
+                y: 0,
+                transition: {
+                  delay: 0.2,
+                },
+              },
+            }}
+          >
+            <Switch>
+              <Route
+                path="/"
+                exact
+                render={() =>
+                  renderMiddleware(<IndexPage />, {
+                    isBlockedFromAuthenticatedUsers: true,
+                  })
+                }
+              />
+              <Route
+                path="/notas"
+                render={() =>
+                  renderMiddleware(<NotesPage />, {
+                    pageTitle: notesPageTitle,
+                    isPrivate: true,
+                  })
+                }
+              />
+              <Route
+                path="/minha-nota"
+                render={() =>
+                  renderMiddleware(<MyNotePage />, { isPrivate: true })
+                }
+              />
+              <Route
+                path="/offline"
+                render={() =>
+                  renderMiddleware(<OfflinePage />, {
+                    pageTitle: offlinePageTitle,
+                  })
+                }
+              />
+              <Route
+                path="/pagina-nao-encontrada"
+                render={() =>
+                  renderMiddleware(<NotFoundPage />, {
+                    pageTitle: notFoundPageTitle,
+                  })
+                }
+              />
 
-          <Redirect to="/pagina-nao-encontrada" />
-        </Switch>
-      </motion.div>
+              <Redirect to="/pagina-nao-encontrada" />
+            </Switch>
+          </motion.div>
+        </>
+      )}
     </>
   );
 };
