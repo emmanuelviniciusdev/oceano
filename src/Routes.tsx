@@ -82,9 +82,12 @@ const Routes: React.FunctionComponent = () => {
       return <Redirect to="/" />;
     }
 
-    if (isBlockedFromAuthenticatedUsers && isUserLoggedIn === true) {
-      return <Redirect to="/notas" />;
-    }
+    /**
+     * //FIXME: IT IS BUGGING
+     */
+    // if (isBlockedFromAuthenticatedUsers && isUserLoggedIn === true) {
+    //   return <Redirect to="/notas" />;
+    // }
 
     /**
      * It sets page title
@@ -104,6 +107,8 @@ const Routes: React.FunctionComponent = () => {
 
   return (
     <>
+      {/* FIXME: IS IT REALLY NECESSARY? Remember, React Components updates after every state update... */}
+
       {/* This verification is to ensure that 'isUserLoggedIn' will not be accessed as undefined by 'renderMiddleware'. If this
       happened, it would not be possible to determine if user is logged in or not, because 'firebase.auth().onAuthStateChanged'
       is an asynchronous function, which means that in the first time 'isUserLoggedIn' will be undefined. */}

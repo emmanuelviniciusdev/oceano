@@ -3,6 +3,8 @@ import 'firebase/auth';
 
 // Services
 import { checkIfUserExistsInCollectionByUID } from './user';
+
+// Utils
 import { OceanoErrorConstructed } from '../utils';
 
 /**
