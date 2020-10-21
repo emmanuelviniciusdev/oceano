@@ -3,6 +3,7 @@ import 'firebase/auth';
 
 // Services
 import { checkIfUserExistsInCollectionByUID } from './user';
+import { OceanoErrorConstructed } from '../utils';
 
 /**
  * It authenticates user with the given login method
@@ -30,23 +31,15 @@ async function signInWith(method: 'google' | 'github') {
     );
 
     if (areTermsAccepted && !signInResult.user?.emailVerified) {
-      // TODO: Implement an abstraction for this
-      let error = new Error();
-      error = Object.assign(error, {
+      throw OceanoErrorConstructed(undefined, {
         code: 'oceano-auth/user-did-not-verify-email',
       });
-
-      throw error;
     }
 
     if (!areTermsAccepted) {
-      // TODO: Implement an abstraction for this
-      let error = new Error();
-      error = Object.assign(error, {
+      throw OceanoErrorConstructed(undefined, {
         code: 'oceano-auth/user-did-not-accept-terms',
       });
-
-      throw error;
     }
 
     return signInResult.user;
