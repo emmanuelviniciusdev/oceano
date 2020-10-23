@@ -47,7 +47,9 @@ const TopBar: React.FunctionComponent = () => {
   const handleSignOut = async () => {
     try {
       await signOut();
-      history.push('/');
+      /**
+       * User will be automatically redirected to '/' by Routes component
+       */
     } catch (err) {
       console.error(err);
       setShowSignOutErrorMsg(true);

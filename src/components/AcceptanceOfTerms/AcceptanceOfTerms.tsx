@@ -6,7 +6,6 @@ import React, {
   useState,
 } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useHistory } from 'react-router-dom';
 
 // Icons
 import ArrowRightAltIcon from '@material-ui/icons/ArrowRightAlt';
@@ -44,6 +43,7 @@ import useTranslation from '../../hooks/useTranslation';
 
 // Setup
 import { AppContext } from '../../store';
+import userReducer from '../../store/reducers/user';
 
 // Services
 import { registerUser } from '../../services/user';
@@ -91,7 +91,7 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
   const isComponentUnmounted = useRef(false);
 
   const translation = useTranslation('AcceptanceOfTerms');
-  const history = useHistory();
+
   const { user: userContext } = useContext(AppContext);
 
   const [contentType, setContentType] = useState<TypeOfContentType>(
@@ -136,6 +136,13 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
         displayName: userContext.state.displayName,
       });
 
+      userContext.dispatch(
+        userReducer.actionCreators.setUser({
+          ...userContext.state,
+          areTermsAccepted: true,
+        })
+      );
+
       /**
        * If user's email is not verified the user is signed out and a modal is opened
        * to inform the user that a link to verify your email has been sent
@@ -148,7 +155,10 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
 
       if (onClose) onClose();
 
-      history.push('/notas');
+      /**
+       * If everything is ok user will be redirected automatically to '/notas'
+       * by Routes component
+       */
     } catch (err) {
       console.error(err);
       setShowFinishingSignUpError(true);

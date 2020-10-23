@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useLayoutEffect, useState } from 'react';
 import {
   Route,
   RouteComponentProps,
@@ -12,6 +12,7 @@ import { motion } from 'framer-motion';
 // Setup
 import firebase from './firebase';
 import 'firebase/auth';
+import { AppContext } from './store';
 
 // Pages
 import IndexPage from './pages/IndexPage/IndexPage';
@@ -51,13 +52,42 @@ const Routes: React.FunctionComponent = () => {
   const currentLocation = useLocation();
   const history = useHistory();
 
-  const [isUserLoggedIn, setIsUserLoggedIn] = useState<boolean>();
+  const { user: userContext } = useContext(AppContext);
 
-  useEffect(() => {
-    firebase
-      .auth()
-      .onAuthStateChanged((user) => setIsUserLoggedIn(Boolean(user)));
-  }, []);
+  const [isUserReallyLoggedIn, setIsUserReallyLoggedIn] = useState<boolean>();
+
+  useLayoutEffect(() => {
+    /**
+     * User authentication verification is made using both firebase API and 'userContext'.
+     *
+     * This is because 'userContext.state' will start as null and then, if user is logged in,
+     * it could be switched to some non-null value.
+     *
+     * In the meanwhile of this process, if the user is logged in, it results in a double update
+     * of 'isUserReallyLoggedIn' state, because in this case 'isUserReallyLoggedIn' will be set
+     * to true. This updation makes the page to have a double renderization (using just 'useLayoutEffect'
+     * without 'firebase.auth().onAuthStateChanged()' didn't work because I couldn't be able to know
+     * if 'userContext' would be uṕdated or not, what forced me to set 'isUserReallyLoggedIn' as false
+     * in the first rendering of 'useLayoutEffect', with the risk of the 'userContext' be updated again...).
+     */
+    const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      unsubscribe();
+
+      // console.log(user);
+
+      if (!user) {
+        setIsUserReallyLoggedIn(false);
+        return;
+      }
+
+      if (user && userContext?.state) {
+        setIsUserReallyLoggedIn(
+          userContext.state.areTermsAccepted &&
+            userContext.state.isEmailVerified
+        );
+      }
+    });
+  }, [userContext]);
 
   /**
    * This function is meant to be literally a middleware to apply into the routes. This will execute
@@ -77,20 +107,21 @@ const Routes: React.FunctionComponent = () => {
       isPrivate,
       isBlockedFromAuthenticatedUsers,
     } = additionalProps;
+    /**
+     * It does nothing while we don't have a reference to user auth state.
+     */
+    if (isUserReallyLoggedIn === undefined) return;
 
-    if (isPrivate && isUserLoggedIn === false) {
+    if (isPrivate && isUserReallyLoggedIn === false) {
       return <Redirect to="/" />;
     }
 
-    /**
-     * //FIXME: IT IS BUGGING
-     */
-    // if (isBlockedFromAuthenticatedUsers && isUserLoggedIn === true) {
-    //   return <Redirect to="/notas" />;
-    // }
+    if (isBlockedFromAuthenticatedUsers && isUserReallyLoggedIn === true) {
+      return <Redirect to="/notas" />;
+    }
 
     /**
-     * It sets page title
+     * It sets page title.
      */
     setPageTitle(pageTitle);
 
@@ -107,80 +138,69 @@ const Routes: React.FunctionComponent = () => {
 
   return (
     <>
-      {/* FIXME: IS IT REALLY NECESSARY? Remember, React Components updates after every state update... */}
+      {/* <HashRouter /> is defined in 'index.tsx' to make it possible
+      to use router hooks inside any component of the application. */}
+      <motion.div
+        key={currentLocation.pathname}
+        initial="initialPage"
+        animate="animatePage"
+        variants={{
+          initialPage: {
+            opacity: 0,
+            y: 300,
+          },
+          animatePage: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              delay: 0.2,
+            },
+          },
+        }}
+      >
+        <Switch>
+          <Route
+            path="/"
+            exact
+            render={() =>
+              renderMiddleware(<IndexPage />, {
+                isBlockedFromAuthenticatedUsers: true,
+              })
+            }
+          />
+          <Route
+            path="/notas"
+            render={() =>
+              renderMiddleware(<NotesPage />, {
+                pageTitle: notesPageTitle,
+                isPrivate: true,
+              })
+            }
+          />
+          <Route
+            path="/minha-nota"
+            render={() => renderMiddleware(<MyNotePage />, { isPrivate: true })}
+          />
+          <Route
+            path="/offline"
+            render={() =>
+              renderMiddleware(<OfflinePage />, {
+                pageTitle: offlinePageTitle,
+              })
+            }
+          />
+          <Route
+            path="/pagina-nao-encontrada"
+            render={() =>
+              renderMiddleware(<NotFoundPage />, {
+                pageTitle: notFoundPageTitle,
+              })
+            }
+          />
 
-      {/* This verification is to ensure that 'isUserLoggedIn' will not be accessed as undefined by 'renderMiddleware'. If this
-      happened, it would not be possible to determine if user is logged in or not, because 'firebase.auth().onAuthStateChanged'
-      is an asynchronous function, which means that in the first time 'isUserLoggedIn' will be undefined. */}
-      {isUserLoggedIn !== undefined && (
-        <>
-          {/* <HashRouter /> is defined in 'index.tsx' to make it possible
-          to use router hooks inside any component of the application */}
-          <motion.div
-            key={currentLocation.pathname}
-            initial="initialPage"
-            animate="animatePage"
-            variants={{
-              initialPage: {
-                opacity: 0,
-                y: 300,
-              },
-              animatePage: {
-                opacity: 1,
-                y: 0,
-                transition: {
-                  delay: 0.2,
-                },
-              },
-            }}
-          >
-            <Switch>
-              <Route
-                path="/"
-                exact
-                render={() =>
-                  renderMiddleware(<IndexPage />, {
-                    isBlockedFromAuthenticatedUsers: true,
-                  })
-                }
-              />
-              <Route
-                path="/notas"
-                render={() =>
-                  renderMiddleware(<NotesPage />, {
-                    pageTitle: notesPageTitle,
-                    isPrivate: true,
-                  })
-                }
-              />
-              <Route
-                path="/minha-nota"
-                render={() =>
-                  renderMiddleware(<MyNotePage />, { isPrivate: true })
-                }
-              />
-              <Route
-                path="/offline"
-                render={() =>
-                  renderMiddleware(<OfflinePage />, {
-                    pageTitle: offlinePageTitle,
-                  })
-                }
-              />
-              <Route
-                path="/pagina-nao-encontrada"
-                render={() =>
-                  renderMiddleware(<NotFoundPage />, {
-                    pageTitle: notFoundPageTitle,
-                  })
-                }
-              />
-
-              <Redirect to="/pagina-nao-encontrada" />
-            </Switch>
-          </motion.div>
-        </>
-      )}
+          <Redirect to="/pagina-nao-encontrada" />
+        </Switch>
+      </motion.div>
     </>
   );
 };

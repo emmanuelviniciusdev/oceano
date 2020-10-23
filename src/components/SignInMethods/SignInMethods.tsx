@@ -44,7 +44,10 @@ const SignInMethods = () => {
 
     try {
       await signInWith(method);
-      history.push('/notas');
+      /**
+       * If everything is ok user will be redirected automatically to '/notas'
+       * by Routes component
+       */
     } catch (err) {
       /**
        * Errors that need to be treated
@@ -81,6 +84,16 @@ const SignInMethods = () => {
   return (
     <>
       <ButtonSignInWithGoogle onClick={() => handleSignInWith('google')} />
+
+      {/*
+          // TODO: Fix bug related to login with Github.
+          
+          If the user signs in with a Google account that uses the same email address used
+          by Github account and then user tries to sign in with Github again, Firebase will block
+          the sign in. This can be fixed 'linking multiple auth providers'.
+
+          Check it out: https://firebase.google.com/docs/auth/web/account-linking
+      */}
       <ButtonSignInWithGithub onClick={() => handleSignInWith('github')} />
 
       {acceptanceIsOpen && signingInWith && (
