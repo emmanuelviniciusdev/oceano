@@ -47,11 +47,7 @@ const content: LanguageStateType = {
       signOutErrorMsg: 'error while trying to leave the oceano',
     },
 
-    Breadcrumbs: {
-      homeButton: {
-        text: 'home',
-      },
-    },
+    Breadcrumbs: {},
 
     NoteOrFolder: {
       defaultTitles: {

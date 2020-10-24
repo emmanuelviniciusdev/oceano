@@ -47,11 +47,7 @@ const content: LanguageStateType = {
       signOutErrorMsg: 'erro ao tentar sair do oceano',
     },
 
-    Breadcrumbs: {
-      homeButton: {
-        text: 'início',
-      },
-    },
+    Breadcrumbs: {},
 
     NoteOrFolder: {
       defaultTitles: {

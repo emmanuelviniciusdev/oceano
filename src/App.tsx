@@ -59,6 +59,7 @@ function App() {
         globalContext.user?.dispatch(
           userReducer.actionCreators.setUser({
             uid: user.uid,
+            providerId: user.providerData[0]?.providerId,
             isEmailVerified: user.emailVerified,
             areTermsAccepted,
             email: user.email,
@@ -91,8 +92,6 @@ function App() {
 
   return (
     <>
-      {JSON.stringify(globalContext.user)}
-
       <GlobalStyle />
 
       {currentLocation.pathname === '/pagina-nao-encontrada' && (
