@@ -10,7 +10,7 @@ jest.mock('react-router-dom', () => ({
 
 describe('Footer', () => {
   it('should not render footer on blocked routes', () => {
-    const blockedRoutes = ['/minha-nota', '/offline'];
+    const blockedRoutes = ['/minha-nota/some-firebase-hash', '/offline'];
 
     blockedRoutes.forEach((pathname) => {
       (useLocation as jest.Mock).mockImplementation(() => ({

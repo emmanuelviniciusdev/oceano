@@ -1,20 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // Styles
 import { Footer as StyledFooter } from './styles';
 
+// Utils
+import { doesRouteMatch } from '../../utils';
+
 const Footer = () => {
   const currentLocation = useLocation();
 
   /**
-   * Routes that footer is not rendered
+   * Routes where footer will not be rendered.
+   *
+   * Regular expressions generated at:
+   * https://forbeslindesay.github.io/express-route-tester/
    */
-  const blockedRoutes = ['/minha-nota', '/offline'];
+  const blockedRouteRegExps = [
+    /**
+     * /minha-nota/:noteId
+     */
+    /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
+
+    /**
+     * /offline
+     */
+    /^\/offline\/?$/i,
+  ];
 
   return (
     <>
-      {!blockedRoutes.includes(currentLocation.pathname) && (
+      {!doesRouteMatch(currentLocation.pathname, blockedRouteRegExps) && (
         <StyledFooter data-testid="footer">
           <p>
             Handcrafted with{' '}

@@ -1,9 +1,7 @@
 /**
  *
- *
  * Any kind of function or variable that can be used in multiple parts of the
  * application can be placed here.
- *
  *
  */
 
@@ -21,4 +19,21 @@ function OceanoErrorConstructed(message?: string, object?: object) {
   return Object.assign(error, object);
 }
 
-export { OceanoErrorConstructed };
+/**
+ * It goes through every entry of the given route regular expressions and checks
+ * if route pathname matches some of these routes.
+ *
+ * Route regular expresions can be generated at:
+ * https://forbeslindesay.github.io/express-route-tester/
+ *
+ * @param routePathname The route pathname
+ * @param routeRegExps An array of route regular expressions
+ */
+function doesRouteMatch(routePathname: string, routeRegExps: RegExp[]) {
+  /**
+   * If the return is greater than 0, so 'routePathname' corresponds to some route
+   */
+  return routeRegExps.filter((regExp) => regExp.test(routePathname)).length > 0;
+}
+
+export { OceanoErrorConstructed, doesRouteMatch };

@@ -178,7 +178,7 @@ const Routes: React.FunctionComponent = () => {
             }
           />
           <Route
-            path="/minha-nota"
+            path="/minha-nota/:noteId"
             render={() => renderMiddleware(<MyNotePage />, { isPrivate: true })}
           />
           <Route

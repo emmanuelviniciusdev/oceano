@@ -24,6 +24,9 @@ import 'firebase/auth';
 // Services
 import { checkIfUserExistsInCollectionByUID } from './services/user';
 
+// Utils
+import { doesRouteMatch } from './utils';
+
 function App() {
   const currentLocation = useLocation();
   const globalContext = useContext(AppContext);
@@ -90,6 +93,23 @@ function App() {
     // eslint-disable-next-line
   }, []);
 
+  const blockedRouteRegExpsForOctopusBg = [
+    /**
+     * /pagina-nao-encontrada
+     */
+    /^\/pagina-nao-encontrada\/?$/i,
+
+    /**
+     * /minha-nota/:noteId
+     */
+    /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
+
+    /**
+     * /offline
+     */
+    /^\/offline\/?$/i,
+  ];
+
   return (
     <>
       <GlobalStyle />
@@ -98,16 +118,14 @@ function App() {
         <SharksBackground />
       )}
 
-      {!['/pagina-nao-encontrada', '/minha-nota', '/offline'].includes(
-        currentLocation.pathname
+      {!doesRouteMatch(
+        currentLocation.pathname,
+        blockedRouteRegExpsForOctopusBg
       ) && <OctopusBackground />}
 
       <main>
         <Container style={{ marginBottom: '100px' }}>
-          {/* Workaround until implement user authentication */}
-          {['/notas', '/minha-nota'].includes(currentLocation.pathname) && (
-            <TopBar />
-          )}
+          {globalContext.user?.state !== null && <TopBar />}
 
           <Routes />
         </Container>

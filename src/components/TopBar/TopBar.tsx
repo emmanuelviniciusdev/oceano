@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 
 // Icons
 import SearchIcon from '@material-ui/icons/Search';
@@ -20,29 +21,32 @@ import {
   WrapperButtonsRightSide,
   WrapperShowDesktopButtons,
 } from './styles';
+import { StackNotifications } from '../../styles/general';
 
 // Components
 import MobileMenu from '../MobileMenu/MobileMenu';
 import OceanoButton from '../OceanoButton/OceanoButton';
 import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
+import OceanoNotification from '../OceanoNotification/OceanoNotification';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
 // Services
 import { signOut } from '../../services/auth';
-import { StackNotifications } from '../../styles/general';
-import { AnimatePresence } from 'framer-motion';
-import OceanoNotification from '../OceanoNotification/OceanoNotification';
+
+// Utils
+import { doesRouteMatch } from '../../utils';
 
 const TopBar: React.FunctionComponent = () => {
   const translation = useTranslation('TopBar');
   const currentLocation = useLocation();
-  const history = useHistory();
 
   const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
 
-  const isMyNotePage = currentLocation.pathname === '/minha-nota';
+  const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
+    /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
+  ]);
 
   const handleSignOut = async () => {
     try {
