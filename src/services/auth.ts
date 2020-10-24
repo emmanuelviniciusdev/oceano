@@ -57,4 +57,22 @@ function signOut() {
   return firebase.auth().signOut();
 }
 
-export { signInWith, signOut };
+function sendUserEmailVerification() {
+  const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+    unsubscribe();
+
+    if (!user) {
+      console.error(
+        'cannot send email verification because the user is not logged in'
+      );
+      return;
+    }
+
+    user.sendEmailVerification().catch((err) => {
+      console.error(err);
+      console.log('error sending email verification');
+    });
+  });
+}
+
+export { signInWith, signOut, sendUserEmailVerification };

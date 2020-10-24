@@ -47,7 +47,7 @@ import userReducer from '../../store/reducers/user';
 
 // Services
 import { registerUser } from '../../services/user';
-import { signOut } from '../../services/auth';
+import { sendUserEmailVerification, signOut } from '../../services/auth';
 
 const contentEffectVariants = {
   initial: { x: -20, opacity: 0 },
@@ -148,6 +148,7 @@ const AcceptanceOfTerms: React.FunctionComponent<AcceptanceOfTermsType> = ({
        * to inform the user that a link to verify your email has been sent
        */
       if (!userContext.state.isEmailVerified) {
+        sendUserEmailVerification();
         await signOut();
         setShowEmailVerificationModal(true);
         return;

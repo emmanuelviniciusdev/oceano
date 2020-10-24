@@ -9,7 +9,11 @@ import OceanoNotification from '../OceanoNotification/OceanoNotification';
 import AcceptanceOfTerms from '../AcceptanceOfTerms/AcceptanceOfTerms';
 
 // Services
-import { signInWith, signOut } from '../../services/auth';
+import {
+  sendUserEmailVerification,
+  signInWith,
+  signOut,
+} from '../../services/auth';
 
 // Styles
 import { StackNotifications } from '../../styles/general';
@@ -58,6 +62,7 @@ const SignInMethods = () => {
       }
 
       if (err.code === 'oceano-auth/user-did-not-verify-email') {
+        sendUserEmailVerification();
         await signOut();
         setWarningEmailVerificationIsOpen(true);
         return;

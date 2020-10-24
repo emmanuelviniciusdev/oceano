@@ -56,29 +56,6 @@ function App() {
           user.uid
         );
 
-        /**
-         * Send an email verification on each auth state change if user has
-         * not been verified your email yet.
-         *
-         * Sending an email verification "on each state change" means sending
-         * an email verification whenever user tries to login in the app.
-         */
-
-        /**
-         * // FIXME: Review potential vulnerability.
-         *
-         * If the AcceptanceModal is closed after it has been opened the user
-         * will continue logged in. It means that if a malicious user keep refreshing
-         * the page, 'onAuthStateChanged' will keep sending multiple email verification
-         * until firebase prevent this with a 'too many requests' error.
-         */
-        if (!user.emailVerified) {
-          user.sendEmailVerification().catch((err) => {
-            console.error(err);
-            console.log('error sending email verification');
-          });
-        }
-
         globalContext.user?.dispatch(
           userReducer.actionCreators.setUser({
             uid: user.uid,
