@@ -16,17 +16,18 @@ import useTranslation from '../../hooks/useTranslation';
 // Setup
 import { AppContext } from '../../store';
 
+// Utils
+import { joinProviderAndUsername } from '../../utils';
+
 const Breadcrumbs = () => {
   const translation = useTranslation('Breadcrumbs');
 
   const { user: userContext } = useContext(AppContext);
 
-  const providerLabel =
-    userContext?.state?.providerId === 'google.com' ? '[google]' : '[github]';
-
-  const username = (providerLabel + ' ' + userContext?.state?.displayName) as
-    | string
-    | undefined;
+  const username = joinProviderAndUsername(
+    userContext?.state?.providerId,
+    userContext?.state?.displayName
+  );
 
   return (
     <>

@@ -13,6 +13,18 @@ export const WrapperContent = styled.div`
   /* background: green; */
 `;
 
-export const WrapperBreadcrumbs = styled.div`
-  margin-left: 20px;
+export const WrapperInformations = styled.div`
+  /* background: burlywood; */
+  width: 100%;
+  margin-bottom: 30px;
+
+  button {
+    margin-right: 10px;
+  }
+
+  @media (min-width: 960px) {
+    width: 90%;
+    margin: 0 auto;
+    margin-bottom: 30px;
+  }
 `;

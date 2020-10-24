@@ -36,4 +36,24 @@ function doesRouteMatch(routePathname: string, routeRegExps: RegExp[]) {
   return routeRegExps.filter((regExp) => regExp.test(routePathname)).length > 0;
 }
 
-export { OceanoErrorConstructed, doesRouteMatch };
+/**
+ * It returns something like this: [github] João Baptista
+ *
+ * @param provider Provider ID
+ * @param username User name
+ */
+function joinProviderAndUsername(
+  provider?: string | null,
+  username?: string | null
+) {
+  if (!provider || !username) return '';
+
+  const providers = {
+    'google.com': '[google]',
+    'github.com': '[github]',
+  };
+
+  return `${providers[provider as keyof typeof providers] || ''} ${username}`;
+}
+
+export { OceanoErrorConstructed, doesRouteMatch, joinProviderAndUsername };

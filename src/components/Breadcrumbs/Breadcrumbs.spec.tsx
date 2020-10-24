@@ -5,7 +5,7 @@ import { AppContext } from '../../store';
 
 const userState = {
   uid: 'some-hash',
-  providerId: 'github',
+  providerId: 'github.com',
   isEmailVerified: true,
   areTermsAccepted: true,
   email: 'emmanuel@domain.com',
