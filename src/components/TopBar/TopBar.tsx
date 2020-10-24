@@ -60,90 +60,112 @@ const TopBar: React.FunctionComponent = () => {
     }
   };
 
+  /**
+   * Routes where TopBar will not be rendered.
+   *
+   * Regular expressions generated at:
+   * https://forbeslindesay.github.io/express-route-tester/
+   */
+  const blockedRouteRegExps = [
+    /**
+     * /pagina-nao-encontrada
+     */
+    /^\/pagina-nao-encontrada\/?$/i,
+
+    /**
+     * /offline
+     */
+    /^\/offline\/?$/i,
+  ];
+
   return (
     <>
-      <StyledTopBar>
-        <TopBarContainer isMyNotePage={isMyNotePage}>
-          <TextOceano isMyNotePage={isMyNotePage}>oceano</TextOceano>
+      {!doesRouteMatch(currentLocation.pathname, blockedRouteRegExps) && (
+        <>
+          <StyledTopBar data-testid="oceano-topbar">
+            <TopBarContainer isMyNotePage={isMyNotePage}>
+              <TextOceano isMyNotePage={isMyNotePage}>oceano</TextOceano>
 
-          {!isMyNotePage && (
-            <>
-              <WrapperShowDesktopButtons>
-                <OceanoButton
-                  className="button-menu"
-                  aria-label={translation?.buttonCreateNote?.text}
-                  text={translation?.buttonCreateNote?.text}
-                  icon={<AddIcon />}
-                />
-              </WrapperShowDesktopButtons>
+              {!isMyNotePage && (
+                <>
+                  <WrapperShowDesktopButtons>
+                    <OceanoButton
+                      className="button-menu"
+                      aria-label={translation?.buttonCreateNote?.text}
+                      text={translation?.buttonCreateNote?.text}
+                      icon={<AddIcon />}
+                    />
+                  </WrapperShowDesktopButtons>
 
-              <WrapperInputSearch>
-                <div className="icon">
-                  <SearchIcon />
-                </div>
-                <InputSearch
-                  type="text"
-                  placeholder={translation?.inputSearch?.placeholder}
-                />
-              </WrapperInputSearch>
+                  <WrapperInputSearch>
+                    <div className="icon">
+                      <SearchIcon />
+                    </div>
+                    <InputSearch
+                      type="text"
+                      placeholder={translation?.inputSearch?.placeholder}
+                    />
+                  </WrapperInputSearch>
 
-              <WrapperShowDesktopButtons>
-                <WrapperButtonsRightSide>
-                  <SwitchLanguage isNotTransparent />
+                  <WrapperShowDesktopButtons>
+                    <WrapperButtonsRightSide>
+                      <SwitchLanguage isNotTransparent />
 
-                  <OceanoButton
-                    className="button-menu"
-                    aria-label={translation?.buttonSignOut?.ariaLabel}
-                    text={translation?.buttonSignOut?.text}
-                    icon={<ExitToAppIcon />}
-                    onClick={handleSignOut}
-                  />
-                </WrapperButtonsRightSide>
-              </WrapperShowDesktopButtons>
+                      <OceanoButton
+                        className="button-menu"
+                        aria-label={translation?.buttonSignOut?.ariaLabel}
+                        text={translation?.buttonSignOut?.text}
+                        icon={<ExitToAppIcon />}
+                        onClick={handleSignOut}
+                      />
+                    </WrapperButtonsRightSide>
+                  </WrapperShowDesktopButtons>
 
-              <OpenMenuButton>
-                <MenuIcon fontSize="large" />
-              </OpenMenuButton>
-            </>
-          )}
+                  <OpenMenuButton>
+                    <MenuIcon fontSize="large" />
+                  </OpenMenuButton>
+                </>
+              )}
 
-          {isMyNotePage && (
-            <>
-              <WrapperButtonsRightSide>
-                <OceanoButton
-                  className="button-menu"
-                  aria-label={translation?.buttonReturnFromMyNotePage?.text}
-                  text={translation?.buttonReturnFromMyNotePage?.text}
-                  icon={<ArrowBackIcon />}
-                />
+              {isMyNotePage && (
+                <>
+                  <WrapperButtonsRightSide>
+                    <OceanoButton
+                      className="button-menu"
+                      aria-label={translation?.buttonReturnFromMyNotePage?.text}
+                      text={translation?.buttonReturnFromMyNotePage?.text}
+                      icon={<ArrowBackIcon />}
+                    />
 
-                <OceanoButton
-                  className="button-menu"
-                  aria-label={translation?.buttonDeleteFromMyNotePage?.text}
-                  text={translation?.buttonDeleteFromMyNotePage?.text}
-                  icon={<DeleteForeverIcon />}
-                />
-              </WrapperButtonsRightSide>
-            </>
-          )}
-        </TopBarContainer>
-      </StyledTopBar>
+                    <OceanoButton
+                      className="button-menu"
+                      aria-label={translation?.buttonDeleteFromMyNotePage?.text}
+                      text={translation?.buttonDeleteFromMyNotePage?.text}
+                      icon={<DeleteForeverIcon />}
+                    />
+                  </WrapperButtonsRightSide>
+                </>
+              )}
+            </TopBarContainer>
+          </StyledTopBar>
 
-      {/* <MobileMenu /> */}
+          {/* <MobileMenu /> */}
 
-      <StackNotifications>
-        <AnimatePresence>
-          {showSignOutErrorMsg && (
-            <OceanoNotification
-              key="sign-out-error"
-              type="error"
-              onClose={() => setShowSignOutErrorMsg(false)}
-            >
-              {translation?.signOutErrorMsg}
-            </OceanoNotification>
-          )}
-        </AnimatePresence>
-      </StackNotifications>
+          <StackNotifications>
+            <AnimatePresence>
+              {showSignOutErrorMsg && (
+                <OceanoNotification
+                  key="sign-out-error"
+                  type="error"
+                  onClose={() => setShowSignOutErrorMsg(false)}
+                >
+                  {translation?.signOutErrorMsg}
+                </OceanoNotification>
+              )}
+            </AnimatePresence>
+          </StackNotifications>
+        </>
+      )}
     </>
   );
 };
