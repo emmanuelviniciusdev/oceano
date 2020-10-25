@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import EditorJs from 'react-editor-js';
 import { API, OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
@@ -19,10 +19,13 @@ import ThumbUpIcon from '@material-ui/icons/ThumbUp';
 import useTranslation from '../../hooks/useTranslation';
 
 // Types
-import { SaveNoteParams } from '../../types-and-interfaces/components/MyNote.types';
+import { NoteDocumentType } from '../../types-and-interfaces/collections/notes.types';
 
 // Components
 import OceanoNotification from '../OceanoNotification/OceanoNotification';
+
+// Services
+import { getNote, updateNote } from '../../services/note';
 
 const editorJsTools = {
   header: Header,
@@ -37,11 +40,53 @@ const MyNote = () => {
 
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [showAutosaveInfo, setShowAutosaveInfo] = useState(false);
+  const [noteDocumentData, setNoteDocumentData] = useState<
+    { id: string } & NoteDocumentType
+  >();
 
   const showAutosaveInfoTimeoutRef = useRef<number>();
   const isSavingNoteTimeoutRef = useRef<number>();
 
+  const onSaveNote = useCallback(async () => {
+    setIsSavingNote(true);
+
+    try {
+      if (noteDocumentData) {
+        const data = noteDocumentData;
+        const noteId = data.id;
+
+        // delete data.id;
+
+        // await updateNote(data.id, omitPropFromObject("id", data));
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSavingNote(false);
+    }
+  }, [noteDocumentData]);
+
+  /**
+   * Fetches note's data
+   */
   useEffect(() => {
+    (async () => {
+      const noteData = await getNote('w1Dv4g1vOk0lkoKH5Df4');
+      setNoteDocumentData(noteData);
+    })();
+  }, []);
+
+  /**
+   * Watches for changes on 'noteData'
+   */
+  useEffect(() => {
+    if (noteDocumentData) onSaveNote();
+  }, [noteDocumentData, onSaveNote]);
+
+  useEffect(() => {
+    /**
+     * // TODO: Refactor this (it won't be removed on unmount component)
+     */
     document.addEventListener('keydown', (e) => {
       /**
        * CTRL + S command
@@ -63,15 +108,6 @@ const MyNote = () => {
     return () => document.removeEventListener('keydown', () => {});
   }, [showAutosaveInfo]);
 
-  /**
-   *
-   * @param params An object containing the text editor's data or the title of the note
-   */
-  const saveNoteData = (params: SaveNoteParams) => {
-    setIsSavingNote(true);
-    console.log('on save note data...');
-  };
-
   return (
     <>
       <WrapperContentEditor>
@@ -83,7 +119,8 @@ const MyNote = () => {
 
             clearTimeout(isSavingNoteTimeoutRef.current);
             isSavingNoteTimeoutRef.current = setTimeout(
-              () => saveNoteData({ title }),
+              () =>
+                setNoteDocumentData((value) => value && { ...value, title }),
               500
             );
           }}
@@ -93,9 +130,9 @@ const MyNote = () => {
           <EditorJs
             placeholder="..."
             tools={editorJsTools}
-            onChange={(api: API, data?: OutputData) => {
-              saveNoteData({ data });
-            }}
+            onChange={(api: API, data?: OutputData) =>
+              setNoteDocumentData((value) => value && { ...value, data })
+            }
           />
         </WrapperEditorJs>
       </WrapperContentEditor>

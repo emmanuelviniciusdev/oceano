@@ -17,9 +17,11 @@ export const WrapperInformations = styled.div`
   /* background: burlywood; */
   width: 100%;
   margin-bottom: 30px;
+  margin-left: 10px;
 
   button {
     margin-right: 10px;
+    margin-bottom: 10px;
   }
 
   @media (min-width: 960px) {
