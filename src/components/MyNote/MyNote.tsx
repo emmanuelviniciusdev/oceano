@@ -85,6 +85,20 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
     }
   }, [noteDocumentData]);
 
+  const checkIfSaveShortcut = useCallback((e: KeyboardEvent) => {
+    if (e.ctrlKey && e.key === 's') {
+      e.preventDefault();
+
+      setShowAutosaveInfo(true);
+
+      clearTimeout(showAutosaveInfoTimeoutRef.current);
+      showAutosaveInfoTimeoutRef.current = setTimeout(() => {
+        setShowAutosaveInfo(false);
+        showAutosaveInfoTimeoutRef.current = undefined;
+      }, 3500);
+    }
+  }, []);
+
   /**
    * Fetches note's data
    */
@@ -117,30 +131,16 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
     if (isUserChange && noteDocumentData) onSaveNote();
   }, [noteDocumentData, isUserChange, onSaveNote]);
 
+  /**
+   * Watches for CTRL + S command
+   */
   useEffect(() => {
-    /**
-     * // TODO: Refactor this (it won't be removed on unmount component)
-     */
-    document.addEventListener('keydown', (e) => {
-      /**
-       * CTRL + S command
-       */
-      if (e.ctrlKey && e.key === 's') {
-        e.preventDefault();
-
-        setShowAutosaveInfo(true);
-
-        if (!showAutosaveInfoTimeoutRef.current) {
-          showAutosaveInfoTimeoutRef.current = setTimeout(() => {
-            setShowAutosaveInfo(false);
-            showAutosaveInfoTimeoutRef.current = undefined;
-          }, 3500);
-        }
-      }
-    });
-
-    return () => document.removeEventListener('keydown', () => {});
-  }, [showAutosaveInfo]);
+    window.addEventListener('keydown', checkIfSaveShortcut, false);
+    return () => {
+      clearTimeout(showAutosaveInfoTimeoutRef.current);
+      window.removeEventListener('keydown', checkIfSaveShortcut, false);
+    };
+  }, [checkIfSaveShortcut]);
 
   return (
     <>
