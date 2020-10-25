@@ -170,7 +170,9 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
             <textarea
               className="title-textarea"
               placeholder={translation?.textareaTitle?.placeholder}
-              defaultValue={noteDocumentData?.title}
+              defaultValue={
+                noteDocumentData?.title !== null ? noteDocumentData?.title : ''
+              }
               onChange={(e) => {
                 const title = e.target.value;
 
@@ -194,7 +196,11 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
               <EditorJs
                 placeholder="..."
                 tools={editorJsTools}
-                data={noteDocumentData?.data}
+                data={
+                  noteDocumentData?.data !== null
+                    ? noteDocumentData?.data
+                    : undefined
+                }
                 onChange={(api: API, data?: OutputData) => {
                   setIsUserChange(true);
                   setNoteDocumentData(

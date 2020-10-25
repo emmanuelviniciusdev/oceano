@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 // Icons
@@ -34,15 +34,27 @@ import useTranslation from '../../hooks/useTranslation';
 
 // Services
 import { signOut } from '../../services/auth';
+import { createNote } from '../../services/note';
 
 // Utils
 import { doesRouteMatch } from '../../utils';
 
+// Types
+import { NoteDocumentType } from '../../types-and-interfaces/collections/notes.types';
+
+// Setup
+import { AppContext } from '../../store';
+
 const TopBar: React.FunctionComponent = () => {
   const translation = useTranslation('TopBar');
   const currentLocation = useLocation();
+  const history = useHistory();
+
+  const { user: userContext } = useContext(AppContext);
 
   const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
+  const [showCreateNoteErrorMsg, setShowCreateNoteErrorMsg] = useState(false);
+  const [isCreatingNote, setIsCreatingNote] = useState(false);
 
   const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
     /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
@@ -57,6 +69,30 @@ const TopBar: React.FunctionComponent = () => {
     } catch (err) {
       console.error(err);
       setShowSignOutErrorMsg(true);
+    }
+  };
+
+  const handleCreateNote = async () => {
+    setIsCreatingNote(true);
+
+    try {
+      if (userContext?.state) {
+        const data: NoteDocumentType = {
+          userUID: userContext.state.uid,
+          folderId: null,
+          title: '',
+          data: null,
+        };
+
+        const noteId = await createNote(data);
+
+        history.push(`/minha-nota/${noteId}`);
+      }
+    } catch (err) {
+      console.error(err);
+      setShowCreateNoteErrorMsg(true);
+    } finally {
+      setIsCreatingNote(false);
     }
   };
 
@@ -94,6 +130,9 @@ const TopBar: React.FunctionComponent = () => {
                       aria-label={translation?.buttonCreateNote?.text}
                       text={translation?.buttonCreateNote?.text}
                       icon={<AddIcon />}
+                      isLoading={isCreatingNote}
+                      disabled={isCreatingNote}
+                      onClick={handleCreateNote}
                     />
                   </WrapperShowDesktopButtons>
 

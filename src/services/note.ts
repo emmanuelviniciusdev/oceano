@@ -22,6 +22,11 @@ function updateNote(noteId: string, data: NoteDocumentType) {
   return notes().doc(noteId).update(data);
 }
 
+/**
+ * Gets note's data
+ *
+ * @param noteId Note's document ID
+ */
 async function getNote(noteId: string): Promise<NoteDocumentWithIDType> {
   try {
     const note = await notes().doc(noteId).get();
@@ -41,4 +46,15 @@ async function getNote(noteId: string): Promise<NoteDocumentWithIDType> {
   }
 }
 
-export { updateNote, getNote };
+/**
+ * Creates a note and returns the document ID
+ *
+ * @param data The note's data
+ */
+function createNote(data: NoteDocumentType) {
+  return notes()
+    .add(data)
+    .then((note) => note.id);
+}
+
+export { updateNote, getNote, createNote };

@@ -16,12 +16,12 @@ export type NoteDocumentType = {
   /**
    * The note's title.
    */
-  title: string | undefined;
+  title: string | undefined | null;
 
   /**
    * The note's data based on 'OutputData' from 'editorjs'.
    */
-  data: OutputData | undefined;
+  data: OutputData | undefined | null;
 };
 
 export type NoteDocumentWithIDType = { documentId: string } & NoteDocumentType;
