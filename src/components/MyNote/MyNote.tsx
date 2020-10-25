@@ -159,6 +159,7 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
               aria-label={
                 translation?.errorLoadingNoteDocumentData?.buttonReturn.text
               }
+              onClick={() => history.push('/notas')}
             />
           </OceanoCard>
         </WrapperOceanoCard>

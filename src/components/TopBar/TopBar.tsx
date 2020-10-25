@@ -174,6 +174,7 @@ const TopBar: React.FunctionComponent = () => {
                       aria-label={translation?.buttonReturnFromMyNotePage?.text}
                       text={translation?.buttonReturnFromMyNotePage?.text}
                       icon={<ArrowBackIcon />}
+                      onClick={() => history.push('/notas')}
                     />
 
                     <OceanoButton
