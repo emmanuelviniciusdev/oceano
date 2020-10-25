@@ -1,1 +1,3 @@
-export type MyNoteType = {};
+export type MyNoteType = {
+  noteId: string;
+};

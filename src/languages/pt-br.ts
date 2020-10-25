@@ -104,6 +104,12 @@ const content: LanguageStateType = {
         oceanoAutosavesText: 'o oceano salva automaticamente as suas anotações',
         savingText: 'salvando...',
       },
+      errorLoadingNoteDocumentData: {
+        text: 'aaah, ocorreu um erro ao tentar carregar a sua nota',
+        buttonReturn: {
+          text: 'voltar',
+        },
+      },
     },
 
     AcceptanceOfTerms: {

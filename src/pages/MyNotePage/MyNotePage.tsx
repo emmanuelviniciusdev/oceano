@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Components
@@ -22,13 +22,9 @@ import { AppContext } from '../../store';
 import { joinProviderAndUsername } from '../../utils';
 
 const MyNotePage = () => {
-  const {} = useParams<MyNotePageRouteParamsType>();
+  const { noteId } = useParams<MyNotePageRouteParamsType>();
 
   const { user: userContext } = useContext(AppContext);
-
-  useEffect(() => {
-    document.title = 'oceano — Sobre todas as coisas que...';
-  }, []);
 
   const username = joinProviderAndUsername(
     userContext?.state?.providerId,
@@ -57,7 +53,7 @@ const MyNotePage = () => {
           />
         </WrapperInformations>
 
-        <MyNote />
+        <MyNote noteId={noteId} />
       </WrapperContent>
     </>
   );

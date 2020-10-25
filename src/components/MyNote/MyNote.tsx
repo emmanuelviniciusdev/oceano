@@ -7,22 +7,32 @@ import Delimiter from '@editorjs/delimiter';
 import Checklist from '@editorjs/checklist';
 import Embed from '@editorjs/embed';
 import { AnimatePresence } from 'framer-motion';
+import { useHistory } from 'react-router-dom';
+import isEqualReactFastCompare from 'react-fast-compare';
 
 // Styles
-import { WrapperContentEditor, WrapperEditorJs } from './styles';
+import {
+  WrapperContentEditor,
+  WrapperEditorJs,
+  WrapperOceanoCard,
+} from './styles';
 import { OceanoBubbleLoading, StackNotifications } from '../../styles/general';
 
 // Icons
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
 // Types
-import { NoteDocumentType } from '../../types-and-interfaces/collections/notes.types';
+import { NoteDocumentWithIDType } from '../../types-and-interfaces/collections/notes.types';
+import { MyNoteType } from '../../types-and-interfaces/components/MyNote.types';
 
 // Components
 import OceanoNotification from '../OceanoNotification/OceanoNotification';
+import OceanoCard from '../OceanoCard/OceanoCard';
+import OceanoButton from '../OceanoButton/OceanoButton';
 
 // Services
 import { getNote, updateNote } from '../../services/note';
@@ -35,14 +45,20 @@ const editorJsTools = {
   embed: Embed,
 };
 
-const MyNote = () => {
+const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
   const translation = useTranslation('MyNote');
+  const history = useHistory();
 
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [showAutosaveInfo, setShowAutosaveInfo] = useState(false);
   const [noteDocumentData, setNoteDocumentData] = useState<
-    { id: string } & NoteDocumentType
+    NoteDocumentWithIDType
   >();
+  const [isUserChange, setIsUserChange] = useState(false);
+  const [
+    errorLoadingNoteDocumentData,
+    setErrorLoadingNoteDocumentData,
+  ] = useState(false);
 
   const showAutosaveInfoTimeoutRef = useRef<number>();
   const isSavingNoteTimeoutRef = useRef<number>();
@@ -52,12 +68,15 @@ const MyNote = () => {
 
     try {
       if (noteDocumentData) {
-        const data = noteDocumentData;
-        const noteId = data.id;
+        /**
+         * Omits 'documentId' from the object.
+         *
+         * Reference:
+         * https://stackoverflow.com/questions/43011742/how-to-omit-specific-properties-from-an-object-in-javascript/43011802
+         */
+        const { documentId, ...dataToSave } = noteDocumentData;
 
-        // delete data.id;
-
-        // await updateNote(data.id, omitPropFromObject("id", data));
+        await updateNote(documentId, dataToSave);
       }
     } catch (err) {
       console.error(err);
@@ -71,17 +90,32 @@ const MyNote = () => {
    */
   useEffect(() => {
     (async () => {
-      const noteData = await getNote('w1Dv4g1vOk0lkoKH5Df4');
-      setNoteDocumentData(noteData);
+      try {
+        const noteData = await getNote(noteId);
+        setNoteDocumentData(noteData);
+      } catch (err) {
+        if (err.code === 'oceano-note/note-does-not-exist') {
+          history.push('/pagina-nao-encontrada');
+          return;
+        }
+
+        console.error(err);
+        setErrorLoadingNoteDocumentData(true);
+      }
     })();
   }, []);
 
   /**
-   * Watches for changes on 'noteData'
+   * Watches for changes on 'noteDocumentData'
    */
   useEffect(() => {
-    if (noteDocumentData) onSaveNote();
-  }, [noteDocumentData, onSaveNote]);
+    /**
+     * This verification in 'isUserChange' is because this 'useEffect' will be executed
+     * in the first rendering, without a user change. So, only if it is a real user change
+     * 'onSaveNote()' will be triggered.
+     */
+    if (isUserChange && noteDocumentData) onSaveNote();
+  }, [noteDocumentData, isUserChange, onSaveNote]);
 
   useEffect(() => {
     /**
@@ -110,62 +144,109 @@ const MyNote = () => {
 
   return (
     <>
-      <WrapperContentEditor>
-        <textarea
-          className="title-textarea"
-          placeholder={translation?.textareaTitle?.placeholder}
-          onChange={(e) => {
-            const title = e.target.value;
-
-            clearTimeout(isSavingNoteTimeoutRef.current);
-            isSavingNoteTimeoutRef.current = setTimeout(
-              () =>
-                setNoteDocumentData((value) => value && { ...value, title }),
-              500
-            );
-          }}
-        />
-
-        <WrapperEditorJs>
-          <EditorJs
-            placeholder="..."
-            tools={editorJsTools}
-            onChange={(api: API, data?: OutputData) =>
-              setNoteDocumentData((value) => value && { ...value, data })
-            }
-          />
-        </WrapperEditorJs>
-      </WrapperContentEditor>
-
-      <StackNotifications>
-        <AnimatePresence>
-          {showAutosaveInfo && (
-            <OceanoNotification
-              key="oceano-autosaves-indicator"
-              type="clownfish"
-              icon={<ThumbUpIcon />}
-              timeout={2000}
-            >
-              {translation?.statusIndicator?.oceanoAutosavesText}
-            </OceanoNotification>
-          )}
-          {isSavingNote && (
-            <OceanoNotification
-              key="saving-indicator"
-              type="clownfish"
-              icon={
-                <OceanoBubbleLoading
-                  className="oceano-bubble-loading"
-                  width={24}
-                  height={24}
-                />
+      {errorLoadingNoteDocumentData && (
+        <WrapperOceanoCard>
+          <OceanoCard
+            theme="error"
+            text={translation?.errorLoadingNoteDocumentData?.text}
+          >
+            <OceanoButton
+              theme="transparent"
+              icon={<ArrowBackIcon />}
+              text={
+                translation?.errorLoadingNoteDocumentData?.buttonReturn.text
               }
-            >
-              {translation?.statusIndicator?.savingText}
-            </OceanoNotification>
-          )}
-        </AnimatePresence>
-      </StackNotifications>
+              aria-label={
+                translation?.errorLoadingNoteDocumentData?.buttonReturn.text
+              }
+            />
+          </OceanoCard>
+        </WrapperOceanoCard>
+      )}
+
+      {noteDocumentData && (
+        <>
+          <WrapperContentEditor>
+            <textarea
+              className="title-textarea"
+              placeholder={translation?.textareaTitle?.placeholder}
+              defaultValue={noteDocumentData?.title}
+              onChange={(e) => {
+                const title = e.target.value;
+
+                if (title.length > 120) return;
+
+                clearTimeout(isSavingNoteTimeoutRef.current);
+                isSavingNoteTimeoutRef.current = setTimeout(() => {
+                  setIsUserChange(true);
+                  setNoteDocumentData((value) => value && { ...value, title });
+                }, 500);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                }
+              }}
+              maxLength={120}
+            />
+
+            <WrapperEditorJs>
+              <EditorJs
+                placeholder="..."
+                tools={editorJsTools}
+                data={noteDocumentData?.data}
+                onChange={(api: API, data?: OutputData) => {
+                  setIsUserChange(true);
+                  setNoteDocumentData(
+                    (value) => value && { ...value, data: data }
+                  );
+                }}
+                /**
+                 * Setting enableReInitialize={!isUserChange} ensures that EditorJS
+                 * will be only reinitialized on the first rendering.
+                 *
+                 * Without 'enableReInitialize' and 'onCompareBlocks' defined this way,
+                 * the data is not rendered.
+                 */
+                enableReInitialize={!isUserChange}
+                onCompareBlocks={(newBlocks, oldBlocks) =>
+                  isEqualReactFastCompare(newBlocks, oldBlocks)
+                }
+              />
+            </WrapperEditorJs>
+          </WrapperContentEditor>
+
+          <StackNotifications>
+            <AnimatePresence>
+              {showAutosaveInfo && (
+                <OceanoNotification
+                  key="oceano-autosaves-indicator"
+                  type="clownfish"
+                  icon={<ThumbUpIcon />}
+                  timeout={2000}
+                >
+                  {translation?.statusIndicator?.oceanoAutosavesText}
+                </OceanoNotification>
+              )}
+              {isSavingNote && (
+                <OceanoNotification
+                  key="saving-indicator"
+                  type="clownfish"
+                  icon={
+                    <OceanoBubbleLoading
+                      className="oceano-bubble-loading"
+                      width={24}
+                      height={24}
+                    />
+                  }
+                >
+                  {translation?.statusIndicator?.savingText}
+                </OceanoNotification>
+              )}
+            </AnimatePresence>
+          </StackNotifications>
+        </>
+      )}
     </>
   );
 };

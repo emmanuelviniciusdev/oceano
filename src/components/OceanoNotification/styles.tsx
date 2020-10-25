@@ -4,6 +4,9 @@ import theme from '../../styles/theme';
 // Types
 import { TypesOfNotificationType } from '../../types-and-interfaces/components/OceanoNotification.types';
 
+/**
+ * // TODO: Use predefined themes instead (theme.predefinedThemes)
+ */
 const typeThemes = {
   clownfish: {
     backgroundColor: theme.colors.clownfishBlack,

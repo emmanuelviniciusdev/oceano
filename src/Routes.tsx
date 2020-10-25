@@ -27,15 +27,8 @@ import useTranslation from './hooks/useTranslation';
 // Types
 import { RenderMiddlewareAdditionalPropsType } from './types-and-interfaces/Routes.types';
 
-/**
- * It defines a title to the page after 'oceano' prefix.
- *
- * @param title The title of the page
- */
-const setPageTitle = (title?: string) => {
-  const prefix = 'oceano';
-  document.title = title ? prefix + ' — ' + title : prefix;
-};
+// Utils
+import { setPageTitle } from './utils';
 
 const Routes: React.FunctionComponent = () => {
   /**

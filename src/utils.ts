@@ -56,4 +56,19 @@ function joinProviderAndUsername(
   return `${providers[provider as keyof typeof providers] || ''} ${username}`;
 }
 
-export { OceanoErrorConstructed, doesRouteMatch, joinProviderAndUsername };
+/**
+ * It defines a title to the page after 'oceano' prefix.
+ *
+ * @param title The title of the page
+ */
+const setPageTitle = (title?: string) => {
+  const prefix = 'oceano';
+  document.title = title ? prefix + ' — ' + title : prefix;
+};
+
+export {
+  OceanoErrorConstructed,
+  doesRouteMatch,
+  joinProviderAndUsername,
+  setPageTitle,
+};

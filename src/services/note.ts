@@ -2,7 +2,13 @@ import firebase from '../firebase';
 import 'firebase/firestore';
 
 // Types
-import { NoteDocumentType } from '../types-and-interfaces/collections/notes.types';
+import {
+  NoteDocumentType,
+  NoteDocumentWithIDType,
+} from '../types-and-interfaces/collections/notes.types';
+
+// Utils
+import { OceanoErrorConstructed } from '../utils';
 
 const notes = () => firebase.firestore().collection('notes');
 
@@ -16,14 +22,18 @@ function updateNote(noteId: string, data: NoteDocumentType) {
   return notes().doc(noteId).update(data);
 }
 
-async function getNote(
-  noteId: string
-): Promise<{ id: string } & NoteDocumentType> {
+async function getNote(noteId: string): Promise<NoteDocumentWithIDType> {
   try {
     const note = await notes().doc(noteId).get();
 
+    if (!note.exists) {
+      throw OceanoErrorConstructed(undefined, {
+        code: 'oceano-note/note-does-not-exist',
+      });
+    }
+
     return {
-      id: note.id,
+      documentId: note.id,
       ...(note.data() as NoteDocumentType),
     };
   } catch (err) {

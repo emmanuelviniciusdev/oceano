@@ -102,6 +102,12 @@ const content: LanguageStateType = {
         oceanoAutosavesText: 'oceano autosaves your note',
         savingText: 'saving...',
       },
+      errorLoadingNoteDocumentData: {
+        text: 'aah, there was an error trying to load your note',
+        buttonReturn: {
+          text: 'return',
+        },
+      },
     },
 
     AcceptanceOfTerms: {

@@ -11,15 +11,17 @@ export type NoteDocumentType = {
    *
    * If 'null' the note comes from 'root' folder.
    */
-  folderId: string | null | undefined;
+  folderId: string | null;
 
   /**
    * The note's title.
    */
-  title: string | null | undefined;
+  title: string | undefined;
 
   /**
    * The note's data based on 'OutputData' from 'editorjs'.
    */
-  data: OutputData | null | undefined;
+  data: OutputData | undefined;
 };
+
+export type NoteDocumentWithIDType = { documentId: string } & NoteDocumentType;
