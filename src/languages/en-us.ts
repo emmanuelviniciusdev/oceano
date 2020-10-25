@@ -44,6 +44,14 @@ const content: LanguageStateType = {
       buttonDeleteFromMyNotePage: {
         text: 'delete',
       },
+      modalDeleteNote: {
+        title: 'are you sure?',
+        actionText:
+          'This note will be permanently deleted and this action has no return. Do you wish to continue?',
+        buttonConfirmDelete: {
+          text: 'yes, delete',
+        },
+      },
       signOutErrorMsg: 'error while trying to leave the oceano',
       createNoteErrorMsg: 'error creating note',
     },
@@ -72,7 +80,7 @@ const content: LanguageStateType = {
           actionText:
             'You are about to permanently delete a note. This action has no return. Do you wish to continue?',
           buttonConfirmDelete: {
-            text: 'yes, delete it',
+            text: 'yes, delete',
           },
         },
         deletingFolder: {
@@ -80,7 +88,7 @@ const content: LanguageStateType = {
           actionText:
             'You are about to permanently delete a folder and all of its contents. This action has no return. Do you wish to continue?',
           buttonConfirmDelete: {
-            text: 'yes, delete it',
+            text: 'yes, delete',
           },
         },
       },

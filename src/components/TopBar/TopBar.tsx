@@ -28,13 +28,14 @@ import MobileMenu from '../MobileMenu/MobileMenu';
 import OceanoButton from '../OceanoButton/OceanoButton';
 import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
 import OceanoNotification from '../OceanoNotification/OceanoNotification';
+import OceanoModal from '../OceanoModal/OceanoModal';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
 // Services
 import { signOut } from '../../services/auth';
-import { createNote } from '../../services/note';
+import { createNote, deleteNote } from '../../services/note';
 
 // Utils
 import { doesRouteMatch } from '../../utils';
@@ -55,6 +56,8 @@ const TopBar: React.FunctionComponent = () => {
   const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
   const [showCreateNoteErrorMsg, setShowCreateNoteErrorMsg] = useState(false);
   const [isCreatingNote, setIsCreatingNote] = useState(false);
+  const [isDeletingNote, setIsDeletingNote] = useState(false);
+  const [showModalDeleteNote, setShowModalDeleteNote] = useState(false);
 
   const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
     /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
@@ -94,6 +97,13 @@ const TopBar: React.FunctionComponent = () => {
     } finally {
       setIsCreatingNote(false);
     }
+  };
+
+  const handleDeleteNote = async () => {
+    setIsDeletingNote(true);
+    /**
+     * // TODO: Think of a way to access 'noteId'
+     */
   };
 
   /**
@@ -182,6 +192,7 @@ const TopBar: React.FunctionComponent = () => {
                       aria-label={translation?.buttonDeleteFromMyNotePage?.text}
                       text={translation?.buttonDeleteFromMyNotePage?.text}
                       icon={<DeleteForeverIcon />}
+                      onClick={() => setShowModalDeleteNote(true)}
                     />
                   </WrapperButtonsRightSide>
                 </>
@@ -190,6 +201,26 @@ const TopBar: React.FunctionComponent = () => {
           </StyledTopBar>
 
           {/* <MobileMenu /> */}
+
+          {isMyNotePage && showModalDeleteNote && (
+            <OceanoModal
+              title={translation?.modalDeleteNote?.title}
+              text={translation?.modalDeleteNote?.actionText}
+              onClose={() => setShowModalDeleteNote(false)}
+            >
+              <OceanoButton
+                style={{ width: 'auto' }}
+                icon={<DeleteForeverIcon />}
+                text={translation?.modalDeleteNote?.buttonConfirmDelete?.text}
+                aria-label={
+                  translation?.modalDeleteNote?.buttonConfirmDelete?.text
+                }
+                disabled={isDeletingNote}
+                isLoading={isDeletingNote}
+                onClick={handleDeleteNote}
+              />
+            </OceanoModal>
+          )}
 
           <StackNotifications>
             <AnimatePresence>

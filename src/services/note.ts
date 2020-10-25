@@ -57,4 +57,13 @@ function createNote(data: NoteDocumentType) {
     .then((note) => note.id);
 }
 
-export { updateNote, getNote, createNote };
+/**
+ * Deletes a note
+ *
+ * @param noteId Note's document ID
+ */
+function deleteNote(noteId: string) {
+  return notes().doc(noteId).delete();
+}
+
+export { updateNote, getNote, createNote, deleteNote };

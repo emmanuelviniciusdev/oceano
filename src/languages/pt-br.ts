@@ -44,6 +44,14 @@ const content: LanguageStateType = {
       buttonDeleteFromMyNotePage: {
         text: 'deletar',
       },
+      modalDeleteNote: {
+        title: 'tem certeza?',
+        actionText:
+          'Esta nota será permanentemente excluída e esta ação não tem mais volta. Deseja continuar?',
+        buttonConfirmDelete: {
+          text: 'sim, deletar',
+        },
+      },
       signOutErrorMsg: 'erro ao tentar sair do oceano',
       createNoteErrorMsg: 'erro ao criar nota',
     },
