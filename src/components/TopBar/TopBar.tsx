@@ -202,6 +202,16 @@ const TopBar: React.FunctionComponent = () => {
                   {translation?.signOutErrorMsg}
                 </OceanoNotification>
               )}
+
+              {showCreateNoteErrorMsg && (
+                <OceanoNotification
+                  key="create-note-error"
+                  type="error"
+                  onClose={() => setShowCreateNoteErrorMsg(false)}
+                >
+                  {translation?.createNoteErrorMsg}
+                </OceanoNotification>
+              )}
             </AnimatePresence>
           </StackNotifications>
         </>
