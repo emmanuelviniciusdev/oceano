@@ -111,6 +111,28 @@ export const OceanoButton = styled.button<TypeOceanoButton>`
       `}
     `}
 
+    ${(props) =>
+    props.styledTheme &&
+    props.styledTheme === 'transparent-for-light-bg' &&
+    css`
+      background-color: transparent;
+      color: ${theme.colors.black};
+      border: 2px solid transparent;
+
+      .oceano-bubble-loading {
+        background-color: ${theme.colors.black} !important;
+      }
+
+      ${props.disabled &&
+      `
+        color: ${lighten(0.4, theme.colors.black)};
+
+        .oceano-bubble-loading {
+          background-color: ${lighten(0.4, theme.colors.black)} !important;
+        }
+      `}
+    `}
+
 
   .button-content {
     display: flex;

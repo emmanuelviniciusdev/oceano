@@ -16,7 +16,12 @@ export type OceanoButtonType = {
   /**
    * The button theme
    */
-  theme?: 'gray' | 'purple' | 'yellow' | 'transparent';
+  theme?:
+    | 'gray'
+    | 'purple'
+    | 'yellow'
+    | 'transparent'
+    | 'transparent-for-light-bg';
 
   /**
    * Loading state
