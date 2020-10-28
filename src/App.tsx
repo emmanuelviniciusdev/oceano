@@ -108,6 +108,11 @@ function App() {
      * /offline
      */
     /^\/offline\/?$/i,
+
+    /**
+     * /termos/:termsType
+     */
+    /^\/termos\/(?:([^\/]+?))\/?$/i,
   ];
 
   return (

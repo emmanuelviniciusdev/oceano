@@ -20,6 +20,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import NotesPage from './pages/NotesPage/NotesPage';
 import MyNotePage from './pages/MyNotePage/MyNotePage';
 import OfflinePage from './pages/OfflinePage/OfflinePage';
+import TermsPage from './pages/TermsPage/TermsPage';
 
 // Custom hooks
 import useTranslation from './hooks/useTranslation';
@@ -41,6 +42,7 @@ const Routes: React.FunctionComponent = () => {
   const notFoundPageTitle = useTranslation('NotFoundPage').pageTitle ?? '';
   const notesPageTitle = useTranslation('NotesPage').pageTitle ?? '';
   const offlinePageTitle = useTranslation('OfflinePage').pageTitle ?? '';
+  const termsPageTitle = useTranslation('TermsOfUsePage').pageTitle ?? '';
 
   const currentLocation = useLocation();
   const history = useHistory();
@@ -173,6 +175,10 @@ const Routes: React.FunctionComponent = () => {
           <Route
             path="/minha-nota/:noteId"
             render={() => renderMiddleware(<MyNotePage />, { isPrivate: true })}
+          />
+          <Route
+            path="/termos/:termsType"
+            render={() => renderMiddleware(<TermsPage />, {})}
           />
           <Route
             path="/offline"

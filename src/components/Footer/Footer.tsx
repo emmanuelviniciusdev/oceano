@@ -23,6 +23,11 @@ const Footer = () => {
     /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
 
     /**
+     * /termos/:termsType
+     */
+    /^\/termos\/(?:([^\/]+?))\/?$/i,
+
+    /**
      * /offline
      */
     /^\/offline\/?$/i,

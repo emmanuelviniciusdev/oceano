@@ -169,6 +169,15 @@ const content: LanguageStateType = {
       pageTitle: 'minhas notas',
     },
 
+    TermsPage: {
+      'termos-de-uso': {
+        pageTitle: 'termos de uso',
+      },
+      'politica-de-privacidade': {
+        pageTitle: 'política de privacidade',
+      },
+    },
+
     OfflinePage: {
       pageTitle: 'offline',
       imgTurtle: {
