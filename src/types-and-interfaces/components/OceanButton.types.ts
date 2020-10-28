@@ -1,5 +1,12 @@
 import { SvgIconProps } from '@material-ui/core';
 
+export type OceanoButtonThemesType =
+  | 'gray'
+  | 'purple'
+  | 'yellow'
+  | 'transparent'
+  | 'transparent-for-light-bg';
+
 export type OceanoButtonType = {
   /**
    * The button text
@@ -16,12 +23,7 @@ export type OceanoButtonType = {
   /**
    * The button theme
    */
-  theme?:
-    | 'gray'
-    | 'purple'
-    | 'yellow'
-    | 'transparent'
-    | 'transparent-for-light-bg';
+  theme?: OceanoButtonThemesType;
 
   /**
    * Loading state
