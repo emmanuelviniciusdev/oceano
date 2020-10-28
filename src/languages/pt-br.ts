@@ -54,6 +54,7 @@ const content: LanguageStateType = {
       },
       signOutErrorMsg: 'erro ao tentar sair do oceano',
       createNoteErrorMsg: 'erro ao criar nota',
+      deleteNoteErrorMsg: 'erro ao deletar nota',
     },
 
     Breadcrumbs: {},

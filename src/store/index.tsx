@@ -11,6 +11,7 @@ import React, { createContext, useReducer } from 'react';
 // Reducers
 import languageReducer from './reducers/language';
 import userReducer from './reducers/user';
+import myNoteReducer from './reducers/myNote';
 
 // Types
 import {
@@ -27,6 +28,9 @@ export function AppContextProvider({ children }: AppContextProviderPropsType) {
     ),
     user: transformReducer(
       useReducer(userReducer.reducer, userReducer.initialState)
+    ),
+    myNote: transformReducer(
+      useReducer(myNoteReducer.reducer, myNoteReducer.initialState)
     ),
   };
 

@@ -1,6 +1,7 @@
 import { Dispatch, Reducer, ReducerAction, ReducerState } from 'react';
 import { ActionType } from './reducers/general.types';
 import { LanguageStateType } from './reducers/language.types';
+import { MyNoteStateType } from './reducers/myNote.types';
 import { UserStateType } from './reducers/user.types';
 
 export type AppContextProviderPropsType = {
@@ -29,4 +30,5 @@ export type TransformReducerType<S> = {
 export type AppGlobalContextType = {
   language?: TransformReducerType<LanguageStateType>;
   user?: TransformReducerType<UserStateType>;
+  myNote?: TransformReducerType<MyNoteStateType>;
 };

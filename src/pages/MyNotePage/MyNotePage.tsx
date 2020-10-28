@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 // Components
@@ -17,6 +17,7 @@ import { GlobalStyle, WrapperInformations, WrapperContent } from './styles';
 
 // Setup
 import { AppContext } from '../../store';
+import myNoteReducer from '../../store/reducers/myNote';
 
 // Utils
 import { joinProviderAndUsername } from '../../utils';
@@ -24,12 +25,16 @@ import { joinProviderAndUsername } from '../../utils';
 const MyNotePage = () => {
   const { noteId } = useParams<MyNotePageRouteParamsType>();
 
-  const { user: userContext } = useContext(AppContext);
+  const { user: userContext, myNote: myNoteContext } = useContext(AppContext);
 
   const username = joinProviderAndUsername(
     userContext?.state?.providerId,
     userContext?.state?.displayName
   );
+
+  useEffect(() => {
+    myNoteContext?.dispatch(myNoteReducer.actionCreators.setNoteId(noteId));
+  }, []);
 
   return (
     <>

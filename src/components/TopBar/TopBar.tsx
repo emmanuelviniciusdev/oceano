@@ -51,13 +51,18 @@ const TopBar: React.FunctionComponent = () => {
   const currentLocation = useLocation();
   const history = useHistory();
 
-  const { user: userContext } = useContext(AppContext);
+  const { user: userContext, myNote: myNoteContext } = useContext(AppContext);
 
+  /**
+   * // TODO: Refactor these states that shows/hides something to an unique state
+   */
   const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
   const [showCreateNoteErrorMsg, setShowCreateNoteErrorMsg] = useState(false);
+  const [showDeleteNoteErrorMsg, setShowDeleteNoteErrorMsg] = useState(false);
+  const [showModalDeleteNote, setShowModalDeleteNote] = useState(false);
+
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [isDeletingNote, setIsDeletingNote] = useState(false);
-  const [showModalDeleteNote, setShowModalDeleteNote] = useState(false);
 
   const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
     /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
@@ -100,10 +105,20 @@ const TopBar: React.FunctionComponent = () => {
   };
 
   const handleDeleteNote = async () => {
+    if (!myNoteContext?.state) return;
+
     setIsDeletingNote(true);
-    /**
-     * // TODO: Think of a way to access 'noteId'
-     */
+
+    try {
+      await deleteNote(myNoteContext.state.noteId);
+      history.push('/');
+    } catch (err) {
+      console.error(err);
+      setShowDeleteNoteErrorMsg(true);
+    } finally {
+      setIsDeletingNote(false);
+      setShowModalDeleteNote(false);
+    }
   };
 
   /**
@@ -241,6 +256,16 @@ const TopBar: React.FunctionComponent = () => {
                   onClose={() => setShowCreateNoteErrorMsg(false)}
                 >
                   {translation?.createNoteErrorMsg}
+                </OceanoNotification>
+              )}
+
+              {isMyNotePage && showDeleteNoteErrorMsg && (
+                <OceanoNotification
+                  key="delete-note-error"
+                  type="error"
+                  onClose={() => setShowDeleteNoteErrorMsg(false)}
+                >
+                  {translation?.deleteNoteErrorMsg}
                 </OceanoNotification>
               )}
             </AnimatePresence>
