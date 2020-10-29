@@ -1,8 +1,15 @@
-import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import React from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 // Styles
-import { Footer as StyledFooter } from './styles';
+import {
+  Footer as StyledFooter,
+  WrapperContent,
+  MobileContent,
+  Content,
+  LinksSelect,
+  TagVersion,
+} from './styles';
 
 // Utils
 import { doesRouteMatch } from '../../utils';
@@ -33,17 +40,43 @@ const Footer = () => {
     /^\/offline\/?$/i,
   ];
 
+  const oceanoVersion = '1.0.0 (beta)';
+
   return (
     <>
       {!doesRouteMatch(currentLocation.pathname, blockedRouteRegExps) && (
         <StyledFooter data-testid="footer">
-          <p>
-            Handcrafted with{' '}
-            <span role="img" aria-label="love">
-              ❤️️
-            </span>{' '}
-            by <b>Emmanuel</b>
-          </p>
+          <WrapperContent>
+            <MobileContent>
+              <TagVersion className="tag-version">
+                versão <b>{oceanoVersion}</b>
+              </TagVersion>
+              <LinksSelect defaultValue="">
+                <option value="" disabled>
+                  ir para...
+                </option>
+                <option value="/termos/termos-de-uso">termos de uso</option>
+                <option value="/termos/politica-de-privacidade">
+                  política de privacidade
+                </option>
+              </LinksSelect>
+            </MobileContent>
+
+            <Content>
+              <TagVersion className="tag-version">
+                produção independente — <b>versão {oceanoVersion}</b>
+              </TagVersion>
+
+              <span style={{ marginRight: '15px' }}>•</span>
+
+              <Link to="/termos/politica-de-privacidade" target="__blank">
+                termos de uso
+              </Link>
+              <Link to="/termos/politica-de-privacidade" target="__blank">
+                política de privacidade
+              </Link>
+            </Content>
+          </WrapperContent>
         </StyledFooter>
       )}
     </>

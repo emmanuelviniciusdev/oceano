@@ -1,4 +1,3 @@
-import { lighten } from 'polished';
 import { createGlobalStyle } from 'styled-components';
 import theme from '../../styles/theme';
 import spacedSeashell from '../../assets/images/spaced-seashell.png';
