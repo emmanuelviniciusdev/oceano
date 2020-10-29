@@ -5,7 +5,7 @@ import spacedSeashell from '../../assets/images/spaced-seashell.png';
 
 export const GlobalStyle = createGlobalStyle`
     body {
-        background-color: ${lighten(0.2, theme.colors.secondary)};
+        background-color: ${theme.colors.strongPrimary};
         background-image: url(${spacedSeashell});
         background-size: 150px 110px;
     }
