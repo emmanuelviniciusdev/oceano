@@ -25,6 +25,12 @@ export type NoteDocumentType = {
   data: OutputData | undefined | null;
 
   /**
+   * This is a reference number to the order position in the parent
+   * folder.
+   */
+  orderId: number | null;
+
+  /**
    * Date that user created the note.
    */
   createdAt: Date | FirebaseTimestamps;

@@ -69,7 +69,7 @@ const Footer = () => {
 
               <span style={{ marginRight: '15px' }}>•</span>
 
-              <Link to="/termos/politica-de-privacidade" target="__blank">
+              <Link to="/termos/termos-de-uso" target="__blank">
                 termos de uso
               </Link>
               <Link to="/termos/politica-de-privacidade" target="__blank">

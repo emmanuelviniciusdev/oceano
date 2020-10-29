@@ -37,6 +37,9 @@ import useTranslation from '../../hooks/useTranslation';
 import { signOut } from '../../services/auth';
 import { createNote, deleteNote } from '../../services/note';
 
+// Helpers
+import { generatesNextOrderId } from '../../helpers/noteAndFolder';
+
 // Utils
 import { doesRouteMatch } from '../../utils';
 
@@ -85,11 +88,14 @@ const TopBar: React.FunctionComponent = () => {
 
     try {
       if (userContext?.state) {
+        const nextOrderId = await generatesNextOrderId(null);
+
         const data: NoteDocumentType = {
           userUID: userContext.state.uid,
           folderId: null,
           title: '',
           data: null,
+          orderId: nextOrderId,
           createdAt: new Date(),
         };
 

@@ -10,6 +10,9 @@ import {
 // Utils
 import { OceanoErrorConstructed } from '../utils';
 
+// Services
+import { getLastFolderFromFolder } from './folder';
+
 const notes = () => firebase.firestore().collection('notes');
 
 /**
@@ -66,4 +69,22 @@ function deleteNote(noteId: string) {
   return notes().doc(noteId).delete();
 }
 
-export { updateNote, getNote, createNote, deleteNote };
+/**
+ * Get the last note from a folder based on note's 'orderId' property.
+ *
+ * The higher 'orderId' value indicates the last note.
+ *
+ * @param folderId Folder's document ID
+ */
+async function getLastNoteFromFolder(folderId: string | null) {
+  return notes()
+    .where('folderId', '==', folderId)
+    .orderBy('orderId', 'desc')
+    .limit(1)
+    .get()
+    .then((notes) =>
+      !notes.empty ? (notes.docs[0].data() as NoteDocumentType) : null
+    );
+}
+
+export { updateNote, getNote, createNote, deleteNote, getLastNoteFromFolder };

@@ -1,7 +1,7 @@
 /**
  *
- * Any kind of function or variable that can be used in multiple parts of the
- * application can be placed here.
+ * Any kind of extremely general function or variable that can be used in multiple
+ * parts of the application can be placed here.
  *
  */
 

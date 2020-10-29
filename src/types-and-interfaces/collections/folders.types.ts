@@ -1,3 +1,5 @@
+import { FirebaseTimestamps } from '../firebase.types';
+
 export type FolderDocumentType = {
   /**
    * The UID of the user who owns the folder.
@@ -15,4 +17,19 @@ export type FolderDocumentType = {
    * The title of the folder.
    */
   title: string;
+
+  /**
+   * This is a reference number to the order position in the parent
+   * folder.
+   */
+  orderId: number | null;
+
+  /**
+   * Date that user created the folder.
+   */
+  createdAt: Date | FirebaseTimestamps;
 };
+
+export type FolderDocumentWithIDType = {
+  documentId: string;
+} & FolderDocumentType;
