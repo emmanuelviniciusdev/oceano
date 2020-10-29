@@ -68,7 +68,11 @@ describe('TopBar', () => {
   });
 
   it('should not render TopBar on blocked routes', () => {
-    const blockedRoutes = ['/pagina-nao-encontrada', '/offline'];
+    const blockedRoutes = [
+      '/pagina-nao-encontrada',
+      '/offline',
+      '/termos/termos-de-uso',
+    ];
 
     blockedRoutes.forEach((pathname) => {
       (useLocation as jest.Mock).mockImplementation(() => ({

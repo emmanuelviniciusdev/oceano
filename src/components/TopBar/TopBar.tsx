@@ -137,6 +137,11 @@ const TopBar: React.FunctionComponent = () => {
      * /offline
      */
     /^\/offline\/?$/i,
+
+    /**
+     * /termos/:termsType
+     */
+    /^\/termos\/(?:([^\/]+?))\/?$/i,
   ];
 
   return (
