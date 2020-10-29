@@ -49,7 +49,7 @@ const Footer = () => {
           <WrapperContent>
             <MobileContent>
               <TagVersion className="tag-version">
-                versão <b>{oceanoVersion}</b>
+                versão {oceanoVersion}
               </TagVersion>
               <LinksSelect defaultValue="">
                 <option value="" disabled>
@@ -64,7 +64,7 @@ const Footer = () => {
 
             <Content>
               <TagVersion className="tag-version">
-                produção independente — <b>versão {oceanoVersion}</b>
+                produção independente — versão {oceanoVersion}
               </TagVersion>
 
               <span style={{ marginRight: '15px' }}>•</span>

@@ -55,7 +55,7 @@ export const Content = styled.div`
 
     a {
       color: ${theme.colors.white};
-      font-weight: 500;
+      font-weight: bold;
       text-decoration: none;
       margin-right: 15px;
     }
