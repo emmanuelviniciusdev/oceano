@@ -20,7 +20,7 @@ export const WrapperStyledTermsBox = styled.div`
 
 export const StyledTermsBox = styled.div`
   width: 100%;
-  padding: 50px;
+  padding: 35px;
   border-radius: 10px;
   background-color: ${theme.colors.yellow};
   box-shadow: 3px 4px 6px 2px rgba(0, 0, 0, 0.25);
@@ -30,6 +30,10 @@ export const StyledTermsBox = styled.div`
     color: ${theme.colors.black};
     font-size: 36px;
     font-weight: 900;
+  }
+
+  @media (min-width: 600px) {
+    padding: 50px;
   }
 
   @media (min-width: 960px) {
