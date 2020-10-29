@@ -151,6 +151,18 @@ const content: LanguageStateType = {
       },
     },
 
+    TermsBox: {
+      titles: {
+        'terms-of-use': 'Terms of Use',
+        'privacy-policy': 'Privacy Policy',
+      },
+      actionButtons: {
+        buttonHomePage: { text: 'home page' },
+        buttonTermsOfUse: { text: 'terms of use' },
+        buttonPrivacyPolicy: { text: 'privacy policy' },
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:

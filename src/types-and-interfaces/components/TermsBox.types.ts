@@ -1,3 +1,5 @@
+export type TermsBoxShowingType = 'terms-of-use' | 'privacy-policy';
+
 export type TermsBoxType = {
-  showing: 'terms-of-use' | 'privacy-policy';
+  showing: TermsBoxShowingType;
 };
