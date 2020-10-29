@@ -1,4 +1,5 @@
 import { OutputData } from '@editorjs/editorjs';
+import { FirebaseTimestamps } from '../firebase.types';
 
 export type NoteDocumentType = {
   /**
@@ -22,6 +23,11 @@ export type NoteDocumentType = {
    * The note's data based on 'OutputData' from 'editorjs'.
    */
   data: OutputData | undefined | null;
+
+  /**
+   * Date that user created the note.
+   */
+  createdAt: Date | FirebaseTimestamps;
 };
 
 export type NoteDocumentWithIDType = { documentId: string } & NoteDocumentType;

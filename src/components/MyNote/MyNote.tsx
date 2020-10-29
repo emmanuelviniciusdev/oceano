@@ -36,6 +36,7 @@ import OceanoButton from '../OceanoButton/OceanoButton';
 
 // Services
 import { getNote, updateNote } from '../../services/note';
+import { FirebaseTimestamps } from '../../types-and-interfaces/firebase.types';
 
 const editorJsTools = {
   header: Header,
@@ -106,6 +107,7 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
     (async () => {
       try {
         const noteData = await getNote(noteId);
+
         setNoteDocumentData(noteData);
       } catch (err) {
         if (err.code === 'oceano-note/note-does-not-exist') {

@@ -90,6 +90,7 @@ const TopBar: React.FunctionComponent = () => {
           folderId: null,
           title: '',
           data: null,
+          createdAt: new Date(),
         };
 
         const noteId = await createNote(data);
