@@ -1,24 +1,24 @@
 import { lighten } from 'polished';
 import { createGlobalStyle } from 'styled-components';
 import theme from '../../styles/theme';
-import seashells from '../../assets/images/seashells.png';
+import spacedSeashell from '../../assets/images/spaced-seashell.png';
 
 export const GlobalStyle = createGlobalStyle`
     body {
         background-color: ${lighten(0.2, theme.colors.secondary)};
-        background-image: url(${seashells});
-        background-size: 120px 97px;
+        background-image: url(${spacedSeashell});
+        background-size: 150px 110px;
     }
 
     @media (min-width: 600px) {
         body {
-            background-size: 150px 127px;
+            background-size: 200px 146.67px;
         }
     }
 
     @media (min-width: 960px) {
         body {
-            background-size: 200px 155px;
+            background-size: 350px 256.67px;
         }
     }
 `;
