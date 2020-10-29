@@ -1,0 +1,4 @@
+The purpose of a 'factory' is, given an input, to return an output without depend on anything
+('services', for example).
+
+Think of a 'factory' as a simpler version of 'utils'.

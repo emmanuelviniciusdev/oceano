@@ -1,0 +1,1 @@
+The purpose of a 'service' is to communicate and interact with a firebase collection.

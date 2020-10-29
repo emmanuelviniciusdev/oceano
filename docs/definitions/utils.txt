@@ -1,0 +1,6 @@
+The purpose of a 'util' is to abstract very common and simple functions that can be used in various
+application locations.
+
+A 'util' cannot depend on a 'service' to work. In this case, use a 'helper' instead.
+
+Think of a 'util' as a simpler version of 'factories'.

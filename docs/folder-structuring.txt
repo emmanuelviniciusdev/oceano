@@ -47,6 +47,17 @@
 
 ====================================================================================
 
+./helpers/
+	helpername.ts
+
+====================================================================================
+
+./factories/
+	factoryname.ts
+	factoryname.spec.ts
+
+====================================================================================
+
 
 ./types-and-interfaces/
 	filefromsrc.types.ts
@@ -85,6 +96,14 @@
 	./services/
 		servicename.types.ts
 		servicename.interfaces.ts
+
+	./helpers/
+		helpername.types.ts
+		helpername.interfaces.ts
+
+	./factories/
+		factoryname.types.ts
+		factoryname.interfaces.ts
 
 	./collection/
 		collectionname.types.ts

@@ -1,0 +1,2 @@
+The purpose of a 'helper' is to abstract repetitive business logic that uses various 'services' to
+achieve some result.
