@@ -1,6 +1,7 @@
 import React from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
+import { useParams } from 'react-router-dom';
 
 // Styles
 import { Content, WrapperBreadcrumbs, WrapperNotes } from './styles';
@@ -10,7 +11,12 @@ import { Container } from '../../styles/general';
 import Breadcrumbs from '../../components/Breadcrumbs/Breadcrumbs';
 import NotesAndFolders from '../../components/NotesAndFolders/NotesAndFolders';
 
+// Types
+import { NotesPageRouteParamsType } from '../../types-and-interfaces/pages/NotesPage.types';
+
 const NotesPage = () => {
+  const { folderId } = useParams<NotesPageRouteParamsType>();
+
   return (
     <>
       <Container>
@@ -22,7 +28,7 @@ const NotesPage = () => {
 
         <DndProvider backend={HTML5Backend}>
           <WrapperNotes>
-            <NotesAndFolders />
+            <NotesAndFolders folderId={folderId || null} />
           </WrapperNotes>
         </DndProvider>
       </Container>

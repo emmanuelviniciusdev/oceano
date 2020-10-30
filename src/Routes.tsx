@@ -164,7 +164,7 @@ const Routes: React.FunctionComponent = () => {
             }
           />
           <Route
-            path="/notas"
+            path="/notas/:folderId?"
             render={() =>
               renderMiddleware(<NotesPage />, {
                 pageTitle: notesPageTitle,

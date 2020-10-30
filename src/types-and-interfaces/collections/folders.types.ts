@@ -1,4 +1,4 @@
-import { FirebaseTimestamps } from '../firebase.types';
+import { DocumentIDType, FirebaseTimestamps } from '../firebase.types';
 
 export type FolderDocumentType = {
   /**
@@ -30,6 +30,4 @@ export type FolderDocumentType = {
   createdAt: Date | FirebaseTimestamps;
 };
 
-export type FolderDocumentWithIDType = {
-  documentId: string;
-} & FolderDocumentType;
+export type FolderDocumentWithIDType = DocumentIDType & FolderDocumentType;

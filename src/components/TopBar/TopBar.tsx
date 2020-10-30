@@ -88,7 +88,10 @@ const TopBar: React.FunctionComponent = () => {
 
     try {
       if (userContext?.state) {
-        const nextOrderId = await generatesNextOrderId(null);
+        const nextOrderId = await generatesNextOrderId(
+          null,
+          userContext.state.uid
+        );
 
         const data: NoteDocumentType = {
           userUID: userContext.state.uid,

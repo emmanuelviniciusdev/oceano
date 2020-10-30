@@ -12,9 +12,14 @@ const folders = () => firebase.firestore().collection('folders');
  * The higher 'orderId' value indicates the last folder.
  *
  * @param parentFolderId Document ID of the parent folder
+ * @param userUID User's ID
  */
-async function getLastFolderFromFolder(parentFolderId: string | null) {
+async function getLastFolderFromFolder(
+  parentFolderId: string | null,
+  userUID: string
+) {
   return folders()
+    .where('userUID', '==', userUID)
     .where('parentFolderId', '==', parentFolderId)
     .orderBy('orderId', 'desc')
     .limit(1)
@@ -24,4 +29,4 @@ async function getLastFolderFromFolder(parentFolderId: string | null) {
     );
 }
 
-export { getLastFolderFromFolder };
+export { folders as foldersCollectionRef, getLastFolderFromFolder };

@@ -10,9 +10,6 @@ import {
 // Utils
 import { OceanoErrorConstructed } from '../utils';
 
-// Services
-import { getLastFolderFromFolder } from './folder';
-
 const notes = () => firebase.firestore().collection('notes');
 
 /**
@@ -26,6 +23,8 @@ function updateNote(noteId: string, data: NoteDocumentType) {
 }
 
 /**
+ * // TODO: Filter by user UID
+ *
  * Gets note's data
  *
  * @param noteId Note's document ID
@@ -44,6 +43,37 @@ async function getNote(noteId: string): Promise<NoteDocumentWithIDType> {
       documentId: note.id,
       ...(note.data() as NoteDocumentType),
     };
+  } catch (err) {
+    throw err;
+  }
+}
+
+/**
+ * Gets all notes "on demand" based on 'lastOrderId'.
+ *
+ * When passing the 'lastOrderId' parameter, the first items returned that have the value of
+ * 'orderId' less than the value of 'lastOrderId' will be returned.
+ *
+ * @param userUID User's ID
+ * @param lastOrderId 'orderId' of the last note rendered on the page
+ * @param limit Amount of data to be returned
+ */
+async function getAllNotesPagination(
+  userUID: string,
+  lastOrderId?: number,
+  limit: number = 5
+) {
+  try {
+    let fetchedNotes = notes()
+      .where('userUID', '==', userUID)
+      .orderBy('orderId', 'desc')
+      .limit(limit);
+
+    if (lastOrderId) fetchedNotes = fetchedNotes.startAfter(lastOrderId);
+
+    return (await fetchedNotes.get()).docs.map(
+      (doc) => ({ documentId: doc.id, ...doc.data() } as NoteDocumentWithIDType)
+    );
   } catch (err) {
     throw err;
   }
@@ -75,9 +105,11 @@ function deleteNote(noteId: string) {
  * The higher 'orderId' value indicates the last note.
  *
  * @param folderId Folder's document ID
+ * @param userUID User's ID
  */
-async function getLastNoteFromFolder(folderId: string | null) {
+async function getLastNoteFromFolder(folderId: string | null, userUID: string) {
   return notes()
+    .where('userUID', '==', userUID)
     .where('folderId', '==', folderId)
     .orderBy('orderId', 'desc')
     .limit(1)
@@ -87,4 +119,12 @@ async function getLastNoteFromFolder(folderId: string | null) {
     );
 }
 
-export { updateNote, getNote, createNote, deleteNote, getLastNoteFromFolder };
+export {
+  notes as notesCollectionRef,
+  updateNote,
+  getNote,
+  createNote,
+  deleteNote,
+  getLastNoteFromFolder,
+  getAllNotesPagination,
+};

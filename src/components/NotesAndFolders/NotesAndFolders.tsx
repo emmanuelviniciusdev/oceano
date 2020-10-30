@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 // Styles
@@ -7,15 +7,27 @@ import { MotionDivWrapperNoteOrFolder } from './styles';
 // Components
 import NoteOrFolder from '../NoteOrFolder/NoteOrFolder';
 
-// Services
-import { getLastNoteFromFolder } from '../../services/note';
-import { getLastFolderFromFolder } from '../../services/folder';
+// Types
+import { NotesAndFoldersType } from '../../types-and-interfaces/components/NotesAndFolders.types';
 
-const NotesAndFolders: React.FunctionComponent = () => {
+// tests
+import {
+  getAllFoldersPagination,
+  getAllNotesPagination,
+} from '../../helpers/noteAndFolder';
+import { AppContext } from '../../store';
+
+const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
+  folderId,
+}) => {
+  const { user: userContext } = useContext(AppContext);
+
   useEffect(() => {
-    // getLastFolderFromFolder(null)
-    //   .then((d) => console.log(d))
-    //   .catch((err) => console.error(err));
+    if (!userContext?.state) return;
+
+    getAllFoldersPagination(userContext.state.uid)
+      .then((docs) => console.log(docs))
+      .catch((err) => console.error(err));
   }, []);
 
   return (

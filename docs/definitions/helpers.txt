@@ -1,2 +1,2 @@
-The purpose of a 'helper' is to abstract repetitive business logic that uses various 'services' to
-achieve some result.
+The purpose of a 'helper' is to abstract repetitive business logic that uses various 'services' or
+firebase collections to achieve some result.
