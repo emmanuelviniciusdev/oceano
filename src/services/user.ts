@@ -11,7 +11,7 @@ const users = () => firebase.firestore().collection('users');
  *
  * @param uid User UID
  */
-async function getUserByUID(uid?: string) {
+export async function getUserByUID(uid?: string) {
   try {
     return (await users().doc(uid).get()).data();
   } catch (err) {
@@ -25,7 +25,7 @@ async function getUserByUID(uid?: string) {
  *
  * @param uid User UID
  */
-async function checkIfUserExistsInCollectionByUID(uid?: string) {
+export async function checkIfUserExistsInCollectionByUID(uid?: string) {
   try {
     return (await getUserByUID(uid)) !== undefined;
   } catch (err) {
@@ -39,12 +39,10 @@ async function checkIfUserExistsInCollectionByUID(uid?: string) {
  * @param uid User UID
  * @param data Essential user data
  */
-async function registerUser(uid: string, data: UserCollectionType) {
+export async function registerUser(uid: string, data: UserCollectionType) {
   try {
     await users().doc(uid).set(data);
   } catch (err) {
     throw err;
   }
 }
-
-export { getUserByUID, checkIfUserExistsInCollectionByUID, registerUser };

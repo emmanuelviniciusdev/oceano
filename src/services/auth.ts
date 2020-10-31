@@ -12,7 +12,7 @@ import { OceanoErrorConstructed } from '../utils';
  *
  * @param method Login method
  */
-async function signInWith(method: 'google' | 'github') {
+export async function signInWith(method: 'google' | 'github') {
   if (!method) return;
 
   const providers = {
@@ -53,11 +53,11 @@ async function signInWith(method: 'google' | 'github') {
 /**
  * It signs out user
  */
-function signOut() {
+export function signOut() {
   return firebase.auth().signOut();
 }
 
-function sendUserEmailVerification() {
+export function sendUserEmailVerification() {
   const unsubscribe = firebase.auth().onAuthStateChanged((user) => {
     unsubscribe();
 
@@ -74,5 +74,3 @@ function sendUserEmailVerification() {
     });
   });
 }
-
-export { signInWith, signOut, sendUserEmailVerification };

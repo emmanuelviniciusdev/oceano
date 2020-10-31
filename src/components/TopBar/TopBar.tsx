@@ -35,16 +35,17 @@ import useTranslation from '../../hooks/useTranslation';
 
 // Services
 import { signOut } from '../../services/auth';
-import { createNote, deleteNote } from '../../services/note';
-
-// Helpers
-import { generatesNextOrderId } from '../../helpers/noteAndFolder';
+import {
+  createItem,
+  deleteItem,
+  getLastItemFromFolder,
+} from '../../services/item';
 
 // Utils
 import { doesRouteMatch } from '../../utils';
 
 // Types
-import { NoteDocumentType } from '../../types-and-interfaces/collections/notes.types';
+import { ItemDocumentType } from '../../types-and-interfaces/collections/items.types';
 
 // Setup
 import { AppContext } from '../../store';
@@ -88,21 +89,21 @@ const TopBar: React.FunctionComponent = () => {
 
     try {
       if (userContext?.state) {
-        const nextOrderId = await generatesNextOrderId(
-          null,
-          userContext.state.uid
-        );
+        const nextOrderId =
+          ((await getLastItemFromFolder(null, userContext.state.uid))
+            ?.orderId || 0) + 1;
 
-        const data: NoteDocumentType = {
+        const data: ItemDocumentType = {
           userUID: userContext.state.uid,
-          folderId: null,
+          parentFolderId: null,
+          type: 'note',
           title: '',
           data: null,
           orderId: nextOrderId,
           createdAt: new Date(),
         };
 
-        const noteId = await createNote(data);
+        const noteId = await createItem(data);
 
         history.push(`/minha-nota/${noteId}`);
       }
@@ -120,7 +121,7 @@ const TopBar: React.FunctionComponent = () => {
     setIsDeletingNote(true);
 
     try {
-      await deleteNote(myNoteContext.state.noteId);
+      await deleteItem(myNoteContext.state.noteId);
       history.push('/');
     } catch (err) {
       console.error(err);

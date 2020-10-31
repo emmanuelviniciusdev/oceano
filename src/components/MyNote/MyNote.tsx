@@ -26,8 +26,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import useTranslation from '../../hooks/useTranslation';
 
 // Types
-import { NoteDocumentWithIDType } from '../../types-and-interfaces/collections/notes.types';
 import { MyNoteType } from '../../types-and-interfaces/components/MyNote.types';
+import { ItemDocumenttWithIDType } from '../../types-and-interfaces/collections/items.types';
 
 // Components
 import OceanoNotification from '../OceanoNotification/OceanoNotification';
@@ -35,8 +35,7 @@ import OceanoCard from '../OceanoCard/OceanoCard';
 import OceanoButton from '../OceanoButton/OceanoButton';
 
 // Services
-import { getNote, updateNote } from '../../services/note';
-import { FirebaseTimestamps } from '../../types-and-interfaces/firebase.types';
+import { getItem, updateItem } from '../../services/item';
 
 const editorJsTools = {
   header: Header,
@@ -53,7 +52,7 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [showAutosaveInfo, setShowAutosaveInfo] = useState(false);
   const [noteDocumentData, setNoteDocumentData] = useState<
-    NoteDocumentWithIDType
+    ItemDocumenttWithIDType
   >();
   const [isUserChange, setIsUserChange] = useState(false);
   const [
@@ -77,7 +76,7 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
          */
         const { documentId, ...dataToSave } = noteDocumentData;
 
-        await updateNote(documentId, dataToSave);
+        await updateItem(documentId, dataToSave);
       }
     } catch (err) {
       console.error(err);
@@ -106,11 +105,11 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
   useEffect(() => {
     (async () => {
       try {
-        const noteData = await getNote(noteId);
+        const noteData = await getItem(noteId);
 
         setNoteDocumentData(noteData);
       } catch (err) {
-        if (err.code === 'oceano-note/note-does-not-exist') {
+        if (err.code === 'oceano-item/item-does-not-exist') {
           history.push('/pagina-nao-encontrada');
           return;
         }
