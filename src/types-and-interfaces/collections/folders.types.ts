@@ -31,3 +31,7 @@ export type FolderDocumentType = {
 };
 
 export type FolderDocumentWithIDType = DocumentIDType & FolderDocumentType;
+
+export type FolderDocumentWithIDAndItemTypeType = FolderDocumentWithIDType & {
+  itemType: 'folder';
+};

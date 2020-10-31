@@ -7,6 +7,8 @@ import { FolderDocumentType } from '../types-and-interfaces/collections/folders.
 const folders = () => firebase.firestore().collection('folders');
 
 /**
+ * // TODO: Abstract this to an unique helper
+ *
  * Get the last folder from a parent folder based on folder's 'orderId' property.
  *
  * The higher 'orderId' value indicates the last folder.

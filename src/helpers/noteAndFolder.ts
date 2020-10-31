@@ -5,10 +5,6 @@ import {
 } from '../services/folder';
 import { getLastNoteFromFolder, notesCollectionRef } from '../services/note';
 
-// Types
-import { NoteDocumentWithIDType } from '../types-and-interfaces/collections/notes.types';
-import { FolderDocumentWithIDType } from '../types-and-interfaces/collections/folders.types';
-
 /**
  * Generates the next 'orderId' of a folder based on the 'orderId' property of the last
  * items from 'folders' and 'notes' collections.
@@ -32,28 +28,41 @@ async function generatesNextOrderId(folderId: string | null, userUID: string) {
 /**
  * Gets items "on demand" based on 'lastOrderId'.
  *
- * When passing the 'lastOrderId' parameter, the first items returned that have the value of
+ * When passing the 'lastOrderId' parameter, only the first items returned that have the value of
  * 'orderId' less than the value of 'lastOrderId' will be returned.
  *
- * @param collectionRef Reference to 'notes' or 'folders' firebase collection
+ * @param itemsType The type of items to be fetched from firebase
  * @param userUID User's ID
- * @param lastOrderId 'orderId' of the last note or folder rendered on the page
  * @param limit Amount of data to be returned
+ * @param lastOrderId 'orderId' of the last note or folder rendered on the page
  */
 async function getAllItemsPagination<T>(
-  collectionRef: firebase.firestore.CollectionReference<
-    firebase.firestore.DocumentData
-  >,
+  itemsType: 'notes' | 'folders',
   userUID: string,
-  limit: number,
-  lastOrderId?: number
+  folderId: string | null,
+  lastOrderId: number | null,
+  limit: number = 6
 ) {
   try {
-    let fetchedItems = collectionRef
+    const collectionRef = {
+      notes: notesCollectionRef,
+      folders: foldersCollectionRef,
+    };
+
+    const folderIdFieldNameToApplyFilter = {
+      notes: 'folderId',
+      folders: 'parentFolderId',
+    };
+
+    let fetchedItems = collectionRef[itemsType]()
       .where('userUID', '==', userUID)
+      .where(folderIdFieldNameToApplyFilter[itemsType], '==', folderId)
       .orderBy('orderId', 'desc')
       .limit(limit);
 
+    /**
+     * Applies 'lastOrderId' sort.
+     */
     if (lastOrderId) fetchedItems = fetchedItems.startAfter(lastOrderId);
 
     return (await fetchedItems.get()).docs.map(
@@ -64,44 +73,4 @@ async function getAllItemsPagination<T>(
   }
 }
 
-/**
- * Abstraction of 'getAllItemsPagination'
- *
- * @param userUID User's ID
- * @param lastOrderId 'orderId' of the last note rendered on the page
- * @param limit Amount of data to be returned
- */
-function getAllNotesPagination(
-  userUID: string,
-  lastOrderId?: number,
-  limit: number = 5
-) {
-  return getAllItemsPagination<NoteDocumentWithIDType>(
-    notesCollectionRef(),
-    userUID,
-    limit,
-    lastOrderId
-  );
-}
-
-/**
- * Abstraction of 'getAllItemsPagination'
- *
- * @param userUID User's ID
- * @param lastOrderId 'orderId' of the last folder rendered on the page
- * @param limit Amount of data to be returned
- */
-function getAllFoldersPagination(
-  userUID: string,
-  lastOrderId?: number,
-  limit: number = 5
-) {
-  return getAllItemsPagination<FolderDocumentWithIDType>(
-    foldersCollectionRef(),
-    userUID,
-    limit,
-    lastOrderId
-  );
-}
-
-export { generatesNextOrderId, getAllNotesPagination, getAllFoldersPagination };
+export { generatesNextOrderId, getAllItemsPagination };

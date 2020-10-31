@@ -37,3 +37,7 @@ export type NoteDocumentType = {
 };
 
 export type NoteDocumentWithIDType = { documentId: string } & NoteDocumentType;
+
+export type NoteDocumentWithIDAndItemTypeType = NoteDocumentWithIDType & {
+  itemType: 'note';
+};

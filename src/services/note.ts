@@ -100,6 +100,8 @@ function deleteNote(noteId: string) {
 }
 
 /**
+ * // TODO: Abstract this to an unique helper
+ *
  * Get the last note from a folder based on note's 'orderId' property.
  *
  * The higher 'orderId' value indicates the last note.
