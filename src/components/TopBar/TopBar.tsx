@@ -132,6 +132,10 @@ const TopBar: React.FunctionComponent = () => {
     }
   };
 
+  const handleSearchItems = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('hello');
+  };
+
   /**
    * Routes where TopBar will not be rendered.
    *
@@ -184,6 +188,7 @@ const TopBar: React.FunctionComponent = () => {
                     <InputSearch
                       type="text"
                       placeholder={translation?.inputSearch?.placeholder}
+                      onChange={handleSearchItems}
                     />
                   </WrapperInputSearch>
 
