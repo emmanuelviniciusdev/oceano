@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
@@ -49,13 +49,18 @@ import { ItemDocumentType } from '../../types-and-interfaces/collections/items.t
 
 // Setup
 import { AppContext } from '../../store';
+import topBarReducer from '../../store/reducers/topBar';
 
 const TopBar: React.FunctionComponent = () => {
   const translation = useTranslation('TopBar');
   const currentLocation = useLocation();
   const history = useHistory();
 
-  const { user: userContext, myNote: myNoteContext } = useContext(AppContext);
+  const {
+    user: userContext,
+    myNote: myNoteContext,
+    topBar: topBarContext,
+  } = useContext(AppContext);
 
   /**
    * // TODO: Refactor these states that shows/hides something to an unique state
@@ -67,6 +72,8 @@ const TopBar: React.FunctionComponent = () => {
 
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [isDeletingNote, setIsDeletingNote] = useState(false);
+
+  const searchItemsTimeoutRef = useRef<number>();
 
   const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
     /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
@@ -133,7 +140,15 @@ const TopBar: React.FunctionComponent = () => {
   };
 
   const handleSearchItems = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('hello');
+    const value = event.target.value;
+
+    clearTimeout(searchItemsTimeoutRef.current);
+
+    searchItemsTimeoutRef.current = setTimeout(() => {
+      topBarContext?.dispatch(
+        topBarReducer.actionCreators.setSearchedTerm(value)
+      );
+    }, 500);
   };
 
   /**

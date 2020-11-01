@@ -12,6 +12,7 @@ import React, { createContext, useReducer } from 'react';
 import languageReducer from './reducers/language';
 import userReducer from './reducers/user';
 import myNoteReducer from './reducers/myNote';
+import topBarReducer from './reducers/topBar';
 
 // Types
 import {
@@ -31,6 +32,9 @@ export function AppContextProvider({ children }: AppContextProviderPropsType) {
     ),
     myNote: transformReducer(
       useReducer(myNoteReducer.reducer, myNoteReducer.initialState)
+    ),
+    topBar: transformReducer(
+      useReducer(topBarReducer.reducer, topBarReducer.initialState)
     ),
   };
 

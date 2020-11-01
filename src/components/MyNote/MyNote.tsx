@@ -45,6 +45,40 @@ const editorJsTools = {
   embed: Embed,
 };
 
+/**
+ * Generates an array containing the keywords of the title to be used
+ * in the search engine with firebase.
+ *
+ * @param title The note's title
+ */
+const generateTitleKeywords = (title: string) => {
+  let keywords: string[] = [];
+
+  const wordsArray = title.split(' ');
+  const transformedWordsArray = [...wordsArray];
+
+  wordsArray.forEach((word, index) => {
+    if (index > 0) {
+      transformedWordsArray.shift();
+    }
+
+    let currentWord = '';
+
+    transformedWordsArray
+      .join(' ')
+      .toLowerCase()
+      .split('')
+      .forEach((letter) => {
+        currentWord += letter;
+        keywords.push(currentWord);
+      });
+  });
+
+  return keywords;
+};
+
+// generateTitleKeywords('this thing is rare bro');
+
 const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
   const translation = useTranslation('MyNote');
   const history = useHistory();
@@ -177,13 +211,16 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
               }
               onChange={(e) => {
                 const title = e.target.value;
+                const titleKeywords = generateTitleKeywords(title);
 
                 if (title.length > 120) return;
 
                 clearTimeout(isSavingNoteTimeoutRef.current);
                 isSavingNoteTimeoutRef.current = setTimeout(() => {
                   setIsUserChange(true);
-                  setNoteDocumentData((value) => value && { ...value, title });
+                  setNoteDocumentData(
+                    (value) => value && { ...value, title, titleKeywords }
+                  );
                 }, 500);
               }}
               onKeyDown={(e) => {

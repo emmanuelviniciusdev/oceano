@@ -20,44 +20,49 @@ import { AppContext } from '../../store';
 const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
   folderId,
 }) => {
-  const { user: userContext } = useContext(AppContext);
+  const { user: userContext, topBar: topBarContext } = useContext(AppContext);
 
   const [fetchedItems, setFetchedItems] = useState<ItemDocumenttWithIDType[]>();
   const [lastOrderId, setLastOrderId] = useState<number | null>(null);
 
-  /**
-   * Fetches all item from API "on demand".
-   *
-   * @param search The word to be searched
-   */
-  const searchItems = async (search?: string) => {
-    if (!userContext?.state) return;
-
-    try {
-      const items = await getAllItemsPagination(
-        userContext.state.uid,
-        null,
-        lastOrderId,
-        12
-      );
-
-      setFetchedItems((stateItems) =>
-        stateItems ? [...stateItems, ...items] : items
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   useEffect(() => {
-    searchItems();
-  }, []);
+    const userUID = userContext?.state?.uid;
+
+    /**
+     * Fetches all item from API "on demand".
+     *
+     * @param search The word to be searched
+     */
+    const searchItems = async (search?: string) => {
+      if (!userUID) return;
+
+      try {
+        const items = await getAllItemsPagination(
+          userUID,
+          null,
+          search || null,
+          null,
+          12
+        );
+
+        console.log(items);
+
+        setFetchedItems((stateItems) =>
+          stateItems ? [...stateItems, ...items] : items
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    searchItems(topBarContext?.state?.searchedTerm);
+  }, [topBarContext?.state?.searchedTerm, userContext?.state?.uid]);
 
   /**
    * Sets the new 'lastOrderId' whenever 'fetchedItems' changes.
    */
   useEffect(() => {
-    if (fetchedItems) {
+    if (fetchedItems && fetchedItems.length > 0) {
       /**
        * We just need to get the last item from array because the data are
        * already sorted in descending order.

@@ -25,6 +25,11 @@ export type ItemDocumentType = {
   title: string;
 
   /**
+   * Title's keywords to perform an 'array-contains' search.
+   */
+  titleKeywords?: string[];
+
+  /**
    * This property is for keeping the note data if the item is of 'note' type.
    *
    * This is based on 'OutputData' from 'editorjs'.

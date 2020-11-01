@@ -101,12 +101,14 @@ export async function getLastItemFromFolder(
  *
  * @param userUID User's ID
  * @param parentFolderId Folder's ID where the items belong
+ * @param searchedTerm When some string is passed, items will be filtered by this term
  * @param limit Amount of data to be returned
  * @param lastOrderId 'orderId' of the last note or folder rendered on the page
  */
 export async function getAllItemsPagination(
   userUID: string,
   parentFolderId: string | null,
+  searchedTerm: string | null,
   lastOrderId: number | null,
   limit: number
 ) {
@@ -121,6 +123,17 @@ export async function getAllItemsPagination(
      * Applies 'lastOrderId' sort.
      */
     if (lastOrderId) fetchedItems = fetchedItems.startAfter(lastOrderId);
+
+    /**
+     * Applies 'array-contains' search.
+     */
+    if (searchedTerm) {
+      fetchedItems = fetchedItems.where(
+        'titleKeywords',
+        'array-contains',
+        searchedTerm.toLowerCase()
+      );
+    }
 
     return (await fetchedItems.get()).docs.map(
       (doc) =>
