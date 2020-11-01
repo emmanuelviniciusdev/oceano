@@ -13,3 +13,10 @@ export const MotionDivWrapperNoteOrFolder = styled.div`
     margin: 0 25px 50px 25px;
   }
 `;
+
+export const WrapperOceanoCard = styled.div`
+  /* background-color: green; */
+  width: 95%;
+  max-width: 800px;
+  margin: 0 auto;
+`;

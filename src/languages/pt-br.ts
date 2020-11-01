@@ -164,6 +164,12 @@ const content: LanguageStateType = {
       },
     },
 
+    NotesAndFolders: {
+      errorLoadingItemsMsg: (username: string) =>
+        `Mil perdões, ${username}. Ocorreu um erro ao carregar suas notas.`,
+      loadingItemsMsg: 'carregando...',
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:

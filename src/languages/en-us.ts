@@ -163,6 +163,12 @@ const content: LanguageStateType = {
       },
     },
 
+    NotesAndFolders: {
+      errorLoadingItemsMsg: (username: string) =>
+        `Very sorry, ${username}. There was an error loading your notes.`,
+      loadingItemsMsg: 'loading...',
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:
