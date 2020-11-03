@@ -76,6 +76,17 @@ const content: LanguageStateType = {
           'dropping-folder-over-note':
             '* você acabou de mover uma pasta para cima de uma nota',
         },
+        actions: {
+          buttonCreateNewFolder: {
+            text: 'criar nova pasta',
+          },
+          buttonMoveIntoFolder: {
+            text: 'mover para dentro da pasta',
+          },
+          buttonSwapItems: {
+            text: 'trocar de lugar',
+          },
+        },
       },
       actionDeleteModalLabels: {
         deletingNote: {
@@ -101,9 +112,21 @@ const content: LanguageStateType = {
         renameFolder: 'renomear pasta',
         deleteFolder: 'deletar pasta',
       },
+      actionCreateNewFolderModalLabels: {
+        title: 'dê um nome à pasta',
+        actions: {
+          inputFolderTitle: {
+            placeholder: 'nome da pasta',
+          },
+          buttonCreateNewFolder: {
+            text: 'criar nova pasta',
+          },
+        },
+      },
       buttonSaveEditTitle: {
         text: 'salvar',
       },
+      errorCreatingNewFolderMsg: 'erro ao criar nova pasta',
     },
 
     MyNote: {

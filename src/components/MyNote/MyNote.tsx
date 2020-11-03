@@ -37,6 +37,9 @@ import OceanoButton from '../OceanoButton/OceanoButton';
 // Services
 import { getItem, updateItem } from '../../services/item';
 
+// Utils
+import { generateTitleKeywords } from '../../utils';
+
 const editorJsTools = {
   header: Header,
   list: List,
@@ -44,40 +47,6 @@ const editorJsTools = {
   checklist: Checklist,
   embed: Embed,
 };
-
-/**
- * Generates an array containing the keywords of the title to be used
- * in the search engine with firebase.
- *
- * @param title The note's title
- */
-const generateTitleKeywords = (title: string) => {
-  let keywords: string[] = [];
-
-  const wordsArray = title.split(' ');
-  const transformedWordsArray = [...wordsArray];
-
-  wordsArray.forEach((word, index) => {
-    if (index > 0) {
-      transformedWordsArray.shift();
-    }
-
-    let currentWord = '';
-
-    transformedWordsArray
-      .join(' ')
-      .toLowerCase()
-      .split('')
-      .forEach((letter) => {
-        currentWord += letter;
-        keywords.push(currentWord);
-      });
-  });
-
-  return keywords;
-};
-
-// generateTitleKeywords('this thing is rare bro');
 
 const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
   const translation = useTranslation('MyNote');

@@ -1,18 +1,27 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
+import { AnimatePresence } from 'framer-motion';
 
 // Icons
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import TextFieldsIcon from '@material-ui/icons/TextFields';
 import SaveIcon from '@material-ui/icons/Save';
+import AutorenewIcon from '@material-ui/icons/Autorenew';
+import LayersIcon from '@material-ui/icons/Layers';
+import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
+import AddIcon from '@material-ui/icons/Add';
 
 // Styles
 import { StyledNoteOrFolder, WrapperBtnSaveTitle } from './styles';
+import { StackNotifications } from '../../styles/general';
 
 // Components
 import OceanoModal from '../OceanoModal/OceanoModal';
 import OceanoContextMenu from '../OceanoContextMenu/OceanoContextMenu';
 import OceanoButton from '../OceanoButton/OceanoButton';
+import OceanoInputText from '../OceanoInputText/OceanoInputText';
+import OceanoNotification from '../OceanoNotification/OceanoNotification';
 
 // Types
 import {
@@ -21,30 +30,63 @@ import {
   DropActionTypes,
   GetDropActionType,
   NoteOrFolderStringsLowerCasedType,
+  CurrentDnDItemsType,
+  NoteOrFolderStringsUpperCasedType,
 } from '../../types-and-interfaces/components/NoteOrFolder.types';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
+// Services
+import { createFolderAndMoveItemsIntoIt } from '../../services/item';
+
+// Setup
+import { AppContext } from '../../store';
+
 const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   id,
-  type = 'note',
+  type,
   title,
 }) => {
+  const isComponentUnmounted = useRef(false);
+
   const noteOrFolderRef = useRef<HTMLDivElement | null>(null);
   const textareaToEditTitleRef = useRef<HTMLTextAreaElement | null>(null);
 
   const translation = useTranslation('NoteOrFolder');
 
+  const { user: userContext } = useContext(AppContext);
+
+  const history = useHistory();
+
+  /**
+   * Modals' states
+   */
   const [isDnDModalOpened, setIsDnDModalOpened] = useState(false);
   const [isDeleteModalOpened, setIsDeleteModalOpened] = useState(false);
+  const [
+    isCreateNewFolderModalOpened,
+    setIsCreateNewFolderModalOpened,
+  ] = useState(false);
+
+  /**
+   * Common states
+   */
   const [isRenaming, setIsRenaming] = useState(false);
+  const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
   const [dropActionType, setDropActionType] = useState<DropActionTypes | ''>(
     ''
   );
+  const [currentDnDItems, setCurrentDnDItems] = useState<CurrentDnDItemsType>();
+  const [newFolderTitle, setNewFolderTitle] = useState<string>('');
+
+  /**
+   * Error states
+   */
+  const [creatingNewFolderError, setCreatingNewFolderError] = useState(false);
 
   const [, connectDragSource] = useDrag({
-    item: { type: type.toUpperCase(), id } as DragAndDropItemType,
+    item: { id, type: type.toUpperCase() } as DragAndDropItemType,
   });
 
   const [, connectDropSource] = useDrop({
@@ -64,6 +106,13 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       if (!returnedDropActionType) return;
 
       setDropActionType(returnedDropActionType);
+      setCurrentDnDItems({
+        draggingItem: item,
+        droppingItem: {
+          id,
+          type: type.toUpperCase() as NoteOrFolderStringsUpperCasedType,
+        },
+      });
       setIsDnDModalOpened(true);
     },
   });
@@ -105,6 +154,41 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
     console.log('on delete...');
   };
 
+  const handleCreateNewFolder = async () => {
+    if (!userContext?.state?.uid || !currentDnDItems) return;
+
+    setIsCreatingNewFolder(true);
+
+    try {
+      const newFolderId = await createFolderAndMoveItemsIntoIt(
+        newFolderTitle,
+        userContext.state.uid,
+        null,
+        currentDnDItems.draggingItem.id,
+        currentDnDItems.droppingItem.id
+      );
+
+      history.push('/notas/' + newFolderId);
+    } catch (err) {
+      console.error(err);
+
+      if (!isComponentUnmounted.current) {
+        setCreatingNewFolderError(true);
+        setIsCreateNewFolderModalOpened(false);
+      }
+    } finally {
+      if (!isComponentUnmounted.current) setIsCreatingNewFolder(false);
+    }
+  };
+
+  const handleMoveItemIntoFolder = () => {
+    console.log(currentDnDItems);
+  };
+
+  const handleSwapItems = () => {
+    console.log(currentDnDItems);
+  };
+
   /**
    * Titles in general
    */
@@ -122,6 +206,12 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       type === 'note' ? 'deletingNote' : 'deletingFolder'
     ];
 
+  useEffect(() => {
+    return () => {
+      isComponentUnmounted.current = true;
+    };
+  }, []);
+
   return (
     <>
       {isDnDModalOpened && (
@@ -131,7 +221,86 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
           text={
             translation?.actionDnDModalLabels?.actionTexts?.[dropActionType]
           }
-        ></OceanoModal>
+        >
+          <OceanoButton
+            style={{ width: 'auto' }}
+            icon={<CreateNewFolderIcon />}
+            text={
+              translation?.actionDnDModalLabels?.actions?.buttonCreateNewFolder
+                ?.text
+            }
+            aria-label={
+              translation?.actionDnDModalLabels?.actions?.buttonCreateNewFolder
+                ?.text
+            }
+            onClick={() => {
+              setIsDnDModalOpened(false);
+              setIsCreateNewFolderModalOpened(true);
+            }}
+          />
+          {dropActionType !== 'dropping-note-over-note' && (
+            <OceanoButton
+              style={{ width: 'auto' }}
+              icon={<LayersIcon />}
+              text={
+                translation?.actionDnDModalLabels?.actions?.buttonMoveIntoFolder
+                  ?.text
+              }
+              aria-label={
+                translation?.actionDnDModalLabels?.actions?.buttonMoveIntoFolder
+                  ?.text
+              }
+              onClick={handleMoveItemIntoFolder}
+            />
+          )}
+          <OceanoButton
+            style={{ width: 'auto' }}
+            icon={<AutorenewIcon />}
+            text={
+              translation?.actionDnDModalLabels?.actions?.buttonSwapItems?.text
+            }
+            aria-label={
+              translation?.actionDnDModalLabels?.actions?.buttonSwapItems?.text
+            }
+            onClick={handleSwapItems}
+          />
+        </OceanoModal>
+      )}
+
+      {isCreateNewFolderModalOpened && (
+        <OceanoModal
+          onClose={() => setIsCreateNewFolderModalOpened(false)}
+          title={translation?.actionCreateNewFolderModalLabels?.title}
+        >
+          <OceanoInputText
+            autoFocus
+            placeholder={
+              translation?.actionCreateNewFolderModalLabels?.actions
+                ?.inputFolderTitle?.placeholder
+            }
+            value={newFolderTitle}
+            onChange={(event) => setNewFolderTitle(event.target.value)}
+            onKeyDown={(event) =>
+              event.key === 'Enter' && handleCreateNewFolder()
+            }
+            disabled={isCreatingNewFolder}
+          />
+          <OceanoButton
+            style={{ width: 'auto' }}
+            icon={<AddIcon />}
+            text={
+              translation?.actionCreateNewFolderModalLabels?.actions
+                ?.buttonCreateNewFolder.text
+            }
+            aria-label={
+              translation?.actionCreateNewFolderModalLabels?.actions
+                ?.buttonCreateNewFolder.text
+            }
+            onClick={handleCreateNewFolder}
+            disabled={isCreatingNewFolder}
+            isLoading={isCreatingNewFolder}
+          />
+        </OceanoModal>
       )}
 
       {isDeleteModalOpened && (
@@ -150,6 +319,20 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
           />
         </OceanoModal>
       )}
+
+      <StackNotifications>
+        <AnimatePresence>
+          {creatingNewFolderError && (
+            <OceanoNotification
+              key="creating-new-folder-error"
+              type="error"
+              timeout={10000}
+            >
+              {translation?.errorCreatingNewFolderMsg}
+            </OceanoNotification>
+          )}
+        </AnimatePresence>
+      </StackNotifications>
 
       <OceanoContextMenu componentRef={noteOrFolderRef.current}>
         <OceanoButton
@@ -184,7 +367,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         type={type}
         data-testid={type === 'note' ? 'note-item' : 'folder-item'}
       >
-        {isRenaming /*|| title === 'Minha nova super pasta!!!'*/ ? (
+        {isRenaming ? (
           <>
             <textarea
               ref={textareaToEditTitleRef}

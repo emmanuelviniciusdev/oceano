@@ -74,6 +74,17 @@ const content: LanguageStateType = {
             '* you just moved a folder on top of another folder',
           'dropping-folder-over-note': '* you just moved a folder over a note',
         },
+        actions: {
+          buttonCreateNewFolder: {
+            text: 'create new folder',
+          },
+          buttonMoveIntoFolder: {
+            text: 'move into the folder',
+          },
+          buttonSwapItems: {
+            text: 'change places',
+          },
+        },
       },
       actionDeleteModalLabels: {
         deletingNote: {
@@ -99,9 +110,21 @@ const content: LanguageStateType = {
         renameFolder: 'rename folder',
         deleteFolder: 'delete folder',
       },
+      actionCreateNewFolderModalLabels: {
+        title: 'give the folder a name',
+        actions: {
+          inputFolderTitle: {
+            placeholder: 'folder name',
+          },
+          buttonCreateNewFolder: {
+            text: 'create new folder',
+          },
+        },
+      },
       buttonSaveEditTitle: {
         text: 'save',
       },
+      errorCreatingNewFolderMsg: 'error creating new folder',
     },
 
     MyNote: {

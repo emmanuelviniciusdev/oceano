@@ -8,7 +8,7 @@ import {
 } from '../types-and-interfaces/collections/items.types';
 
 // Utils
-import { OceanoErrorConstructed } from '../utils';
+import { generateTitleKeywords, OceanoErrorConstructed } from '../utils';
 
 const items = () => firebase.firestore().collection('items');
 
@@ -139,6 +139,59 @@ export async function getAllItemsPagination(
       (doc) =>
         ({ documentId: doc.id, ...doc.data() } as ItemDocumenttWithIDType)
     );
+  } catch (err) {
+    throw err;
+  }
+}
+
+/**
+ * Creates a folder and moves both dragging and dropping items
+ * into it.
+ *
+ * The document ID of the new folder is returned.
+ *
+ * @param userUID Folder's title
+ * @param userUID User's ID
+ * @param parentFolderId Folder's ID where the items belong
+ * @param draggingItemId The item's ID that was dragged
+ * @param droppingItemId The item's ID that receives the dragged item
+ */
+export async function createFolderAndMoveItemsIntoIt(
+  title: string,
+  userUID: string,
+  parentFolderId: string | null,
+  draggingItemId: string,
+  droppingItemId: string
+) {
+  try {
+    const nextOrderId =
+      ((await getLastItemFromFolder(parentFolderId, userUID))?.orderId || 0) +
+      1;
+
+    /**
+     * Create the new folder
+     */
+    const newParentFolderId = await createItem({
+      userUID,
+      parentFolderId,
+      type: 'folder',
+      title,
+      titleKeywords: generateTitleKeywords(title),
+      orderId: nextOrderId,
+      createdAt: new Date(),
+    });
+
+    /**
+     * Move items into the new folder
+     */
+    await items()
+      .doc(draggingItemId)
+      .update('parentFolderId', newParentFolderId);
+    await items()
+      .doc(droppingItemId)
+      .update('parentFolderId', newParentFolderId);
+
+    return newParentFolderId;
   } catch (err) {
     throw err;
   }

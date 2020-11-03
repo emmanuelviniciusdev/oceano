@@ -14,7 +14,7 @@
  * @param message The message to be returned with 'ErrorConstructor'
  * @param object The object to be returned with 'ErrorConstructor'
  */
-function OceanoErrorConstructed(message?: string, object?: object) {
+export function OceanoErrorConstructed(message?: string, object?: object) {
   let error = new Error(message);
   return Object.assign(error, object);
 }
@@ -29,7 +29,7 @@ function OceanoErrorConstructed(message?: string, object?: object) {
  * @param routePathname The route pathname
  * @param routeRegExps An array of route regular expressions
  */
-function doesRouteMatch(routePathname: string, routeRegExps: RegExp[]) {
+export function doesRouteMatch(routePathname: string, routeRegExps: RegExp[]) {
   /**
    * If the return is greater than 0, so 'routePathname' corresponds to some route
    */
@@ -42,7 +42,7 @@ function doesRouteMatch(routePathname: string, routeRegExps: RegExp[]) {
  * @param provider Provider ID
  * @param username User name
  */
-function joinProviderAndUsername(
+export function joinProviderAndUsername(
   provider?: string | null,
   username?: string | null
 ) {
@@ -61,14 +61,39 @@ function joinProviderAndUsername(
  *
  * @param title The title of the page
  */
-const setPageTitle = (title?: string) => {
+export const setPageTitle = (title?: string) => {
   const prefix = 'oceano';
   document.title = title ? prefix + ' — ' + title : prefix;
 };
 
-export {
-  OceanoErrorConstructed,
-  doesRouteMatch,
-  joinProviderAndUsername,
-  setPageTitle,
+/**
+ * Generates an array containing the keywords of the title to be used
+ * in the search engine with firebase.
+ *
+ * @param title The note's title
+ */
+export const generateTitleKeywords = (title: string) => {
+  let keywords: string[] = [];
+
+  const wordsArray = title.split(' ');
+  const transformedWordsArray = [...wordsArray];
+
+  wordsArray.forEach((word, index) => {
+    if (index > 0) {
+      transformedWordsArray.shift();
+    }
+
+    let currentWord = '';
+
+    transformedWordsArray
+      .join(' ')
+      .toLowerCase()
+      .split('')
+      .forEach((letter) => {
+        currentWord += letter;
+        keywords.push(currentWord);
+      });
+  });
+
+  return keywords;
 };

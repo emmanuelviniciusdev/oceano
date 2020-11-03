@@ -22,6 +22,8 @@ jest.mock('../../hooks/useTranslation', () => {
   }));
 });
 
+jest.mock('../../services/item', () => jest.fn());
+
 function dragAndDrop(source: Element, destination: Element) {
   fireEvent.dragStart(source);
   fireEvent.dragEnter(destination);

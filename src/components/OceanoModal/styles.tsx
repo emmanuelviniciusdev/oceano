@@ -73,10 +73,11 @@ export const ModalActions = styled.div`
   margin-top: 30px;
   text-align: center;
 
-  button {
+  button,
+  input {
     width: 100%;
-    margin-bottom: 10px;
     margin: 0 auto;
+    margin-bottom: 10px;
   }
 
   @media (min-width: 450px) {

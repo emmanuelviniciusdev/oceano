@@ -2,8 +2,8 @@ export type NoteOrFolderStringsLowerCasedType = 'note' | 'folder';
 export type NoteOrFolderStringsUpperCasedType = 'NOTE' | 'FOLDER';
 
 export type NoteOrFolderType = {
-  type?: NoteOrFolderStringsLowerCasedType;
-  id?: string;
+  id: string;
+  type: NoteOrFolderStringsLowerCasedType;
   title?: string;
 };
 
@@ -22,3 +22,8 @@ export type GetDropActionType = (
   draggingItemType: NoteOrFolderStringsLowerCasedType,
   droppingItemType: NoteOrFolderStringsLowerCasedType
 ) => DropActionTypes | undefined;
+
+export type CurrentDnDItemsType = {
+  draggingItem: DragAndDropItemType;
+  droppingItem: DragAndDropItemType;
+};

@@ -147,6 +147,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
                   }}
                 />
                 <BoxResultImage
+                  // TODO: Put another image...
                   src={noResults75Transparency}
                   title={translation?.boxNoResults?.image?.alt}
                   alt={translation?.boxNoResults?.image?.alt}
