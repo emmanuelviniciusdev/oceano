@@ -185,6 +185,18 @@ const content: LanguageStateType = {
       },
     },
 
+    Footer: {
+      termsOfUseText: 'terms of use',
+      privacyPolicyText: 'privacy policy',
+      mobileContent: {
+        versionText: 'version',
+        goToText: 'go to...',
+      },
+      content: {
+        versionText: 'independent production - version',
+      },
+    },
+
     IndexPage: {
       presentation: {
         paragraph1:

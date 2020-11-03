@@ -14,7 +14,12 @@ import {
 // Utils
 import { doesRouteMatch } from '../../utils';
 
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
 const Footer = () => {
+  const translation = useTranslation('Footer');
+
   const currentLocation = useLocation();
 
   /**
@@ -42,6 +47,11 @@ const Footer = () => {
 
   const oceanoVersion = '1.0.0 (beta)';
 
+  const handleLinkSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    window.open(window.location.origin + '/#' + event.target.value, '__blank');
+    event.target.value = '';
+  };
+
   return (
     <>
       {!doesRouteMatch(currentLocation.pathname, blockedRouteRegExps) && (
@@ -49,31 +59,33 @@ const Footer = () => {
           <WrapperContent>
             <MobileContent>
               <TagVersion className="tag-version">
-                versão {oceanoVersion}
+                {translation?.mobileContent?.versionText} {oceanoVersion}
               </TagVersion>
-              <LinksSelect defaultValue="">
+              <LinksSelect defaultValue="" onChange={handleLinkSelect}>
                 <option value="" disabled>
-                  ir para...
+                  {translation?.mobileContent?.goToText}
                 </option>
-                <option value="/termos/termos-de-uso">termos de uso</option>
+                <option value="/termos/termos-de-uso">
+                  {translation?.termsOfUseText}
+                </option>
                 <option value="/termos/politica-de-privacidade">
-                  política de privacidade
+                  {translation?.privacyPolicyText}
                 </option>
               </LinksSelect>
             </MobileContent>
 
             <Content>
               <TagVersion className="tag-version">
-                produção independente — versão {oceanoVersion}
+                {translation?.content?.versionText} {oceanoVersion}
               </TagVersion>
 
               <span style={{ marginRight: '15px' }}>•</span>
 
               <Link to="/termos/termos-de-uso" target="__blank">
-                termos de uso
+                {translation?.termsOfUseText}
               </Link>
               <Link to="/termos/politica-de-privacidade" target="__blank">
-                política de privacidade
+                {translation?.privacyPolicyText}
               </Link>
             </Content>
           </WrapperContent>
