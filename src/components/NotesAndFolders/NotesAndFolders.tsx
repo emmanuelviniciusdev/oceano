@@ -64,19 +64,10 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
         9
       );
 
-      /**
-       * // FIXME: Rendering bugs
-       *
-       * 1. When the user searches for something and then clear the search input,
-       * the item that the user searched appears as the first rendered
-       * item.
-       *
-       * 2. When more items are rendered on demand and the user searches for something, it doesn't
-       * appear for the first time.
-       */
-      setFetchedItems((alreadyFetchedItems) =>
-        !search ? [...(alreadyFetchedItems || []), ...items] : items
-      );
+      setFetchedItems((alreadyFetchedItems) => [
+        ...(alreadyFetchedItems || []),
+        ...items,
+      ]);
     } catch (err) {
       console.error(err);
       setErrorLoadingItems(true);
@@ -89,6 +80,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
    * Triggers 'searchItems()' whenever the searched term changes.
    */
   useEffect(() => {
+    setFetchedItems([]);
     searchItems(topBarContext?.state?.searchedTerm);
   }, [topBarContext?.state?.searchedTerm]);
 
