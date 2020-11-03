@@ -17,7 +17,7 @@ export const ModalBackground = styled.div`
 `;
 
 export const ModalContent = styled.div`
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   padding: 30px 40px;
   background-color: ${theme.colors.primary};
