@@ -1,5 +1,5 @@
-import React from 'react';
-import { DndProvider } from 'react-dnd';
+import React, { useRef } from 'react';
+import { createDndContext, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useParams } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ import NotesAndFolders from '../../components/NotesAndFolders/NotesAndFolders';
 import { NotesPageRouteParamsType } from '../../types-and-interfaces/pages/NotesPage.types';
 
 const NotesPage = () => {
+  const DnDManagerRef = useRef(createDndContext(HTML5Backend));
+
   const { folderId } = useParams<NotesPageRouteParamsType>();
 
   return (
@@ -26,11 +28,13 @@ const NotesPage = () => {
           </WrapperBreadcrumbs>
         </Content>
 
-        <DndProvider backend={HTML5Backend}>
-          <WrapperNotes>
-            <NotesAndFolders folderId={folderId || null} />
-          </WrapperNotes>
-        </DndProvider>
+        {DnDManagerRef.current.dragDropManager && (
+          <DndProvider manager={DnDManagerRef.current.dragDropManager}>
+            <WrapperNotes>
+              <NotesAndFolders folderId={folderId || null} />
+            </WrapperNotes>
+          </DndProvider>
+        )}
       </Container>
     </>
   );
