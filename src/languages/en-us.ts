@@ -167,6 +167,22 @@ const content: LanguageStateType = {
       errorLoadingItemsMsg: (username: string) =>
         `Very sorry, ${username}. There was an error loading your notes.`,
       loadingItemsMsg: 'loading...',
+      boxNoResults: {
+        title: '<b>no results</b>',
+        text: 'found for the search term within this folder',
+        image: {
+          alt:
+            'Four little fish, two blue and two yellow, swimming on reddish seaweed. There are small air bubbles around these little fish.',
+        },
+      },
+      boxNoCreatedNotes: {
+        title: (username: string) => `Hello, <b>${username}!</b>`,
+        text: `to create a note, click on the "<b>create a note</b>" button,
+        located just above...`,
+        image: {
+          alt: 'octopus',
+        },
+      },
     },
 
     IndexPage: {

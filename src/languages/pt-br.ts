@@ -168,6 +168,22 @@ const content: LanguageStateType = {
       errorLoadingItemsMsg: (username: string) =>
         `Mil perdões, ${username}. Ocorreu um erro ao carregar suas notas.`,
       loadingItemsMsg: 'carregando...',
+      boxNoResults: {
+        title: '<b>nenhum resultado</b>',
+        text: 'encontrado para o termo procurado dentro desta pasta',
+        image: {
+          alt:
+            'Quatro peixinhos, sendo dois azuis e dois amarelos, nadando sobre algas de tonalidade avermelhada. Ao redor destes peixinhos existem pequenas bolhas de ar.',
+        },
+      },
+      boxNoCreatedNotes: {
+        title: (username?: string) => `Olá, <b>${username}!</b>`,
+        text: `para criar uma nota, clique no botão "<b>criar uma nota</b>",
+        localizado logo acima...`,
+        image: {
+          alt: 'polvo',
+        },
+      },
     },
 
     IndexPage: {

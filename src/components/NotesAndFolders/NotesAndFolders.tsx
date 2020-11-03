@@ -1,8 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
+// Assets
+import noResults75Transparency from '../../assets/images/no-results-75-transparency.png';
+import octopus2 from '../../assets/images/octopus-2.png';
+
 // Styles
-import { MotionDivWrapperNoteOrFolder, WrapperOceanoCard } from './styles';
+import {
+  BoxResult,
+  BoxResultImage,
+  BoxResultText,
+  BoxResultTitle,
+  MotionDivWrapperNoteOrFolder,
+  WrapperOceanoCard,
+} from './styles';
 import { StackNotifications, OceanoBubbleLoading } from '../../styles/general';
 
 // Components
@@ -57,11 +68,11 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
        * // FIXME: Rendering bugs
        *
        * 1. When the user searches for something and then clear the search input,
-       * the item that the user has been searched appears as the first rendered
+       * the item that the user searched appears as the first rendered
        * item.
        *
-       * 2. Sometimes when the user searches for something, as much as there is
-       * some result, it doesn't appear.
+       * 2. When more items are rendered on demand and the user searches for something, it doesn't
+       * appear for the first time.
        */
       setFetchedItems((alreadyFetchedItems) =>
         !search ? [...(alreadyFetchedItems || []), ...items] : items
@@ -114,6 +125,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
 
   return (
     <>
+      {/* Error loading items */}
       {errorLoadingItems && (
         <WrapperOceanoCard>
           <OceanoCard
@@ -125,7 +137,61 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
         </WrapperOceanoCard>
       )}
 
+      {/* No results */}
+      {!isLoadingItems && fetchedItems && fetchedItems.length === 0 && (
+        <>
+          {topBarContext?.state?.searchedTerm ? (
+            // Search not found
+            <>
+              <BoxResult>
+                <BoxResultTitle
+                  dangerouslySetInnerHTML={{
+                    __html: translation?.boxNoResults?.title,
+                  }}
+                />
+                <BoxResultText
+                  dangerouslySetInnerHTML={{
+                    __html: translation?.boxNoResults?.text,
+                  }}
+                />
+                <BoxResultImage
+                  src={noResults75Transparency}
+                  title={translation?.boxNoResults?.image?.alt}
+                  alt={translation?.boxNoResults?.image?.alt}
+                />
+              </BoxResult>
+            </>
+          ) : (
+            // No created notes
+            <>
+              <BoxResult>
+                <BoxResultTitle
+                  dangerouslySetInnerHTML={{
+                    __html: translation?.boxNoCreatedNotes?.title(
+                      userContext?.state?.displayName
+                    ),
+                  }}
+                />
+                <BoxResultText
+                  dangerouslySetInnerHTML={{
+                    __html: translation?.boxNoCreatedNotes?.text,
+                  }}
+                />
+                <BoxResultImage
+                  style={{ width: '180px' }}
+                  src={octopus2}
+                  title={translation?.boxNoCreatedNotes?.image?.alt}
+                  alt={translation?.boxNoCreatedNotes?.image?.alt}
+                />
+              </BoxResult>
+            </>
+          )}
+        </>
+      )}
+
+      {/* Results */}
       {fetchedItems &&
+        fetchedItems.length > 0 &&
         fetchedItems.map((item, arrayIndex) => (
           <MotionDivWrapperNoteOrFolder key={arrayIndex}>
             <motion.div
