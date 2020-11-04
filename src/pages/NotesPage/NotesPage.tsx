@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import { createDndContext, DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useParams } from 'react-router-dom';
@@ -24,7 +24,7 @@ const NotesPage = () => {
       <Container>
         <Content>
           <WrapperBreadcrumbs>
-            <Breadcrumbs />
+            <Breadcrumbs folderId={folderId || null} />
           </WrapperBreadcrumbs>
         </Content>
 

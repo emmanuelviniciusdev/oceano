@@ -105,6 +105,7 @@ const content: LanguageStateType = {
         },
       },
       actionContextmenuLabels: {
+        openInNewTab: 'open in new tab',
         renameNote: 'rename note',
         deleteNote: 'delete note',
         renameFolder: 'rename folder',

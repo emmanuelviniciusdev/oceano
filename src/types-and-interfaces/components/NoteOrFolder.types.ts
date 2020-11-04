@@ -3,6 +3,7 @@ export type NoteOrFolderStringsUpperCasedType = 'NOTE' | 'FOLDER';
 
 export type NoteOrFolderType = {
   id: string;
+  parentFolderId: string | null;
   type: NoteOrFolderStringsLowerCasedType;
   title?: string;
 };

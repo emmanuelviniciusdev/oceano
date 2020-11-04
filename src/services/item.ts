@@ -6,6 +6,10 @@ import {
   ItemDocumentType,
   ItemDocumenttWithIDType,
 } from '../types-and-interfaces/collections/items.types';
+import {
+  BreadcrumbsStateType,
+  FolderType,
+} from '../types-and-interfaces/store/reducers/breadcrumbs.types';
 
 // Utils
 import { generateTitleKeywords, OceanoErrorConstructed } from '../utils';
@@ -192,6 +196,51 @@ export async function createFolderAndMoveItemsIntoIt(
       .update('parentFolderId', newParentFolderId);
 
     return newParentFolderId;
+  } catch (err) {
+    throw err;
+  }
+}
+
+export async function getBreadcrumbs(
+  folderId: string
+): Promise<BreadcrumbsStateType> {
+  try {
+    let folderRef = await items().doc(folderId).get();
+
+    const previousFolders: FolderType[] = [];
+    const currentFolder = {
+      id: folderRef.id,
+      parentFolderId: folderRef.data()?.parentFolderId,
+      title: folderRef.data()?.title,
+    };
+
+    /**
+     * Adds the current folder to the previous folders array.
+     */
+    previousFolders.push(currentFolder);
+
+    /**
+     * Keeps fetching the folders until it reaches the last folder for the
+     * breadcrumbs (the folder which its 'parentFolderId' property is null).
+     */
+    while (folderRef.data()?.parentFolderId) {
+      folderRef = await items().doc(folderRef.data()?.parentFolderId).get();
+
+      previousFolders.push({
+        id: folderRef.id,
+        parentFolderId: folderRef.data()?.parentFolderId,
+        title: folderRef.data()?.title,
+      });
+    }
+
+    return {
+      currentFolder,
+      /**
+       * The 'null' value is to represent the root folder and the array is reversed to stay
+       * in tune with the order of the breadcrumbs.
+       */
+      previousFolders: [null, ...previousFolders.reverse()],
+    };
   } catch (err) {
     throw err;
   }

@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { AnimatePresence } from 'framer-motion';
@@ -11,6 +17,7 @@ import AutorenewIcon from '@material-ui/icons/Autorenew';
 import LayersIcon from '@material-ui/icons/Layers';
 import CreateNewFolderIcon from '@material-ui/icons/CreateNewFolder';
 import AddIcon from '@material-ui/icons/Add';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 // Styles
 import { StyledNoteOrFolder, WrapperBtnSaveTitle } from './styles';
@@ -42,9 +49,11 @@ import { createFolderAndMoveItemsIntoIt } from '../../services/item';
 
 // Setup
 import { AppContext } from '../../store';
+import breadcrumbsReducer from '../../store/reducers/breadcrumbs';
 
 const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   id,
+  parentFolderId,
   type,
   title,
 }) => {
@@ -55,7 +64,9 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
 
   const translation = useTranslation('NoteOrFolder');
 
-  const { user: userContext } = useContext(AppContext);
+  const { user: userContext, breadcrumbs: breadcrumbsContext } = useContext(
+    AppContext
+  );
 
   const history = useHistory();
 
@@ -134,6 +145,48 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       return 'dropping-folder-over-note';
   };
 
+  const openItem = (middleClick: boolean = false) => {
+    if (!breadcrumbsContext) return;
+
+    /**
+     * Defines the props for the Breadcrumbs
+     */
+    if (type === 'folder') {
+      /**
+       * The current folder will be the folder that user just clicked on (the
+       * component itself).
+       */
+      const currentFolder = {
+        id,
+        parentFolderId,
+        title,
+      };
+
+      breadcrumbsContext.dispatch(
+        breadcrumbsReducer.actionCreators.setPreviousFolders([
+          ...breadcrumbsContext.state.previousFolders,
+          currentFolder,
+        ])
+      );
+
+      breadcrumbsContext.dispatch(
+        breadcrumbsReducer.actionCreators.setCurrentFolder(currentFolder)
+      );
+    }
+
+    const pushUrls = {
+      note: `/minha-nota/${id}`,
+      folder: `/notas/${id}`,
+    };
+
+    if (middleClick) {
+      window.open(window.location.origin + '/#' + pushUrls[type], '__blank');
+      return;
+    }
+
+    history.push(pushUrls[type]);
+  };
+
   const dragAndDropConnectionAttach = (e: HTMLDivElement | null) => {
     connectDragSource(e);
     connectDropSource(e);
@@ -193,6 +246,8 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
    * Titles in general
    */
   const defaultTitle = title || translation?.defaultTitles?.[type];
+  const contextMenuOpenInNewTabBtnTitle =
+    translation?.actionContextmenuLabels?.openInNewTab;
   const contextMenuRenameBtnTitle =
     translation?.actionContextmenuLabels?.[
       type === 'note' ? 'renameNote' : 'renameFolder'
@@ -337,6 +392,13 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       <OceanoContextMenu componentRef={noteOrFolderRef.current}>
         <OceanoButton
           theme="transparent"
+          icon={<OpenInNewIcon />}
+          text={contextMenuOpenInNewTabBtnTitle}
+          aria-label={contextMenuOpenInNewTabBtnTitle}
+          onClick={() => openItem(true)}
+        />
+        <OceanoButton
+          theme="transparent"
           icon={<TextFieldsIcon />}
           text={contextMenuRenameBtnTitle}
           aria-label={contextMenuRenameBtnTitle}
@@ -366,6 +428,11 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         ref={onNoteOrFolderRef}
         type={type}
         data-testid={type === 'note' ? 'note-item' : 'folder-item'}
+        onClick={() => {
+          console.log(breadcrumbsContext?.state);
+          openItem();
+        }}
+        onAuxClick={(event) => event.button === 1 && openItem(true)}
       >
         {isRenaming ? (
           <>

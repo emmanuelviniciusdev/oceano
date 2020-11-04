@@ -39,7 +39,11 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
 }) => {
   const translation = useTranslation('NotesAndFolders');
 
-  const { user: userContext, topBar: topBarContext } = useContext(AppContext);
+  const {
+    user: userContext,
+    topBar: topBarContext,
+    breadcrumbs: breadcrumbsContext,
+  } = useContext(AppContext);
 
   const [fetchedItems, setFetchedItems] = useState<ItemDocumenttWithIDType[]>();
   const [isLoadingItems, setIsLoadingItems] = useState(false);
@@ -49,8 +53,14 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
    * Fetches all item from API "on demand".
    *
    * @param search The word to be searched
+   * @param lastOrderId 'orderId' of the last note or folder rendered on the page
+   * @param parentFolderId Folder's ID where the items belong
    */
-  const searchItems = async (search?: string, lastOrderId?: number) => {
+  const searchItems = async (
+    search?: string,
+    lastOrderId?: number,
+    parentFolderId?: string
+  ) => {
     if (!userContext?.state?.uid) return;
 
     setIsLoadingItems(true);
@@ -58,7 +68,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
     try {
       const items = await getAllItemsPagination(
         userContext?.state?.uid,
-        null,
+        parentFolderId || null,
         search || null,
         lastOrderId || null,
         9
@@ -77,12 +87,20 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
   };
 
   /**
-   * Triggers 'searchItems()' whenever the searched term changes.
+   * Searches for items whenever the searched term or the current folder
+   * changes.
    */
   useEffect(() => {
     setFetchedItems([]);
-    searchItems(topBarContext?.state?.searchedTerm);
-  }, [topBarContext?.state?.searchedTerm]);
+    searchItems(
+      topBarContext?.state?.searchedTerm,
+      undefined,
+      breadcrumbsContext?.state.currentFolder?.id
+    );
+  }, [
+    topBarContext?.state?.searchedTerm,
+    breadcrumbsContext?.state.currentFolder,
+  ]);
 
   /**
    * Listens to 'window.onscroll' event.
@@ -128,7 +146,6 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
           ></OceanoCard>
         </WrapperOceanoCard>
       )}
-
       {/* No results */}
       {!isLoadingItems && fetchedItems && fetchedItems.length === 0 && (
         <>
@@ -181,7 +198,6 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
           )}
         </>
       )}
-
       {/* Results */}
       {fetchedItems &&
         fetchedItems.length > 0 &&
@@ -207,13 +223,13 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
             >
               <NoteOrFolder
                 id={item.documentId}
+                parentFolderId={item.parentFolderId}
                 type={item.type}
                 title={item.title || undefined}
               />
             </motion.div>
           </MotionDivWrapperNoteOrFolder>
         ))}
-
       <StackNotifications>
         <AnimatePresence>
           {isLoadingItems && (

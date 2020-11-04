@@ -3,6 +3,8 @@ import Breadcrumbs from './Breadcrumbs';
 import { render, screen } from '@testing-library/react';
 import { AppContext } from '../../store';
 
+jest.mock('../../services/item', () => jest.fn());
+
 const userState = {
   uid: 'some-hash',
   providerId: 'github.com',

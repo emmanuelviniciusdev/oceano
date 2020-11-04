@@ -107,6 +107,7 @@ const content: LanguageStateType = {
         },
       },
       actionContextmenuLabels: {
+        openInNewTab: 'abrir em nova aba',
         renameNote: 'renomear nota',
         deleteNote: 'deletar nota',
         renameFolder: 'renomear pasta',

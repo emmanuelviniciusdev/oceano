@@ -13,6 +13,7 @@ import languageReducer from './reducers/language';
 import userReducer from './reducers/user';
 import myNoteReducer from './reducers/myNote';
 import topBarReducer from './reducers/topBar';
+import breadcrumbsReducer from './reducers/breadcrumbs';
 
 // Types
 import {
@@ -35,6 +36,9 @@ export function AppContextProvider({ children }: AppContextProviderPropsType) {
     ),
     topBar: transformReducer(
       useReducer(topBarReducer.reducer, topBarReducer.initialState)
+    ),
+    breadcrumbs: transformReducer(
+      useReducer(breadcrumbsReducer.reducer, breadcrumbsReducer.initialState)
     ),
   };
 

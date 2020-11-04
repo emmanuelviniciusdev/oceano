@@ -4,6 +4,7 @@ import { LanguageStateType } from './reducers/language.types';
 import { MyNoteStateType } from './reducers/myNote.types';
 import { TopBarStateType } from './reducers/topBar.types';
 import { UserStateType } from './reducers/user.types';
+import { BreadcrumbsStateType } from './reducers/breadcrumbs.types';
 
 export type AppContextProviderPropsType = {
   children: JSX.Element[] | JSX.Element;
@@ -33,4 +34,5 @@ export type AppGlobalContextType = {
   user?: TransformReducerType<UserStateType>;
   myNote?: TransformReducerType<MyNoteStateType>;
   topBar?: TransformReducerType<TopBarStateType>;
+  breadcrumbs?: TransformReducerType<BreadcrumbsStateType>;
 };
