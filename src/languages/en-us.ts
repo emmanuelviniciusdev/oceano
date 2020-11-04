@@ -194,8 +194,7 @@ const content: LanguageStateType = {
         title: '<b>no results</b>',
         text: 'found for the search term within this folder',
         image: {
-          alt:
-            'Four little fish, two blue and two yellow, swimming on reddish seaweed. There are small air bubbles around these little fish.',
+          alt: 'Crying sea horse. Its color is a golden hue with black spots.',
         },
       },
       boxNoCreatedNotes: {

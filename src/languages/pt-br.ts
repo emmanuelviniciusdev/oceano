@@ -196,7 +196,7 @@ const content: LanguageStateType = {
         text: 'encontrado para o termo procurado dentro desta pasta',
         image: {
           alt:
-            'Quatro peixinhos, sendo dois azuis e dois amarelos, nadando sobre algas de tonalidade avermelhada. Ao redor destes peixinhos existem pequenas bolhas de ar.',
+            'Cavalo-marinho chorando. Sua cor é de uma tonalidade dourada com pintinhas pretas.',
         },
       },
       boxNoCreatedNotes: {

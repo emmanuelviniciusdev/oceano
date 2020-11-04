@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Assets
-import noResults75Transparency from '../../assets/images/no-results-75-transparency.png';
+import cryingYellowSeahorse from '../../assets/images/crying-yellow-seahorse.png';
 import octopus2 from '../../assets/images/octopus-2.png';
 
 // Styles
@@ -147,8 +147,8 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
                   }}
                 />
                 <BoxResultImage
-                  // TODO: Put another image...
-                  src={noResults75Transparency}
+                  style={{ width: '180px' }}
+                  src={cryingYellowSeahorse}
                   title={translation?.boxNoResults?.image?.alt}
                   alt={translation?.boxNoResults?.image?.alt}
                 />

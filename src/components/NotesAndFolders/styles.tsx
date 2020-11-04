@@ -40,7 +40,7 @@ export const BoxResult = styled.div`
 `;
 
 export const BoxResultTitle = styled.p`
-  font-size: 26px;
+  font-size: 30px;
 
   @media (min-width: 600px) {
     font-size: 36px;
@@ -49,7 +49,6 @@ export const BoxResultTitle = styled.p`
 
 export const BoxResultText = styled.p`
   font-size: 18px;
-  text-align: right;
   margin-top: 15px;
 
   @media (min-width: 600px) {
