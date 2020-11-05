@@ -57,7 +57,10 @@ const content: LanguageStateType = {
       deleteNoteErrorMsg: 'error deleting note',
     },
 
-    Breadcrumbs: {},
+    Breadcrumbs: {
+      loadingBreadcrumbsMsg: 'loading...',
+      errorLoadingBreadcrumbsMsg: 'there was an error loading the folders',
+    },
 
     NoteOrFolder: {
       defaultTitles: {

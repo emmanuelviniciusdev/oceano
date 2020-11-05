@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Assets
@@ -90,7 +90,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
    * Searches for items whenever the searched term or the current folder
    * changes.
    */
-  useEffect(() => {
+  useLayoutEffect(() => {
     setFetchedItems([]);
     searchItems(
       topBarContext?.state?.searchedTerm,
@@ -230,6 +230,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
             </motion.div>
           </MotionDivWrapperNoteOrFolder>
         ))}
+
       <StackNotifications>
         <AnimatePresence>
           {isLoadingItems && (

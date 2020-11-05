@@ -428,10 +428,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         ref={onNoteOrFolderRef}
         type={type}
         data-testid={type === 'note' ? 'note-item' : 'folder-item'}
-        onClick={() => {
-          console.log(breadcrumbsContext?.state);
-          openItem();
-        }}
+        onClick={() => openItem()}
         onAuxClick={(event) => event.button === 1 && openItem(true)}
       >
         {isRenaming ? (
