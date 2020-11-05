@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Icons
@@ -34,6 +34,8 @@ import OceanoNotification from '../OceanoNotification/OceanoNotification';
 const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
   folderId,
 }) => {
+  const isComponentUnmounted = useRef(false);
+
   const translation = useTranslation('Breadcrumbs');
 
   const history = useHistory();
@@ -75,14 +77,18 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
       );
     } catch (err) {
       console.error(err);
-      setErrorLoadingBreadcrumbs(true);
+      if (!isComponentUnmounted.current) setErrorLoadingBreadcrumbs(true);
     } finally {
-      setIsLoadingBreadcrumbs(false);
+      if (!isComponentUnmounted.current) setIsLoadingBreadcrumbs(false);
     }
   };
 
   useEffect(() => {
     fetchBreadcrumbs(folderId);
+
+    return () => {
+      isComponentUnmounted.current = true;
+    };
   }, [folderId]);
 
   const handleSwapFolder = (folder: FolderType, folderIndex: number) => {
@@ -122,6 +128,7 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
 
             return !folder ? (
               <OceanoButton
+                data-testid="breadcrumbs-button-root-folder"
                 key={folderIndex}
                 text={username}
                 aria-label={username}
@@ -132,6 +139,7 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
               />
             ) : (
               <OceanoButton
+                data-testid="breadcrumbs-button-normal-folder"
                 key={folderIndex}
                 text={folder.title}
                 icon={isOpenedFolder ? <FolderOpenIcon /> : <FolderIcon />}
