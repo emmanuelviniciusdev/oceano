@@ -55,11 +55,13 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
    * @param search The word to be searched
    * @param lastOrderId 'orderId' of the last note or folder rendered on the page
    * @param parentFolderId Folder's ID where the items belong
+   * @param accumulateItems Defines if items will be accumulated in the rendering or not
    */
   const searchItems = async (
     search?: string,
     lastOrderId?: number,
-    parentFolderId?: string
+    parentFolderId?: string,
+    accumulateItems?: boolean
   ) => {
     if (!userContext?.state?.uid) return;
 
@@ -74,10 +76,9 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
         9
       );
 
-      setFetchedItems((alreadyFetchedItems) => [
-        ...(alreadyFetchedItems || []),
-        ...items,
-      ]);
+      setFetchedItems((alreadyFetchedItems) =>
+        accumulateItems ? [...(alreadyFetchedItems || []), ...items] : items
+      );
     } catch (err) {
       console.error(err);
       setErrorLoadingItems(true);
@@ -85,13 +86,11 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
       setIsLoadingItems(false);
     }
   };
-
   /**
    * Searches for items whenever the searched term or the current folder
    * changes.
    */
   useLayoutEffect(() => {
-    setFetchedItems([]);
     searchItems(
       topBarContext?.state?.searchedTerm,
       undefined,
@@ -122,7 +121,9 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
            */
           searchItems(
             topBarContext?.state?.searchedTerm,
-            fetchedItems[fetchedItems.length - 1].orderId || undefined
+            fetchedItems[fetchedItems.length - 1].orderId || undefined,
+            breadcrumbsContext?.state.currentFolder?.id,
+            true
           );
         }
       }

@@ -50,6 +50,7 @@ import { createFolderAndMoveItemsIntoIt } from '../../services/item';
 // Setup
 import { AppContext } from '../../store';
 import breadcrumbsReducer from '../../store/reducers/breadcrumbs';
+import topbarReducer from '../../store/reducers/topBar';
 
 const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   id,
@@ -64,9 +65,11 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
 
   const translation = useTranslation('NoteOrFolder');
 
-  const { user: userContext, breadcrumbs: breadcrumbsContext } = useContext(
-    AppContext
-  );
+  const {
+    user: userContext,
+    breadcrumbs: breadcrumbsContext,
+    topBar: topBarContext,
+  } = useContext(AppContext);
 
   const history = useHistory();
 
@@ -148,9 +151,6 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   const openItem = (middleClick: boolean = false) => {
     if (!breadcrumbsContext) return;
 
-    /**
-     * Defines the props for the Breadcrumbs
-     */
     if (type === 'folder') {
       /**
        * The current folder will be the folder that user just clicked on (the
@@ -162,6 +162,9 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         title,
       };
 
+      /**
+       * Dispatches the data for the Breadcrumbs.
+       */
       breadcrumbsContext.dispatch(
         breadcrumbsReducer.actionCreators.setPreviousFolders([
           ...breadcrumbsContext.state.previousFolders,
@@ -172,6 +175,11 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       breadcrumbsContext.dispatch(
         breadcrumbsReducer.actionCreators.setCurrentFolder(currentFolder)
       );
+
+      /**
+       * Clean up the searched term
+       */
+      topBarContext?.dispatch(topbarReducer.actionCreators.setSearchedTerm(''));
     }
 
     const pushUrls = {

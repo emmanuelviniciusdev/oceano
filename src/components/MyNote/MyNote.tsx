@@ -8,7 +8,7 @@ import Checklist from '@editorjs/checklist';
 import Embed from '@editorjs/embed';
 import { AnimatePresence } from 'framer-motion';
 import { useHistory } from 'react-router-dom';
-import isEqualReactFastCompare from 'react-fast-compare';
+// import isEqualReactFastCompare from 'react-fast-compare';
 
 // Styles
 import {
@@ -82,6 +82,7 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
         await updateItem(documentId, dataToSave);
       }
     } catch (err) {
+      // TODO: Handle error saving note
       console.error(err);
     } finally {
       setIsSavingNote(false);
@@ -222,10 +223,10 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
                  * Without 'enableReInitialize' and 'onCompareBlocks' defined this way,
                  * the data is not rendered.
                  */
-                enableReInitialize={!isUserChange}
-                onCompareBlocks={(newBlocks, oldBlocks) =>
-                  isEqualReactFastCompare(newBlocks, oldBlocks)
-                }
+                // enableReInitialize={!isUserChange}
+                // onCompareBlocks={(newBlocks, oldBlocks) =>
+                //   isEqualReactFastCompare(newBlocks, oldBlocks)
+                // }
               />
             </WrapperEditorJs>
           </WrapperContentEditor>

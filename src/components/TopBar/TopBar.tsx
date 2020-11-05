@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
@@ -60,11 +60,9 @@ const TopBar: React.FunctionComponent = () => {
     user: userContext,
     myNote: myNoteContext,
     topBar: topBarContext,
+    breadcrumbs: breadcrumbsContext,
   } = useContext(AppContext);
 
-  /**
-   * // TODO: Refactor these states that shows/hides something to an unique state
-   */
   const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
   const [showCreateNoteErrorMsg, setShowCreateNoteErrorMsg] = useState(false);
   const [showDeleteNoteErrorMsg, setShowDeleteNoteErrorMsg] = useState(false);
@@ -73,6 +71,7 @@ const TopBar: React.FunctionComponent = () => {
   const [isCreatingNote, setIsCreatingNote] = useState(false);
   const [isDeletingNote, setIsDeletingNote] = useState(false);
 
+  const searchItemsInputRef = useRef<HTMLInputElement | null>(null);
   const searchItemsTimeoutRef = useRef<number>();
 
   const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
@@ -96,13 +95,16 @@ const TopBar: React.FunctionComponent = () => {
 
     try {
       if (userContext?.state) {
+        const parentFolderId =
+          breadcrumbsContext?.state.currentFolder?.id || null;
+
         const nextOrderId =
-          ((await getLastItemFromFolder(null, userContext.state.uid))
+          ((await getLastItemFromFolder(parentFolderId, userContext.state.uid))
             ?.orderId || 0) + 1;
 
         const data: ItemDocumentType = {
           userUID: userContext.state.uid,
-          parentFolderId: null,
+          parentFolderId,
           type: 'note',
           title: '',
           data: null,
@@ -122,14 +124,26 @@ const TopBar: React.FunctionComponent = () => {
     }
   };
 
+  const handleBack = () => {
+    if (!myNoteContext?.state) {
+      history.push('/notas');
+      return;
+    }
+
+    const { parentFolderId } = myNoteContext.state;
+
+    history.push(parentFolderId ? `/notas/${parentFolderId}` : '/notas');
+  };
+
   const handleDeleteNote = async () => {
     if (!myNoteContext?.state) return;
 
     setIsDeletingNote(true);
 
     try {
-      await deleteItem(myNoteContext.state.noteId);
-      history.push('/');
+      const { noteId, parentFolderId } = myNoteContext.state;
+      await deleteItem(noteId);
+      history.push(parentFolderId ? `/notas/${parentFolderId}` : '/notas');
     } catch (err) {
       console.error(err);
       setShowDeleteNoteErrorMsg(true);
@@ -150,6 +164,17 @@ const TopBar: React.FunctionComponent = () => {
       );
     }, 500);
   };
+
+  /**
+   * Empties search input
+   */
+  useEffect(() => {
+    if (
+      topBarContext?.state?.searchedTerm === '' &&
+      searchItemsInputRef.current
+    )
+      searchItemsInputRef.current.value = '';
+  }, [topBarContext?.state?.searchedTerm]);
 
   /**
    * Routes where TopBar will not be rendered.
@@ -201,6 +226,9 @@ const TopBar: React.FunctionComponent = () => {
                       <SearchIcon />
                     </div>
                     <InputSearch
+                      ref={(instance) =>
+                        (searchItemsInputRef.current = instance)
+                      }
                       type="text"
                       placeholder={translation?.inputSearch?.placeholder}
                       onChange={handleSearchItems}
@@ -235,7 +263,7 @@ const TopBar: React.FunctionComponent = () => {
                       aria-label={translation?.buttonReturnFromMyNotePage?.text}
                       text={translation?.buttonReturnFromMyNotePage?.text}
                       icon={<ArrowBackIcon />}
-                      onClick={() => history.push('/notas')}
+                      onClick={handleBack}
                     />
 
                     <OceanoButton

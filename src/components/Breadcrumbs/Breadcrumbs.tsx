@@ -18,6 +18,7 @@ import useTranslation from '../../hooks/useTranslation';
 // Setup
 import { AppContext } from '../../store';
 import breadcrumbsReducer from '../../store/reducers/breadcrumbs';
+import topBarReducer from '../../store/reducers/topBar';
 
 // Utils
 import { joinProviderAndUsername } from '../../utils';
@@ -37,9 +38,11 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
 
   const history = useHistory();
 
-  const { user: userContext, breadcrumbs: breadcrumbsContext } = useContext(
-    AppContext
-  );
+  const {
+    user: userContext,
+    breadcrumbs: breadcrumbsContext,
+    topBar: topBarContext,
+  } = useContext(AppContext);
 
   const [isLoadingBreadcrumbs, setIsLoadingBreadcrumbs] = useState(false);
   const [errorLoadingBreadcrumbs, setErrorLoadingBreadcrumbs] = useState(false);
@@ -49,58 +52,44 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
     userContext?.state?.displayName
   );
 
-  const currentFolderContext = breadcrumbsContext?.state.currentFolder;
   const previousFoldersContext = breadcrumbsContext?.state.previousFolders;
 
-  useEffect(() => {
+  const fetchBreadcrumbs = async (folderId: string | null) => {
     if (!breadcrumbsContext) return;
 
-    /**
-     * If 'folderId' property from component is not null but 'currentFolder' property from the
-     * context is, it means the user entered the page directly.
-     *
-     * So, the breadcrumbs will be fetched from the API.
-     */
-    if (folderId && !currentFolderContext) {
-      (async () => {
-        setIsLoadingBreadcrumbs(true);
+    setIsLoadingBreadcrumbs(true);
 
-        try {
-          const breadcrumbsFromAPI = await getBreadcrumbs(folderId);
+    try {
+      const breadcrumbsFromAPI = await getBreadcrumbs(folderId);
 
-          breadcrumbsContext.dispatch(
-            breadcrumbsReducer.actionCreators.setCurrentFolder(
-              breadcrumbsFromAPI.currentFolder
-            )
-          );
+      breadcrumbsContext.dispatch(
+        breadcrumbsReducer.actionCreators.setCurrentFolder(
+          breadcrumbsFromAPI.currentFolder
+        )
+      );
 
-          breadcrumbsContext.dispatch(
-            breadcrumbsReducer.actionCreators.setPreviousFolders(
-              breadcrumbsFromAPI.previousFolders
-            )
-          );
-        } catch (err) {
-          console.error(err);
-          setErrorLoadingBreadcrumbs(true);
-        } finally {
-          setIsLoadingBreadcrumbs(false);
-        }
-      })();
+      breadcrumbsContext.dispatch(
+        breadcrumbsReducer.actionCreators.setPreviousFolders(
+          breadcrumbsFromAPI.previousFolders
+        )
+      );
+    } catch (err) {
+      console.error(err);
+      setErrorLoadingBreadcrumbs(true);
+    } finally {
+      setIsLoadingBreadcrumbs(false);
     }
-  }, []);
+  };
+
+  useEffect(() => {
+    fetchBreadcrumbs(folderId);
+  }, [folderId]);
 
   const handleSwapFolder = (folder: FolderType, folderIndex: number) => {
-    if (!breadcrumbsContext) return;
-
-    breadcrumbsContext.dispatch(
-      breadcrumbsReducer.actionCreators.setCurrentFolder(folder)
-    );
-
-    breadcrumbsContext.dispatch(
-      breadcrumbsReducer.actionCreators.setPreviousFolders(
-        [...(previousFoldersContext || [])].splice(0, folderIndex + 1)
-      )
-    );
+    /**
+     * Empties searched term
+     */
+    topBarContext?.dispatch(topBarReducer.actionCreators.setSearchedTerm(''));
 
     history.push(folder?.id ? `/notas/${folder?.id}` : '/notas');
   };

@@ -22,6 +22,9 @@ import myNoteReducer from '../../store/reducers/myNote';
 // Utils
 import { joinProviderAndUsername } from '../../utils';
 
+// Services
+import { getItem } from '../../services/item';
+
 const MyNotePage = () => {
   const { noteId } = useParams<MyNotePageRouteParamsType>();
 
@@ -33,7 +36,18 @@ const MyNotePage = () => {
   );
 
   useEffect(() => {
-    myNoteContext?.dispatch(myNoteReducer.actionCreators.setNoteId(noteId));
+    (async () => {
+      try {
+        const { parentFolderId } = await getItem(noteId);
+
+        myNoteContext?.dispatch(myNoteReducer.actionCreators.setNoteId(noteId));
+        myNoteContext?.dispatch(
+          myNoteReducer.actionCreators.setParentFolderId(parentFolderId)
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    })();
   }, []);
 
   return (

@@ -201,10 +201,22 @@ export async function createFolderAndMoveItemsIntoIt(
   }
 }
 
+/**
+ * Returns an object containing the breadcrumbs already formated.
+ *
+ * @param folderId Current folder's document ID
+ */
 export async function getBreadcrumbs(
-  folderId: string
+  folderId: string | null
 ): Promise<BreadcrumbsStateType> {
   try {
+    if (!folderId) {
+      return {
+        currentFolder: null,
+        previousFolders: [null],
+      };
+    }
+
     let folderRef = await items().doc(folderId).get();
 
     const previousFolders: FolderType[] = [];

@@ -6,14 +6,17 @@
 import { ActionType } from '../../types-and-interfaces/store/reducers/general.types';
 import { MyNoteStateType } from '../../types-and-interfaces/store/reducers/myNote.types';
 
-const initialState: MyNoteStateType = null;
+const initialState: MyNoteStateType = {
+  noteId: '',
+  parentFolderId: null,
+};
 
 function reducer(state: MyNoteStateType, action: ActionType) {
   switch (action.type) {
     case 'SET_NOTE_ID':
-      if (!action.payload) return null;
-
       return { ...state, noteId: action.payload };
+    case 'SET_PARENT_FOLDER_ID':
+      return { ...state, parentFolderId: action.payload };
     default:
       return state;
   }
@@ -26,6 +29,11 @@ const actionCreators = {
   setNoteId: (noteId: string): ActionType => ({
     type: 'SET_NOTE_ID',
     payload: noteId,
+  }),
+
+  setParentFolderId: (parentFolderId: string | null): ActionType => ({
+    type: 'SET_PARENT_FOLDER_ID',
+    payload: parentFolderId,
   }),
 };
 
