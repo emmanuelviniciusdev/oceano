@@ -42,7 +42,6 @@ const Routes: React.FunctionComponent = () => {
   const notFoundPageTitle = useTranslation('NotFoundPage').pageTitle ?? '';
   const notesPageTitle = useTranslation('NotesPage').pageTitle ?? '';
   const offlinePageTitle = useTranslation('OfflinePage').pageTitle ?? '';
-  const termsPageTitle = useTranslation('TermsOfUsePage').pageTitle ?? '';
 
   const currentLocation = useLocation();
   const history = useHistory();
@@ -142,11 +141,9 @@ const Routes: React.FunctionComponent = () => {
         variants={{
           initialPage: {
             opacity: 0,
-            y: 300,
           },
           animatePage: {
             opacity: 1,
-            y: 0,
             transition: {
               delay: 0.2,
             },
