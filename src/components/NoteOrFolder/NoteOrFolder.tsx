@@ -172,11 +172,6 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       breadcrumbsContext.dispatch(
         breadcrumbsReducer.actionCreators.setCurrentFolder(currentFolder)
       );
-
-      /**
-       * Clean up the searched term
-       */
-      topBarContext?.dispatch(topbarReducer.actionCreators.setSearchedTerm(''));
     }
 
     const pushUrls = {
@@ -188,6 +183,11 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       window.open(window.location.origin + '/#' + pushUrls[type], '__blank');
       return;
     }
+
+    /**
+     * Empties search term only if 'openItem()' was not triggered by a middle click.
+     */
+    topBarContext?.dispatch(topbarReducer.actionCreators.setSearchedTerm(''));
 
     history.push(pushUrls[type]);
   };
