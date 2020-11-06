@@ -221,7 +221,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       const newFolderId = await createFolderAndMoveItemsIntoIt(
         newFolderTitle,
         userContext.state.uid,
-        null,
+        breadcrumbsContext?.state.currentFolder?.id || null,
         currentDnDItems.draggingItem.id,
         currentDnDItems.droppingItem.id
       );
