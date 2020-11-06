@@ -72,7 +72,7 @@ export const setPageTitle = (title?: string) => {
  *
  * @param title The note's title
  */
-export const generateTitleKeywords = (title: string) => {
+export function generateTitleKeywords(title: string) {
   let keywords: string[] = [];
 
   const wordsArray = title.split(' ');
@@ -96,4 +96,19 @@ export const generateTitleKeywords = (title: string) => {
   });
 
   return keywords;
-};
+}
+
+/**
+ * Returns just a piece of the title + '[...]' if the title length
+ * is greater or equal the limit.
+ *
+ * @param title The title to be treated
+ * @param limit The title length limit
+ */
+export function limitTitleLength(title: string, limit: number) {
+  if (!title) return '';
+
+  if (title.length <= limit) return title;
+
+  return title.substring(0, limit) + '[...]';
+}

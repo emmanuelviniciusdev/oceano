@@ -11,6 +11,7 @@ import { Content, WrapperOceanoNotification } from './styles';
 
 // Components
 import OceanoButton from '../OceanoButton/OceanoButton';
+import OceanoNotification from '../OceanoNotification/OceanoNotification';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -21,7 +22,7 @@ import breadcrumbsReducer from '../../store/reducers/breadcrumbs';
 import topBarReducer from '../../store/reducers/topBar';
 
 // Utils
-import { joinProviderAndUsername } from '../../utils';
+import { joinProviderAndUsername, limitTitleLength } from '../../utils';
 
 // Types
 import { BreadcrumbsType } from '../../types-and-interfaces/components/Breadcrumbs.types';
@@ -29,7 +30,6 @@ import { FolderType } from '../../types-and-interfaces/store/reducers/breadcrumb
 
 // Services
 import { getBreadcrumbs } from '../../services/item';
-import OceanoNotification from '../OceanoNotification/OceanoNotification';
 
 const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
   folderId,
@@ -141,7 +141,10 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
               <OceanoButton
                 data-testid="breadcrumbs-button-normal-folder"
                 key={folderIndex}
-                text={folder.title}
+                text={limitTitleLength(
+                  folder.title || translation?.folderDefaultTitle,
+                  40
+                )}
                 icon={isOpenedFolder ? <FolderOpenIcon /> : <FolderIcon />}
                 theme="yellow"
                 onClick={() => handleSwapFolder(folder, folderIndex)}

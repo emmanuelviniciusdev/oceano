@@ -60,6 +60,7 @@ const content: LanguageStateType = {
     Breadcrumbs: {
       loadingBreadcrumbsMsg: 'carregando...',
       errorLoadingBreadcrumbsMsg: 'ocorreu um erro ao carregar as pastas',
+      folderDefaultTitle: 'minha nova pasta...',
     },
 
     NoteOrFolder: {

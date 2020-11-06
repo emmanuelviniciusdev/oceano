@@ -1,10 +1,4 @@
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDrag, useDrop } from 'react-dnd';
 import { AnimatePresence } from 'framer-motion';
@@ -51,6 +45,9 @@ import { createFolderAndMoveItemsIntoIt } from '../../services/item';
 import { AppContext } from '../../store';
 import breadcrumbsReducer from '../../store/reducers/breadcrumbs';
 import topbarReducer from '../../store/reducers/topBar';
+
+// Utils
+import { limitTitleLength } from '../../utils';
 
 const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   id,
@@ -463,7 +460,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
             </WrapperBtnSaveTitle>
           </>
         ) : (
-          <p>{defaultTitle}</p>
+          <p>{limitTitleLength(defaultTitle, 45) || defaultTitle}</p>
         )}
       </StyledNoteOrFolder>
     </>

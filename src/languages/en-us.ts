@@ -60,6 +60,7 @@ const content: LanguageStateType = {
     Breadcrumbs: {
       loadingBreadcrumbsMsg: 'loading...',
       errorLoadingBreadcrumbsMsg: 'there was an error loading the folders',
+      folderDefaultTitle: 'my new folder...',
     },
 
     NoteOrFolder: {
@@ -202,7 +203,7 @@ const content: LanguageStateType = {
         },
       },
       boxNoCreatedNotes: {
-        title: (username: string) => `Hello, <b>${username}!</b>`,
+        title: (username: string) => `Hi, <b>${username}!</b>`,
         text: `to create a note, click on the "<b>create a note</b>" button,
         located just above...`,
         image: {
