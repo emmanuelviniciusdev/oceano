@@ -117,7 +117,7 @@ const Routes: React.FunctionComponent = () => {
     /**
      * It sets page title.
      */
-    setPageTitle(pageTitle);
+    if (pageTitle) setPageTitle(pageTitle);
 
     /**
      * It redirects user to offline page if the browser's network status is

@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 // Components
 import MyNote from '../../components/MyNote/MyNote';
@@ -11,6 +11,7 @@ import FaceIcon from '@material-ui/icons/Face';
 
 // Types
 import { MyNotePageRouteParamsType } from '../../types-and-interfaces/pages/MyNotePage.types';
+import { ItemDocumenttWithIDType } from '../../types-and-interfaces/collections/items.types';
 
 // Styles
 import { GlobalStyle, WrapperInformations, WrapperContent } from './styles';
@@ -20,15 +21,31 @@ import { AppContext } from '../../store';
 import myNoteReducer from '../../store/reducers/myNote';
 
 // Utils
-import { joinProviderAndUsername } from '../../utils';
+import {
+  joinProviderAndUsername,
+  limitTitleLength,
+  setPageTitle,
+} from '../../utils';
 
 // Services
 import { getItem } from '../../services/item';
 
+// Custom hooks
+import useTranslation from '../../hooks/useTranslation';
+
 const MyNotePage = () => {
+  const translation = useTranslation('MyNotePage');
+
+  const history = useHistory();
+
   const { noteId } = useParams<MyNotePageRouteParamsType>();
 
   const { user: userContext, myNote: myNoteContext } = useContext(AppContext);
+
+  const [noteDocumentData, setNoteDocumentData] = useState<
+    ItemDocumenttWithIDType
+  >();
+  const [noteParentFolderTitle, setNoteParentFolderTitle] = useState<string>();
 
   const username = joinProviderAndUsername(
     userContext?.state?.providerId,
@@ -38,17 +55,40 @@ const MyNotePage = () => {
   useEffect(() => {
     (async () => {
       try {
-        const { parentFolderId } = await getItem(noteId);
+        const noteData = await getItem(noteId);
+
+        setNoteDocumentData(noteData);
+        // setPageTitle(noteData.title, false);
 
         myNoteContext?.dispatch(myNoteReducer.actionCreators.setNoteId(noteId));
         myNoteContext?.dispatch(
-          myNoteReducer.actionCreators.setParentFolderId(parentFolderId)
+          myNoteReducer.actionCreators.setParentFolderId(
+            noteData.parentFolderId
+          )
         );
       } catch (err) {
+        // if (err.code === 'oceano-item/item-does-not-exist') {
+        //   history.push('/pagina-nao-encontrada');
+        //   return;
+        // }
+
         console.error(err);
       }
     })();
   }, []);
+
+  useEffect(() => {
+    (async () => {
+      if (!noteDocumentData) return;
+
+      let parentFolderTitle = !noteDocumentData.parentFolderId
+        ? translation?.rootFolderTitle
+        : (await getItem(noteDocumentData.parentFolderId)).title ||
+          translation?.folderDefaultTitle;
+
+      setNoteParentFolderTitle(parentFolderTitle);
+    })();
+  }, [translation, noteDocumentData]);
 
   return (
     <>
@@ -65,9 +105,11 @@ const MyNotePage = () => {
           />
           <OceanoButton
             icon={<FolderIcon />}
-            text="pasta atual"
-            aria-label="pasta atual"
-            theme="yellow"
+            text={limitTitleLength(noteParentFolderTitle || '', 40)}
+            aria-label={limitTitleLength(noteParentFolderTitle || '', 40)}
+            theme={
+              noteDocumentData?.parentFolderId === null ? 'gray' : 'yellow'
+            }
             disabled
           />
         </WrapperInformations>

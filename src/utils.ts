@@ -61,10 +61,17 @@ export function joinProviderAndUsername(
  *
  * @param title The title of the page
  */
-export const setPageTitle = (title?: string) => {
+export function setPageTitle(title?: string, hasPrefix: boolean = true) {
+  // document.title = title ? prefix + ' — ' + title : prefix;
   const prefix = 'oceano';
-  document.title = title ? prefix + ' — ' + title : prefix;
-};
+
+  if (!title) {
+    document.title = prefix;
+    return;
+  }
+
+  document.title = hasPrefix ? prefix + ' — ' + title : title;
+}
 
 /**
  * Generates an array containing the keywords of the title to be used

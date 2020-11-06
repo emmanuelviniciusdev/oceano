@@ -38,7 +38,7 @@ import OceanoButton from '../OceanoButton/OceanoButton';
 import { getItem, updateItem } from '../../services/item';
 
 // Utils
-import { generateTitleKeywords } from '../../utils';
+import { generateTitleKeywords, setPageTitle } from '../../utils';
 
 const editorJsTools = {
   header: Header,
@@ -79,6 +79,8 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
          */
         const { documentId, ...dataToSave } = noteDocumentData;
 
+        setPageTitle(dataToSave.title, false);
+
         await updateItem(documentId, dataToSave);
       }
     } catch (err) {
@@ -112,6 +114,7 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
         const noteData = await getItem(noteId);
 
         setNoteDocumentData(noteData);
+        setPageTitle(noteData.title, false);
       } catch (err) {
         if (err.code === 'oceano-item/item-does-not-exist') {
           history.push('/pagina-nao-encontrada');

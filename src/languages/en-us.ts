@@ -241,6 +241,11 @@ const content: LanguageStateType = {
       pageTitle: 'my notes',
     },
 
+    MyNotePage: {
+      folderDefaultTitle: 'my new folder...',
+      rootFolderTitle: 'default',
+    },
+
     TermsPage: {
       'termos-de-uso': {
         pageTitle: 'terms of use',

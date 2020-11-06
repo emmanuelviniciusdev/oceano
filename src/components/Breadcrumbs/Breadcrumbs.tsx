@@ -145,6 +145,10 @@ const Breadcrumbs: React.FunctionComponent<BreadcrumbsType> = ({
                   folder.title || translation?.folderDefaultTitle,
                   40
                 )}
+                aria-label={limitTitleLength(
+                  folder.title || translation?.folderDefaultTitle,
+                  40
+                )}
                 icon={isOpenedFolder ? <FolderOpenIcon /> : <FolderIcon />}
                 theme="yellow"
                 onClick={() => handleSwapFolder(folder, folderIndex)}
