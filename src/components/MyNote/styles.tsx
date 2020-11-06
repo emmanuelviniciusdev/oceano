@@ -61,10 +61,3 @@ export const WrapperEditorJs = styled.div`
     }
   }
 `;
-
-export const WrapperOceanoCard = styled.div`
-  /* background-color: green; */
-  width: 95%;
-  max-width: 800px;
-  margin: 0 auto;
-`;

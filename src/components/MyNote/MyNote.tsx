@@ -11,16 +11,11 @@ import { useHistory } from 'react-router-dom';
 // import isEqualReactFastCompare from 'react-fast-compare';
 
 // Styles
-import {
-  WrapperContentEditor,
-  WrapperEditorJs,
-  WrapperOceanoCard,
-} from './styles';
+import { WrapperContentEditor, WrapperEditorJs } from './styles';
 import { OceanoBubbleLoading, StackNotifications } from '../../styles/general';
 
 // Icons
 import ThumbUpIcon from '@material-ui/icons/ThumbUp';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
@@ -31,11 +26,9 @@ import { ItemDocumenttWithIDType } from '../../types-and-interfaces/collections/
 
 // Components
 import OceanoNotification from '../OceanoNotification/OceanoNotification';
-import OceanoCard from '../OceanoCard/OceanoCard';
-import OceanoButton from '../OceanoButton/OceanoButton';
 
 // Services
-import { getItem, updateItem } from '../../services/item';
+import { updateItem } from '../../services/item';
 
 // Utils
 import { generateTitleKeywords, setPageTitle } from '../../utils';
@@ -48,9 +41,10 @@ const editorJsTools = {
   embed: Embed,
 };
 
-const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
+const MyNote: React.FunctionComponent<MyNoteType> = ({
+  prerenderedNoteDocumentData,
+}) => {
   const translation = useTranslation('MyNote');
-  const history = useHistory();
 
   const [isSavingNote, setIsSavingNote] = useState(false);
   const [showAutosaveInfo, setShowAutosaveInfo] = useState(false);
@@ -58,10 +52,6 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
     ItemDocumenttWithIDType
   >();
   const [isUserChange, setIsUserChange] = useState(false);
-  const [
-    errorLoadingNoteDocumentData,
-    setErrorLoadingNoteDocumentData,
-  ] = useState(false);
 
   const showAutosaveInfoTimeoutRef = useRef<number>();
   const isSavingNoteTimeoutRef = useRef<number>();
@@ -105,26 +95,8 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
     }
   }, []);
 
-  /**
-   * Fetches note's data
-   */
   useEffect(() => {
-    (async () => {
-      try {
-        const noteData = await getItem(noteId);
-
-        setNoteDocumentData(noteData);
-        setPageTitle(noteData.title, false);
-      } catch (err) {
-        if (err.code === 'oceano-item/item-does-not-exist') {
-          history.push('/pagina-nao-encontrada');
-          return;
-        }
-
-        console.error(err);
-        setErrorLoadingNoteDocumentData(true);
-      }
-    })();
+    setNoteDocumentData(prerenderedNoteDocumentData);
   }, []);
 
   /**
@@ -152,27 +124,6 @@ const MyNote: React.FunctionComponent<MyNoteType> = ({ noteId }) => {
 
   return (
     <>
-      {errorLoadingNoteDocumentData && (
-        <WrapperOceanoCard>
-          <OceanoCard
-            theme="error"
-            text={translation?.errorLoadingNoteDocumentData?.text}
-          >
-            <OceanoButton
-              theme="transparent"
-              icon={<ArrowBackIcon />}
-              text={
-                translation?.errorLoadingNoteDocumentData?.buttonReturn.text
-              }
-              aria-label={
-                translation?.errorLoadingNoteDocumentData?.buttonReturn.text
-              }
-              onClick={() => history.push('/notas')}
-            />
-          </OceanoCard>
-        </WrapperOceanoCard>
-      )}
-
       {noteDocumentData && (
         <>
           <WrapperContentEditor>

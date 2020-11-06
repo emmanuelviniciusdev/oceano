@@ -1,3 +1,5 @@
+import { ItemDocumenttWithIDType } from '../collections/items.types';
+
 export type MyNoteType = {
-  noteId: string;
+  prerenderedNoteDocumentData: ItemDocumenttWithIDType | undefined;
 };

@@ -142,12 +142,6 @@ const content: LanguageStateType = {
         oceanoAutosavesText: 'o oceano salva automaticamente as suas anotações',
         savingText: 'salvando...',
       },
-      errorLoadingNoteDocumentData: {
-        text: 'aaah, ocorreu um erro ao tentar carregar a sua nota',
-        buttonReturn: {
-          text: 'voltar',
-        },
-      },
     },
 
     AcceptanceOfTerms: {
@@ -246,6 +240,12 @@ const content: LanguageStateType = {
     MyNotePage: {
       folderDefaultTitle: 'minha nova pasta...',
       rootFolderTitle: 'principal',
+      errorLoadingNoteDocumentData: {
+        text: 'aaah, ocorreu um erro ao tentar carregar a sua nota',
+        buttonReturn: {
+          text: 'voltar',
+        },
+      },
     },
 
     TermsPage: {

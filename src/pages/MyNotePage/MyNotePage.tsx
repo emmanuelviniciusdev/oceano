@@ -8,13 +8,19 @@ import OceanoButton from '../../components/OceanoButton/OceanoButton';
 // Icons
 import FolderIcon from '@material-ui/icons/Folder';
 import FaceIcon from '@material-ui/icons/Face';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 // Types
 import { MyNotePageRouteParamsType } from '../../types-and-interfaces/pages/MyNotePage.types';
 import { ItemDocumenttWithIDType } from '../../types-and-interfaces/collections/items.types';
 
 // Styles
-import { GlobalStyle, WrapperInformations, WrapperContent } from './styles';
+import {
+  GlobalStyle,
+  WrapperInformations,
+  WrapperContent,
+  WrapperOceanoCard,
+} from './styles';
 
 // Setup
 import { AppContext } from '../../store';
@@ -32,12 +38,12 @@ import { getItem } from '../../services/item';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
+import OceanoCard from '../../components/OceanoCard/OceanoCard';
 
 const MyNotePage = () => {
   const translation = useTranslation('MyNotePage');
 
   const history = useHistory();
-
   const { noteId } = useParams<MyNotePageRouteParamsType>();
 
   const { user: userContext, myNote: myNoteContext } = useContext(AppContext);
@@ -46,19 +52,26 @@ const MyNotePage = () => {
     ItemDocumenttWithIDType
   >();
   const [noteParentFolderTitle, setNoteParentFolderTitle] = useState<string>();
+  const [
+    errorLoadingNoteDocumentData,
+    setErrorLoadingNoteDocumentData,
+  ] = useState(false);
 
   const username = joinProviderAndUsername(
     userContext?.state?.providerId,
     userContext?.state?.displayName
   );
 
+  /**
+   * Fetches note's data
+   */
   useEffect(() => {
     (async () => {
       try {
         const noteData = await getItem(noteId);
 
         setNoteDocumentData(noteData);
-        // setPageTitle(noteData.title, false);
+        setPageTitle(noteData.title, false);
 
         myNoteContext?.dispatch(myNoteReducer.actionCreators.setNoteId(noteId));
         myNoteContext?.dispatch(
@@ -67,12 +80,13 @@ const MyNotePage = () => {
           )
         );
       } catch (err) {
-        // if (err.code === 'oceano-item/item-does-not-exist') {
-        //   history.push('/pagina-nao-encontrada');
-        //   return;
-        // }
+        if (err.code === 'oceano-item/item-does-not-exist') {
+          history.push('/pagina-nao-encontrada');
+          return;
+        }
 
         console.error(err);
+        setErrorLoadingNoteDocumentData(true);
       }
     })();
   }, []);
@@ -95,26 +109,51 @@ const MyNotePage = () => {
       <GlobalStyle />
 
       <WrapperContent>
-        <WrapperInformations>
-          <OceanoButton
-            icon={<FaceIcon />}
-            text={username}
-            aria-label={username}
-            theme="gray"
-            disabled
-          />
-          <OceanoButton
-            icon={<FolderIcon />}
-            text={limitTitleLength(noteParentFolderTitle || '', 40)}
-            aria-label={limitTitleLength(noteParentFolderTitle || '', 40)}
-            theme={
-              noteDocumentData?.parentFolderId === null ? 'gray' : 'yellow'
-            }
-            disabled
-          />
-        </WrapperInformations>
+        {errorLoadingNoteDocumentData && (
+          <WrapperOceanoCard>
+            <OceanoCard
+              theme="error"
+              text={translation?.errorLoadingNoteDocumentData?.text}
+            >
+              <OceanoButton
+                theme="transparent"
+                icon={<ArrowBackIcon />}
+                text={
+                  translation?.errorLoadingNoteDocumentData?.buttonReturn.text
+                }
+                aria-label={
+                  translation?.errorLoadingNoteDocumentData?.buttonReturn.text
+                }
+                onClick={() => history.push('/notas')}
+              />
+            </OceanoCard>
+          </WrapperOceanoCard>
+        )}
 
-        <MyNote noteId={noteId} />
+        {noteDocumentData && (
+          <>
+            <WrapperInformations>
+              <OceanoButton
+                icon={<FaceIcon />}
+                text={username}
+                aria-label={username}
+                theme="gray"
+                disabled
+              />
+              <OceanoButton
+                icon={<FolderIcon />}
+                text={limitTitleLength(noteParentFolderTitle || '', 40)}
+                aria-label={limitTitleLength(noteParentFolderTitle || '', 40)}
+                theme={
+                  noteDocumentData?.parentFolderId === null ? 'gray' : 'yellow'
+                }
+                disabled
+              />
+            </WrapperInformations>
+
+            <MyNote prerenderedNoteDocumentData={noteDocumentData} />
+          </>
+        )}
       </WrapperContent>
     </>
   );

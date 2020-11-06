@@ -30,3 +30,10 @@ export const WrapperInformations = styled.div`
     margin-bottom: 30px;
   }
 `;
+
+export const WrapperOceanoCard = styled.div`
+  /* background-color: green; */
+  width: 95%;
+  max-width: 800px;
+  margin: 0 auto;
+`;

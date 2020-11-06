@@ -140,12 +140,6 @@ const content: LanguageStateType = {
         oceanoAutosavesText: 'oceano autosaves your note',
         savingText: 'saving...',
       },
-      errorLoadingNoteDocumentData: {
-        text: 'aah, there was an error trying to load your note',
-        buttonReturn: {
-          text: 'return',
-        },
-      },
     },
 
     AcceptanceOfTerms: {
@@ -244,6 +238,12 @@ const content: LanguageStateType = {
     MyNotePage: {
       folderDefaultTitle: 'my new folder...',
       rootFolderTitle: 'default',
+      errorLoadingNoteDocumentData: {
+        text: 'aah, there was an error trying to load your note',
+        buttonReturn: {
+          text: 'return',
+        },
+      },
     },
 
     TermsPage: {
