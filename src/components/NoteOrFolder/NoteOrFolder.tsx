@@ -43,6 +43,7 @@ import useGeneralErrors from '../../hooks/useGeneralErros';
 import {
   changePlaces,
   createFolderAndMoveItemsIntoIt,
+  deleteItem,
   moveItem,
 } from '../../services/item';
 
@@ -217,9 +218,17 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
     console.log('on rename...');
   };
 
-  const deleteNoteOrFolder = () => {
-    setIsDeleteModalOpened(false);
-    console.log('on delete...');
+  const deleteNoteOrFolder = async () => {
+    try {
+      await deleteItem(id, type);
+    } catch (err) {
+      console.error(err);
+      addGeneralError('errorDeleteNoteOrFolder');
+    } finally {
+      if (!isComponentUnmounted.current) {
+        setIsDeleteModalOpened(false);
+      }
+    }
   };
 
   const handleCreateNewFolder = async () => {

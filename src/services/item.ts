@@ -14,6 +14,7 @@ import {
 // Utils
 import { generateTitleKeywords, OceanoErrorConstructed } from '../utils';
 import { DragAndDropItemType } from '../types-and-interfaces/components/NoteOrFolder.types';
+import { firestore } from 'firebase';
 
 const items = () => firebase.firestore().collection('items');
 
@@ -67,12 +68,79 @@ export function createItem(data: ItemDocumentType) {
 }
 
 /**
- * Deletes an item
+ * Deletes an item.
  *
- * @param itemId Note's document ID
+ * If the item is a folder it deletes all of its children too.
+ *
+ * @param itemId Item's document ID
+ * @param type Item's type
  */
-export function deleteItem(itemId: string) {
-  return items().doc(itemId).delete();
+export async function deleteItem(
+  itemId: string,
+  type: 'note' | 'folder' = 'note'
+) {
+  try {
+    // if (type === 'note') {
+    //   await items().doc(itemId).delete();
+    //   return;
+    // }
+
+    _deleteFolder(itemId);
+  } catch (err) {
+    throw err;
+  }
+}
+
+async function _deleteFolder(itemId: string) {
+  try {
+    // await items().doc(itemId).delete();
+
+    let relatedItems: Array<firestore.DocumentData> = [];
+
+    const getRelatedItems = async (itemId: string) => {
+      const myItems = await items().where('parentFolderId', '==', itemId).get();
+
+      myItems.docs.forEach(async (doc) => {
+        if ((doc.data() as ItemDocumentType).type === 'folder') {
+          await getRelatedItems(doc.id);
+        }
+      });
+
+      console.log(myItems.docs);
+
+      relatedItems.push(myItems.docs);
+    };
+
+    await getRelatedItems(itemId);
+
+    relatedItems.forEach((v) => console.log(v));
+
+    // const getRelatedItems = async (itemId: string) => {
+    //   return await items()
+    //     .where('parentFolderId', '==', itemId)
+    //     .get()
+    //     .then((result) => {
+    //       result.forEach(async (item) => {
+    //         console.log(item);
+
+    //         relatedItems.push(item);
+
+    //         /**
+    //          * If the current item is a folder we get all the children of this
+    //          * current item as well.
+    //          */
+    //         if ((item.data() as ItemDocumentType).type === 'folder') {
+    //           const recurItems = await getRelatedItems(item.id);
+    //           relatedItems = [...recurItems, ...relatedItems];
+    //         }
+    //       });
+
+    //       return relatedItems;
+    //     });
+    // };
+  } catch (err) {
+    throw err;
+  }
 }
 
 /**
