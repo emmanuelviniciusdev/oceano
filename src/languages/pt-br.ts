@@ -133,6 +133,7 @@ const content: LanguageStateType = {
       },
       errorCreatingNewFolderMsg: 'erro ao criar nova pasta',
       errorChangePlacesMsg: 'ocorreu um erro ao trocar itens de lugar',
+      errorMovingItemMsg: 'ocorreu um erro ao mover para dentro da pasta',
     },
 
     MyNote: {

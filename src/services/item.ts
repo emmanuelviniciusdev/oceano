@@ -277,3 +277,18 @@ export async function changePlaces(
     throw err;
   }
 }
+
+/**
+ * Moves an item to another folder.
+ *
+ * @param itemToBeMovedId Document ID of the item to be moved into another folder
+ * @param newParentFolderId Document ID of the folder that item is being moved to
+ */
+export async function moveItem(
+  itemToBeMovedId: string,
+  newParentFolderId: string | null
+) {
+  return items()
+    .doc(itemToBeMovedId)
+    .update({ parentFolderId: newParentFolderId });
+}

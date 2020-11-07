@@ -43,6 +43,7 @@ import useGeneralErrors from '../../hooks/useGeneralErros';
 import {
   changePlaces,
   createFolderAndMoveItemsIntoIt,
+  moveItem,
 } from '../../services/item';
 
 // Setup
@@ -97,6 +98,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   const [isRenaming, setIsRenaming] = useState(false);
   const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
   const [isChangingPlaces, setIsChangingPlaces] = useState(false);
+  const [isMovingItem, setIsMovingItem] = useState(false);
   const [dropActionType, setDropActionType] = useState<DropActionTypes | ''>(
     ''
   );
@@ -247,8 +249,41 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
     }
   };
 
-  const handleMoveItemIntoFolder = () => {
-    console.log(currentDnDItems);
+  const handleMoveItemIntoFolder = async () => {
+    if (
+      !currentDnDItems ||
+      (currentDnDItems.draggingItem.type === 'NOTE' &&
+        currentDnDItems.droppingItem.type === 'NOTE')
+    )
+      return;
+
+    setIsMovingItem(true);
+
+    try {
+      const { draggingItem, droppingItem } = currentDnDItems;
+
+      const itemToBeMoved =
+        draggingItem.type === 'FOLDER' && droppingItem.type === 'NOTE'
+          ? droppingItem
+          : draggingItem;
+
+      const newParentFolder =
+        draggingItem.type === 'FOLDER' && droppingItem.type === 'NOTE'
+          ? draggingItem
+          : droppingItem;
+
+      await moveItem(itemToBeMoved.id, newParentFolder.id);
+
+      history.push(`/notas/${newParentFolder.id}`);
+    } catch (err) {
+      console.error(err);
+      addGeneralError('errorMovingItem');
+    } finally {
+      if (!isComponentUnmounted.current) {
+        setIsMovingItem(false);
+        setIsDnDModalOpened(false);
+      }
+    }
   };
 
   const handleChangePlaces = async () => {
@@ -338,6 +373,8 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
                   ?.text
               }
               onClick={handleMoveItemIntoFolder}
+              disabled={isMovingItem}
+              isLoading={isMovingItem}
             />
           )}
           <OceanoButton
@@ -431,6 +468,16 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
               onClose={() => removeGeneralErrorBy('name', 'errorChangePlaces')}
             >
               {translation?.errorChangePlacesMsg}
+            </OceanoNotification>
+          )}
+          {getErrorsBy('name', 'errorMovingItem').length > 0 && (
+            <OceanoNotification
+              key={Math.random()}
+              type="error"
+              timeout={10000}
+              onClose={() => removeGeneralErrorBy('name', 'errorMovingItem')}
+            >
+              {translation?.errorMovingItemMsg}
             </OceanoNotification>
           )}
         </AnimatePresence>
