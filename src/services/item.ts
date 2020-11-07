@@ -13,6 +13,7 @@ import {
 
 // Utils
 import { generateTitleKeywords, OceanoErrorConstructed } from '../utils';
+import { DragAndDropItemType } from '../types-and-interfaces/components/NoteOrFolder.types';
 
 const items = () => firebase.firestore().collection('items');
 
@@ -253,6 +254,25 @@ export async function getBreadcrumbs(
        */
       previousFolders: [null, ...previousFolders.reverse()],
     };
+  } catch (err) {
+    throw err;
+  }
+}
+
+/**
+ * Takes two items and change their places in the folder by attributing 'item1.orderId'
+ * to 'item2.orderId' and vice-versa.
+ *
+ * @param item1 Item 1
+ * @param item2 Item 2
+ */
+export async function changePlaces(
+  item1: DragAndDropItemType,
+  item2: DragAndDropItemType
+) {
+  try {
+    await items().doc(item1.id).update({ orderId: item2.orderId });
+    await items().doc(item2.id).update({ orderId: item1.orderId });
   } catch (err) {
     throw err;
   }

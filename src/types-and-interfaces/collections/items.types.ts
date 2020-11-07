@@ -40,7 +40,7 @@ export type ItemDocumentType = {
    * This is a reference number to the order position in the parent
    * folder.
    */
-  orderId: number | null;
+  orderId: number;
 
   /**
    * Date that user created the item.

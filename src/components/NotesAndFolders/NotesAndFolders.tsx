@@ -33,6 +33,7 @@ import { AppContext } from '../../store';
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
+import { DragAndDropItemType } from '../../types-and-interfaces/components/NoteOrFolder.types';
 
 const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
   folderId,
@@ -134,6 +135,31 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
     };
   }, [fetchedItems]);
 
+  const handleChangePlaces = (
+    item1: DragAndDropItemType,
+    item2: DragAndDropItemType
+  ) => {
+    setFetchedItems((items) => {
+      if (items) {
+        const findIndex = (documentId: string) =>
+          items.findIndex((item) => item.documentId === documentId);
+
+        const item1Index = findIndex(item1.id);
+        const item2Index = findIndex(item2.id);
+
+        if (item1Index !== -1 && item2Index !== -1) {
+          const newItem1 = { ...items[item2Index], orderId: item1.orderId };
+          const newItem2 = { ...items[item1Index], orderId: item2.orderId };
+
+          items[item1Index] = newItem1;
+          items[item2Index] = newItem2;
+        }
+
+        return [...items];
+      }
+    });
+  };
+
   return (
     <>
       {/* Error loading items */}
@@ -147,6 +173,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
           ></OceanoCard>
         </WrapperOceanoCard>
       )}
+
       {/* No results */}
       {!isLoadingItems && fetchedItems && fetchedItems.length === 0 && (
         <>
@@ -199,6 +226,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
           )}
         </>
       )}
+
       {/* Results */}
       {fetchedItems &&
         fetchedItems.length > 0 &&
@@ -225,8 +253,10 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
               <NoteOrFolder
                 id={item.documentId}
                 parentFolderId={item.parentFolderId}
+                orderId={item.orderId}
                 type={item.type}
                 title={item.title || undefined}
+                onChangePlaces={handleChangePlaces}
               />
             </motion.div>
           </MotionDivWrapperNoteOrFolder>

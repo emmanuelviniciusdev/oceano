@@ -39,7 +39,10 @@ import {
 import useTranslation from '../../hooks/useTranslation';
 
 // Services
-import { createFolderAndMoveItemsIntoIt } from '../../services/item';
+import {
+  changePlaces,
+  createFolderAndMoveItemsIntoIt,
+} from '../../services/item';
 
 // Setup
 import { AppContext } from '../../store';
@@ -52,8 +55,10 @@ import { limitTitleLength } from '../../utils';
 const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   id,
   parentFolderId,
+  orderId,
   type,
   title,
+  onChangePlaces,
 }) => {
   const isComponentUnmounted = useRef(false);
 
@@ -97,7 +102,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   const [creatingNewFolderError, setCreatingNewFolderError] = useState(false);
 
   const [, connectDragSource] = useDrag({
-    item: { id, type: type.toUpperCase() } as DragAndDropItemType,
+    item: { id, type: type.toUpperCase(), orderId } as DragAndDropItemType,
   });
 
   const [, connectDropSource] = useDrop({
@@ -121,6 +126,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
         draggingItem: item,
         droppingItem: {
           id,
+          orderId,
           type: type.toUpperCase() as NoteOrFolderStringsUpperCasedType,
         },
       });
@@ -243,8 +249,19 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
     console.log(currentDnDItems);
   };
 
-  const handleSwapItems = () => {
-    console.log(currentDnDItems);
+  const handleChangePlaces = async () => {
+    if (!currentDnDItems) return;
+
+    try {
+      const item1 = currentDnDItems.draggingItem;
+      const item2 = currentDnDItems.droppingItem;
+
+      await changePlaces(item1, item2);
+      onChangePlaces(item1, item2);
+    } catch (err) {
+      // TODO: Implement error message
+      console.error(err);
+    }
   };
 
   /**
@@ -322,7 +339,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
             aria-label={
               translation?.actionDnDModalLabels?.actions?.buttonSwapItems?.text
             }
-            onClick={handleSwapItems}
+            onClick={handleChangePlaces}
           />
         </OceanoModal>
       )}
