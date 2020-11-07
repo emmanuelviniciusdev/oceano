@@ -37,6 +37,7 @@ import {
 
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
+import useGeneralErrors from '../../hooks/useGeneralErros';
 
 // Services
 import {
@@ -66,6 +67,11 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   const textareaToEditTitleRef = useRef<HTMLTextAreaElement | null>(null);
 
   const translation = useTranslation('NoteOrFolder');
+  const {
+    getErrorsBy,
+    addGeneralError,
+    removeGeneralErrorBy,
+  } = useGeneralErrors();
 
   const {
     user: userContext,
@@ -90,16 +96,12 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
    */
   const [isRenaming, setIsRenaming] = useState(false);
   const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
+  const [isChangingPlaces, setIsChangingPlaces] = useState(false);
   const [dropActionType, setDropActionType] = useState<DropActionTypes | ''>(
     ''
   );
   const [currentDnDItems, setCurrentDnDItems] = useState<CurrentDnDItemsType>();
   const [newFolderTitle, setNewFolderTitle] = useState<string>('');
-
-  /**
-   * Error states
-   */
-  const [creatingNewFolderError, setCreatingNewFolderError] = useState(false);
 
   const [, connectDragSource] = useDrag({
     item: { id, type: type.toUpperCase(), orderId } as DragAndDropItemType,
@@ -237,7 +239,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       console.error(err);
 
       if (!isComponentUnmounted.current) {
-        setCreatingNewFolderError(true);
+        addGeneralError('errorCreatingNewFolder');
         setIsCreateNewFolderModalOpened(false);
       }
     } finally {
@@ -252,6 +254,8 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   const handleChangePlaces = async () => {
     if (!currentDnDItems) return;
 
+    setIsChangingPlaces(true);
+
     try {
       const item1 = currentDnDItems.draggingItem;
       const item2 = currentDnDItems.droppingItem;
@@ -259,8 +263,14 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       await changePlaces(item1, item2);
       onChangePlaces(item1, item2);
     } catch (err) {
-      // TODO: Implement error message
       console.error(err);
+
+      if (!isComponentUnmounted.current) addGeneralError('errorChangePlaces');
+    } finally {
+      if (!isComponentUnmounted.current) {
+        setIsChangingPlaces(false);
+        setIsDnDModalOpened(false);
+      }
     }
   };
 
@@ -340,6 +350,8 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
               translation?.actionDnDModalLabels?.actions?.buttonSwapItems?.text
             }
             onClick={handleChangePlaces}
+            disabled={isChangingPlaces}
+            isLoading={isChangingPlaces}
           />
         </OceanoModal>
       )}
@@ -399,13 +411,26 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
 
       <StackNotifications>
         <AnimatePresence>
-          {creatingNewFolderError && (
+          {getErrorsBy('name', 'errorCreatingNewFolder').length > 0 && (
             <OceanoNotification
-              key="creating-new-folder-error"
+              key={Math.random()}
               type="error"
               timeout={10000}
+              onClose={() =>
+                removeGeneralErrorBy('name', 'errorCreatingNewFolder')
+              }
             >
               {translation?.errorCreatingNewFolderMsg}
+            </OceanoNotification>
+          )}
+          {getErrorsBy('name', 'errorChangePlaces').length > 0 && (
+            <OceanoNotification
+              key={Math.random()}
+              type="error"
+              timeout={10000}
+              onClose={() => removeGeneralErrorBy('name', 'errorChangePlaces')}
+            >
+              {translation?.errorChangePlacesMsg}
             </OceanoNotification>
           )}
         </AnimatePresence>

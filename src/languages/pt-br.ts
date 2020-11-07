@@ -132,6 +132,7 @@ const content: LanguageStateType = {
         text: 'salvar',
       },
       errorCreatingNewFolderMsg: 'erro ao criar nova pasta',
+      errorChangePlacesMsg: 'ocorreu um erro ao trocar itens de lugar',
     },
 
     MyNote: {

@@ -130,6 +130,7 @@ const content: LanguageStateType = {
         text: 'save',
       },
       errorCreatingNewFolderMsg: 'error creating new folder',
+      errorChangePlacesMsg: 'an error occurred while changing places',
     },
 
     MyNote: {
