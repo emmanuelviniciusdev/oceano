@@ -13,7 +13,11 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 70px;
+  margin-top: 50px;
+
+  @media (min-height: 780px) {
+    margin-top: 70px;
+  }
 `;
 
 export const TurtleImg = styled.img`
@@ -24,7 +28,11 @@ export const TurtleImg = styled.img`
   }
 
   @media (min-width: 960px) {
-    width: 510px;
+    width: 460px;
+
+    @media (min-height: 780px) {
+      width: 510px;
+    }
   }
 `;
 
@@ -95,7 +103,7 @@ export const OceanoTextAtBottom = styled.div`
   font-weight: bold;
   text-align: center;
   color: ${theme.colors.gray};
-  margin-top: 80px;
+  margin-top: 40px;
   user-select: none;
 
   @media (min-width: 960px) {
