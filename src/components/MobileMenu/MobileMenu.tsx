@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import AddIcon from '@material-ui/icons/Add';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -17,13 +17,31 @@ import SwitchLanguage from '../SwitchLanguage/SwitchLanguage';
 // Custom hooks
 import useTranslation from '../../hooks/useTranslation';
 
-const MobileMenu: React.FunctionComponent = () => {
+// Types
+import { MobileMenuType } from '../../types-and-interfaces/components/MobileMenu';
+
+const MobileMenu: React.FunctionComponent<MobileMenuType> = ({
+  onClose,
+  onCreateNote,
+  onSignOut,
+}) => {
+  const isComponentUnmounted = useRef(false);
+
   const translation = useTranslation('TopBar');
+
+  const [isCreatingNote, setIsCreatingNote] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      setIsCreatingNote(false);
+      isComponentUnmounted.current = true;
+    };
+  }, []);
 
   return (
     <>
       <WrapperMobileMenu>
-        <CloseMenuButton>
+        <CloseMenuButton onClick={onClose}>
           <CloseIcon fontSize="large" />
         </CloseMenuButton>
 
@@ -35,6 +53,12 @@ const MobileMenu: React.FunctionComponent = () => {
             aria-label={translation?.buttonCreateNote?.text}
             text={translation?.buttonCreateNote?.text}
             icon={<AddIcon />}
+            onClick={() => {
+              setIsCreatingNote(true);
+              onCreateNote();
+            }}
+            disabled={isCreatingNote}
+            isLoading={isCreatingNote}
           />
 
           <SwitchLanguage isNotTransparent />
@@ -44,6 +68,7 @@ const MobileMenu: React.FunctionComponent = () => {
             aria-label={translation?.buttonSignOut?.ariaLabel}
             text={translation?.buttonSignOut?.text}
             icon={<ExitToAppIcon />}
+            onClick={onSignOut}
           />
         </WrapperButtonsMenu>
       </WrapperMobileMenu>

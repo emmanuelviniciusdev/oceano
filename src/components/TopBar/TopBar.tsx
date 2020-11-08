@@ -63,6 +63,7 @@ const TopBar: React.FunctionComponent = () => {
     breadcrumbs: breadcrumbsContext,
   } = useContext(AppContext);
 
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showSignOutErrorMsg, setShowSignOutErrorMsg] = useState(false);
   const [showCreateNoteErrorMsg, setShowCreateNoteErrorMsg] = useState(false);
   const [showDeleteNoteErrorMsg, setShowDeleteNoteErrorMsg] = useState(false);
@@ -254,7 +255,7 @@ const TopBar: React.FunctionComponent = () => {
                     </WrapperButtonsRightSide>
                   </WrapperShowDesktopButtons>
 
-                  <OpenMenuButton>
+                  <OpenMenuButton onClick={() => setShowMobileMenu(true)}>
                     <MenuIcon fontSize="large" />
                   </OpenMenuButton>
                 </>
@@ -284,7 +285,19 @@ const TopBar: React.FunctionComponent = () => {
             </TopBarContainer>
           </StyledTopBar>
 
-          {/* <MobileMenu /> */}
+          {showMobileMenu && (
+            <MobileMenu
+              onClose={() => setShowMobileMenu(false)}
+              onCreateNote={async () => {
+                await handleCreateNote();
+                setShowMobileMenu(false);
+              }}
+              onSignOut={async () => {
+                await handleSignOut();
+                setShowMobileMenu(false);
+              }}
+            />
+          )}
 
           {isMyNotePage && showModalDeleteNote && (
             <OceanoModal
