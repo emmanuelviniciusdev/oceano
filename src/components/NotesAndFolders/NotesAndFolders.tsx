@@ -160,6 +160,11 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
     });
   };
 
+  const handleDeleteItem = (itemId: string) =>
+    setFetchedItems(
+      (items) => items && items.filter((item) => item.documentId !== itemId)
+    );
+
   return (
     <>
       {/* Error loading items */}
@@ -257,6 +262,7 @@ const NotesAndFolders: React.FunctionComponent<NotesAndFoldersType> = ({
                 type={item.type}
                 title={item.title || undefined}
                 onChangePlaces={handleChangePlaces}
+                onDeleteItem={handleDeleteItem}
               />
             </motion.div>
           </MotionDivWrapperNoteOrFolder>

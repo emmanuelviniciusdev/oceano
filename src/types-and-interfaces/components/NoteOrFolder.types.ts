@@ -35,6 +35,11 @@ export type NoteOrFolderType = {
     item1: DragAndDropItemType,
     item2: DragAndDropItemType
   ) => void;
+
+  /**
+   * Triggers when an item is deleted
+   */
+  onDeleteItem: (itemId: string) => void;
 };
 
 export type DropActionTypes =

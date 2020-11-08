@@ -62,6 +62,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   type,
   title,
   onChangePlaces,
+  onDeleteItem,
 }) => {
   const isComponentUnmounted = useRef(false);
 
@@ -100,6 +101,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
   const [isChangingPlaces, setIsChangingPlaces] = useState(false);
   const [isMovingItem, setIsMovingItem] = useState(false);
+  const [isDeletingItem, setIsDeletingItem] = useState(false);
   const [dropActionType, setDropActionType] = useState<DropActionTypes | ''>(
     ''
   );
@@ -219,15 +221,19 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   };
 
   const deleteNoteOrFolder = async () => {
+    setIsDeletingItem(true);
+
     try {
       await deleteItem(id, type);
+      onDeleteItem(id);
     } catch (err) {
       console.error(err);
       if (!isComponentUnmounted.current) {
-        addGeneralError('errorDeleteNoteOrFolder');
+        addGeneralError('errorDeletingItem');
       }
     } finally {
       if (!isComponentUnmounted.current) {
+        setIsDeletingItem(false);
         setIsDeleteModalOpened(false);
       }
     }
@@ -453,6 +459,8 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
             text={modalDeleteTitles?.buttonConfirmDelete?.text}
             aria-label={modalDeleteTitles?.buttonConfirmDelete?.text}
             onClick={deleteNoteOrFolder}
+            disabled={isDeletingItem}
+            isLoading={isDeletingItem}
           />
         </OceanoModal>
       )}
@@ -489,6 +497,16 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
               onClose={() => removeGeneralErrorBy('name', 'errorMovingItem')}
             >
               {translation?.errorMovingItemMsg}
+            </OceanoNotification>
+          )}
+          {getErrorsBy('name', 'errorDeletingItem').length > 0 && (
+            <OceanoNotification
+              key={Math.random()}
+              type="error"
+              timeout={10000}
+              onClose={() => removeGeneralErrorBy('name', 'errorDeletingItem')}
+            >
+              {translation?.errorDeletingItemMsg}
             </OceanoNotification>
           )}
         </AnimatePresence>
