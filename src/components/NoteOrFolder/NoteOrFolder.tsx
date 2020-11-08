@@ -45,6 +45,7 @@ import {
   createFolderAndMoveItemsIntoIt,
   deleteItem,
   moveItem,
+  updateTitle,
 } from '../../services/item';
 
 // Setup
@@ -97,7 +98,9 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   /**
    * Common states
    */
+  const [updatedTitle, setUpdatedTitle] = useState<string>();
   const [isRenaming, setIsRenaming] = useState(false);
+  const [isRenamingLoading, setIsRenamingLoading] = useState(false);
   const [isCreatingNewFolder, setIsCreatingNewFolder] = useState(false);
   const [isChangingPlaces, setIsChangingPlaces] = useState(false);
   const [isMovingItem, setIsMovingItem] = useState(false);
@@ -159,7 +162,7 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   };
 
   const openItem = (middleClick: boolean = false) => {
-    if (!breadcrumbsContext) return;
+    if (!breadcrumbsContext || isRenaming) return;
 
     if (type === 'folder') {
       /**
@@ -215,9 +218,32 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
     dragAndDropConnectionAttach(e);
   };
 
-  const renameNoteOrFolder = () => {
-    setIsRenaming(false);
-    console.log('on rename...');
+  const renameNoteOrFolder = async () => {
+    if (!textareaToEditTitleRef.current) return;
+
+    const newTitle = textareaToEditTitleRef.current.value;
+
+    if (title === newTitle) {
+      setIsRenaming(false);
+      return;
+    }
+
+    setIsRenamingLoading(true);
+
+    try {
+      await updateTitle(id, newTitle);
+      setUpdatedTitle(newTitle);
+    } catch (err) {
+      console.error(err);
+      if (!isComponentUnmounted.current) {
+        addGeneralError('errorRenamingItem');
+      }
+    } finally {
+      if (!isComponentUnmounted.current) {
+        setIsRenamingLoading(false);
+        setIsRenaming(false);
+      }
+    }
   };
 
   const deleteNoteOrFolder = async () => {
@@ -509,6 +535,16 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
               {translation?.errorDeletingItemMsg}
             </OceanoNotification>
           )}
+          {getErrorsBy('name', 'errorRenamingItem').length > 0 && (
+            <OceanoNotification
+              key={Math.random()}
+              type="error"
+              timeout={10000}
+              onClose={() => removeGeneralErrorBy('name', 'errorRenamingItem')}
+            >
+              {translation?.errorRenamingItemMsg}
+            </OceanoNotification>
+          )}
         </AnimatePresence>
       </StackNotifications>
 
@@ -558,11 +594,14 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
           <>
             <textarea
               ref={textareaToEditTitleRef}
-              defaultValue={defaultTitle}
+              defaultValue={updatedTitle || defaultTitle}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
                   renameNoteOrFolder();
+                } else if (e.key === 'Escape') {
+                  e.preventDefault();
+                  setIsRenaming(false);
                 }
               }}
             />
@@ -574,11 +613,17 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
                 text={translation?.buttonSaveEditTitle?.text}
                 aria-label={translation?.buttonSaveEditTitle?.text}
                 onClick={renameNoteOrFolder}
+                disabled={isRenamingLoading}
+                isLoading={isRenamingLoading}
               />
             </WrapperBtnSaveTitle>
           </>
         ) : (
-          <p>{limitTitleLength(defaultTitle, 45) || defaultTitle}</p>
+          <p>
+            {updatedTitle
+              ? limitTitleLength(updatedTitle, 45)
+              : limitTitleLength(defaultTitle, 45)}
+          </p>
         )}
       </StyledNoteOrFolder>
     </>

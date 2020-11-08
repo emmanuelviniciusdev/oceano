@@ -133,6 +133,7 @@ const content: LanguageStateType = {
       errorChangePlacesMsg: 'an error occurred while changing places',
       errorMovingItemMsg: 'an error occurred while moving into the folder',
       errorDeletingItemMsg: 'error deleting item',
+      errorRenamingItemMsg: 'error renaming item',
     },
 
     MyNote: {

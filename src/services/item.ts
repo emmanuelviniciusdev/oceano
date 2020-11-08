@@ -10,11 +10,10 @@ import {
   BreadcrumbsStateType,
   FolderType,
 } from '../types-and-interfaces/store/reducers/breadcrumbs.types';
+import { DragAndDropItemType } from '../types-and-interfaces/components/NoteOrFolder.types';
 
 // Utils
 import { generateTitleKeywords, OceanoErrorConstructed } from '../utils';
-import { DragAndDropItemType } from '../types-and-interfaces/components/NoteOrFolder.types';
-import { firestore } from 'firebase';
 
 const items = () => firebase.firestore().collection('items');
 
@@ -26,6 +25,21 @@ const items = () => firebase.firestore().collection('items');
  */
 export function updateItem(itemId: string, data: ItemDocumentType) {
   return items().doc(itemId).update(data);
+}
+
+/**
+ * Updates item's title.
+ *
+ * @param itemId Item's document ID
+ * @param newTitle New item's title
+ */
+export function updateTitle(itemId: string, newTitle: string) {
+  return items()
+    .doc(itemId)
+    .update({
+      title: newTitle,
+      titleKeywords: generateTitleKeywords(newTitle),
+    });
 }
 
 /**

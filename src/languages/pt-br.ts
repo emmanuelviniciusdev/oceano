@@ -135,6 +135,7 @@ const content: LanguageStateType = {
       errorChangePlacesMsg: 'ocorreu um erro ao trocar itens de lugar',
       errorMovingItemMsg: 'ocorreu um erro ao mover para dentro da pasta',
       errorDeletingItemMsg: 'ocorreu um erro ao deletar o item',
+      errorRenamingItemMsg: 'ocorreu um erro ao renomear o item',
     },
 
     MyNote: {
