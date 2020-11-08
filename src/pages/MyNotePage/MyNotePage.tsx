@@ -80,12 +80,15 @@ const MyNotePage = () => {
           )
         );
       } catch (err) {
-        if (err.code === 'oceano-item/item-does-not-exist') {
+        if (
+          err.code === 'oceano-item/item-does-not-exist' ||
+          err.code === 'permission-denied'
+        ) {
           history.push('/pagina-nao-encontrada');
           return;
         }
 
-        console.error(err);
+        console.error(err.code);
         setErrorLoadingNoteDocumentData(true);
       }
     })();
