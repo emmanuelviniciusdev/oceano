@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 
 // Components
@@ -26,8 +25,6 @@ import { SignInMethodType } from '../../types-and-interfaces/components/SignInMe
 
 const SignInMethods = () => {
   const translation = useTranslation('SignInMethods');
-
-  const history = useHistory();
 
   const [acceptanceIsOpen, setAcceptanceIsOpen] = useState(false);
   const [

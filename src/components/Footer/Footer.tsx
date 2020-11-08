@@ -32,17 +32,17 @@ const Footer = () => {
     /**
      * /minha-nota/:noteId
      */
-    /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
+    /^\/minha-nota\/(?:([^\/]+?))\/?$/i, //eslint-disable-line
 
     /**
      * /termos/:termsType
      */
-    /^\/termos\/(?:([^\/]+?))\/?$/i,
+    /^\/termos\/(?:([^\/]+?))\/?$/i, //eslint-disable-line
 
     /**
      * /offline
      */
-    /^\/offline\/?$/i,
+    /^\/offline\/?$/i, //eslint-disable-line
   ];
 
   const oceanoVersion = '1.0.0 (beta)';

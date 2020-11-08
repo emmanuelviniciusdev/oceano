@@ -75,7 +75,7 @@ const TopBar: React.FunctionComponent = () => {
   const searchItemsTimeoutRef = useRef<number>();
 
   const isMyNotePage = doesRouteMatch(currentLocation.pathname, [
-    /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
+    /^\/minha-nota\/(?:([^\/]+?))\/?$/i, //eslint-disable-line
   ]);
 
   const handleSignOut = async () => {
@@ -186,22 +186,22 @@ const TopBar: React.FunctionComponent = () => {
     /**
      * Homepage
      */
-    /^\/?$/i,
+    /^\/?$/i, //eslint-disable-line
 
     /**
      * /pagina-nao-encontrada
      */
-    /^\/pagina-nao-encontrada\/?$/i,
+    /^\/pagina-nao-encontrada\/?$/i, //eslint-disable-line
 
     /**
      * /offline
      */
-    /^\/offline\/?$/i,
+    /^\/offline\/?$/i, //eslint-disable-line
 
     /**
      * /termos/:termsType
      */
-    /^\/termos\/(?:([^\/]+?))\/?$/i,
+    /^\/termos\/(?:([^\/]+?))\/?$/i, //eslint-disable-line
   ];
 
   return (

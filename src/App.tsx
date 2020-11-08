@@ -97,22 +97,22 @@ function App() {
     /**
      * /pagina-nao-encontrada
      */
-    /^\/pagina-nao-encontrada\/?$/i,
+    /^\/pagina-nao-encontrada\/?$/i, //eslint-disable-line
 
     /**
      * /minha-nota/:noteId
      */
-    /^\/minha-nota\/(?:([^\/]+?))\/?$/i,
+    /^\/minha-nota\/(?:([^\/]+?))\/?$/i, //eslint-disable-line
 
     /**
      * /offline
      */
-    /^\/offline\/?$/i,
+    /^\/offline\/?$/i, //eslint-disable-line
 
     /**
      * /termos/:termsType
      */
-    /^\/termos\/(?:([^\/]+?))\/?$/i,
+    /^\/termos\/(?:([^\/]+?))\/?$/i, //eslint-disable-line
   ];
 
   return (

@@ -7,7 +7,6 @@ import Delimiter from '@editorjs/delimiter';
 import Checklist from '@editorjs/checklist';
 import Embed from '@editorjs/embed';
 import { AnimatePresence } from 'framer-motion';
-import { useHistory } from 'react-router-dom';
 // import isEqualReactFastCompare from 'react-fast-compare';
 
 // Styles
