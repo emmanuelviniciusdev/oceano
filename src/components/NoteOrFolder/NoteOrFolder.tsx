@@ -223,7 +223,9 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
       await deleteItem(id, type);
     } catch (err) {
       console.error(err);
-      addGeneralError('errorDeleteNoteOrFolder');
+      if (!isComponentUnmounted.current) {
+        addGeneralError('errorDeleteNoteOrFolder');
+      }
     } finally {
       if (!isComponentUnmounted.current) {
         setIsDeleteModalOpened(false);

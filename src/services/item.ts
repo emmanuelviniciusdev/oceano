@@ -85,7 +85,7 @@ export async function deleteItem(
     //   return;
     // }
 
-    _deleteFolder(itemId);
+    await _deleteFolder(itemId);
   } catch (err) {
     throw err;
   }
@@ -93,51 +93,35 @@ export async function deleteItem(
 
 async function _deleteFolder(itemId: string) {
   try {
-    // await items().doc(itemId).delete();
+    /**
+     * This function will get all the items related to a given folder
+     * and batch delete them. This process is made using recursion, so
+     * if some item related to the folder is another folder, this function
+     * is called again and executes a batch delete in the items of this
+     * folder and so on...
+     *
+     * @param itemId Item's ID
+     */
+    const deleteRelatedItemsBatch = async (itemId: string) => {
+      const batch = firebase.firestore().batch();
 
-    let relatedItems: Array<firestore.DocumentData> = [];
+      const folderItems = await items()
+        .where('parentFolderId', '==', itemId)
+        .get();
 
-    const getRelatedItems = async (itemId: string) => {
-      const myItems = await items().where('parentFolderId', '==', itemId).get();
+      folderItems.docs.forEach(async (doc) => {
+        batch.delete(doc.ref);
 
-      myItems.docs.forEach(async (doc) => {
         if ((doc.data() as ItemDocumentType).type === 'folder') {
-          await getRelatedItems(doc.id);
+          await deleteRelatedItemsBatch(doc.id);
         }
       });
 
-      console.log(myItems.docs);
-
-      relatedItems.push(myItems.docs);
+      await batch.commit();
     };
 
-    await getRelatedItems(itemId);
-
-    relatedItems.forEach((v) => console.log(v));
-
-    // const getRelatedItems = async (itemId: string) => {
-    //   return await items()
-    //     .where('parentFolderId', '==', itemId)
-    //     .get()
-    //     .then((result) => {
-    //       result.forEach(async (item) => {
-    //         console.log(item);
-
-    //         relatedItems.push(item);
-
-    //         /**
-    //          * If the current item is a folder we get all the children of this
-    //          * current item as well.
-    //          */
-    //         if ((item.data() as ItemDocumentType).type === 'folder') {
-    //           const recurItems = await getRelatedItems(item.id);
-    //           relatedItems = [...recurItems, ...relatedItems];
-    //         }
-    //       });
-
-    //       return relatedItems;
-    //     });
-    // };
+    await items().doc(itemId).delete();
+    await deleteRelatedItemsBatch(itemId);
   } catch (err) {
     throw err;
   }
