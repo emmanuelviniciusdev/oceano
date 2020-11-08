@@ -184,6 +184,11 @@ const TopBar: React.FunctionComponent = () => {
    */
   const blockedRouteRegExps = [
     /**
+     * Homepage
+     */
+    /^\/?$/i,
+
+    /**
      * /pagina-nao-encontrada
      */
     /^\/pagina-nao-encontrada\/?$/i,

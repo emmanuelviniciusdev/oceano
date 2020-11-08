@@ -69,6 +69,7 @@ describe('TopBar', () => {
 
   it('should not render TopBar on blocked routes', () => {
     const blockedRoutes = [
+      '/',
       '/pagina-nao-encontrada',
       '/offline',
       '/termos/termos-de-uso',
