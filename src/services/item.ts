@@ -70,7 +70,8 @@ export function createItem(data: ItemDocumentType) {
 /**
  * Deletes an item.
  *
- * If the item is a folder it deletes all of its children too.
+ * If the item is a folder it deletes the folder and all of its
+ * children too.
  *
  * @param itemId Item's document ID
  * @param type Item's type
@@ -80,10 +81,10 @@ export async function deleteItem(
   type: 'note' | 'folder' = 'note'
 ) {
   try {
-    // if (type === 'note') {
-    //   await items().doc(itemId).delete();
-    //   return;
-    // }
+    if (type === 'note') {
+      await items().doc(itemId).delete();
+      return;
+    }
 
     await _deleteFolder(itemId);
   } catch (err) {
@@ -91,6 +92,11 @@ export async function deleteItem(
   }
 }
 
+/**
+ * Deletes a folder and all of its the related items.
+ *
+ * @param itemId Item's ID
+ */
 async function _deleteFolder(itemId: string) {
   try {
     /**
@@ -105,6 +111,12 @@ async function _deleteFolder(itemId: string) {
     const deleteRelatedItemsBatch = async (itemId: string) => {
       const batch = firebase.firestore().batch();
 
+      /**
+       * Firestore's batch supports only 500 writes in a single
+       * 'WriteBatch'
+       */
+      let batchLimit = 500;
+
       const folderItems = await items()
         .where('parentFolderId', '==', itemId)
         .get();
@@ -112,12 +124,24 @@ async function _deleteFolder(itemId: string) {
       folderItems.docs.forEach(async (doc) => {
         batch.delete(doc.ref);
 
+        batchLimit--;
+
+        if (batchLimit <= 0) {
+          await batch.commit();
+
+          /**
+           * When the limit is reached the function is called again to delete
+           * the remaining items of the current 'itemId'.
+           */
+          await deleteRelatedItemsBatch(itemId);
+        }
+
         if ((doc.data() as ItemDocumentType).type === 'folder') {
           await deleteRelatedItemsBatch(doc.id);
         }
       });
 
-      await batch.commit();
+      if (batchLimit > 0) await batch.commit();
     };
 
     await items().doc(itemId).delete();
