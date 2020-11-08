@@ -1,6 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
 import { readableColor } from 'polished';
 import theme from './theme';
+import './fonts.css';
 
 const GlobalStyle = createGlobalStyle`
     * {
