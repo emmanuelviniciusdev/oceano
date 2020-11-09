@@ -4,40 +4,79 @@ const TextPrivacyPolicy = () => {
   return (
     <>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin sed nunc
-        viverra, consequat sapien sed, pulvinar felis. Sed quam orci, molestie
-        sed ligula ac, vestibulum sagittis diam. Aliquam vitae pharetra ipsum.
-        Etiam luctus tellus vel mi ultrices, et egestas sapien venenatis.
-        Praesent at mi varius, egestas massa vel, finibus mauris. Donec molestie
-        tortor dolor, non dignissim diam auctor id. Pellentesque consectetur
-        rutrum orci. Suspendisse potenti. Donec non ultricies ante, in mollis
-        magna. Aliquam vitae dapibus leo.
+        O Oceano respeita o direito à privacidade e zela pela segurança dos
+        dados de seus usuários.
       </p>
       <p>
-        Nulla scelerisque urna vitae dignissim maximus. Pellentesque non nisl et
-        odio ultrices convallis. Vivamus volutpat congue imperdiet. Phasellus
-        venenatis elit sed erat auctor, at cursus quam aliquet. Orci varius
-        natoque penatibus et magnis dis parturient montes, nascetur ridiculus
-        mus. Quisque rutrum, augue vitae facilisis tincidunt, nunc libero
-        lacinia ligula, at tincidunt felis nisl vitae neque. Mauris id egestas
-        metus, blandit pharetra nunc. Praesent consequat, orci at sagittis
-        dignissim, nunc sapien cursus nisl, non volutpat arcu ipsum id orci.
-        Proin bibendum elit tellus. Pellentesque non tortor in enim pulvinar
-        porta. Aenean risus tortor, mattis rhoncus est rhoncus, semper tristique
-        quam. Mauris at convallis libero. Etiam a est tempus, rhoncus nisi id,
-        dictum lorem. Suspendisse orci eros, auctor at sodales ut, efficitur a
-        dui.
+        Este documento poderá ser modificado e ter a sua Política de Privacidade
+        alterada a qualquer momento e, cabe a você, analisar periodicamente a
+        mais atualizada versão desta Política de Privacidade.
+      </p>
+
+      <h2>Informações coletadas</h2>
+      <p>
+        Nos servidores do Oceano, será coletado dados cadastrais (nome,
+        sobrenome, e-mail) – providos de métodos de login alternativos (como
+        Google e Github) – e dados de suas anotações no geral.
       </p>
       <p>
-        Curabitur ut odio at ex laoreet faucibus. Sed congue bibendum rhoncus.
-        Pellentesque sapien nibh, tempor vel arcu eget, molestie suscipit magna.
-        Curabitur lobortis turpis at mollis volutpat. Aenean at augue lobortis,
-        tincidunt quam quis, accumsan diam. Phasellus eget ex vitae lorem
-        commodo feugiat. Etiam nisi mi, ultrices ut sem eget, facilisis mattis
-        mauris. Nam facilisis justo nibh. Fusce vitae enim nibh. Quisque et
-        bibendum nibh. Cras varius orci ultricies, mollis nunc vitae, gravida
-        augue. Curabitur id tempor lorem. Praesent lacinia neque ut pharetra
-        hendrerit.
+        O Oceano utiliza o Google Analytics por meio da implementação padrão.
+        Com ele, também serão coletados os seguintes dados:
+      </p>
+      <ul>
+        <li>Número de usuários e sessões ativas no momento.</li>
+        <li>Duração de cada sessão.</li>
+        <li>
+          Sistemas operacionais utilizados pelos visitantes e/ou usuários.
+        </li>
+        <li>
+          Modelo dos dispositivos utilizados pelos visitantes e/ou usuários.
+        </li>
+        <li>Local geográfico em que o visitante e/ou usuário se encontram.</li>
+        <li>Primeiras inicializações na nossa plataforma.</li>
+        <li>Dados de aberturas da plataforma.</li>
+        <li>Atualizações da plataforma.</li>
+        <li>Compras na plataforma.</li>
+      </ul>
+      <p>
+        Ao acessar e/ou utilizar o Oceano, você concorda e consente com tais
+        coletas de dados.
+      </p>
+
+      <h2>Uso das informações coletadas</h2>
+      <p>
+        Os dados coletados ficarão disponíveis apenas nos servidores do Oceano e
+        sendo utilizados pelo Oceano. Terceiros não terão acesso a eles, exceto
+        mediante a algum mandado judicial contra algum de nossos usuários.
+      </p>
+
+      <h2>A respeito de cookies</h2>
+      <p>
+        O Oceano utiliza-se de cookies para manter ativa a sessão do usuário
+        autenticado.
+      </p>
+
+      <h2>Segurança</h2>
+      <p>
+        O Oceano se utiliza de medidas de segurança comercialmente razoáveis
+        para proteger as informações contidas em nosso banco de dados. Contudo,
+        sabe-se que nenhum sistema de segurança é 100% seguro. Sendo assim, por
+        mais que façamos o possível para proteger suas informações pessoais, não
+        temos como garantir a absoluta segurança em nossa plataforma. É possível
+        que os dados que você forneça em nossos sistemas possam ser
+        interceptados por terceiros durante a transmissão. Portanto, é uma
+        decisão sua a utilização de nossos serviços nestas condições.
+      </p>
+      <p>
+        Não será solicitada, em hipótese alguma, sua senha ou qualquer outra
+        informação pessoal por e-mail, telefone ou por qualquer outro meio de
+        comunicação.
+      </p>
+      <p>
+        Caso compartilhe o seu dispositivo com alguém ou vai utilizar o Oceano
+        através de um dispositivo público, recomendamos que sempre se desconecte
+        da sua conta e feche a janela do seu navegador assim que terminar de
+        utilizar o Oceano. É uma boa prática e uma boa medida de segurança.
       </p>
     </>
   );

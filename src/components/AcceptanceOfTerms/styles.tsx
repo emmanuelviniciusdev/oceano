@@ -59,6 +59,11 @@ export const Content = styled.div`
     text-align: left;
     color: ${theme.colors.gray};
   }
+  h2,
+  p,
+  li {
+    color: ${theme.colors.gray};
+  }
 
   @media (min-width: 600px) {
     width: 100%;
@@ -71,11 +76,17 @@ export const WrapperTerms = styled.div`
   height: 400px;
   overflow-y: scroll;
   font-weight: 500;
+  padding-right: 15px;
 
   p {
     font-size: 14px;
     color: ${theme.colors.gray};
     margin-bottom: 15px;
+  }
+
+  ul {
+    list-style-type: disc !important;
+    margin: 0 0 15px 40px;
   }
 `;
 

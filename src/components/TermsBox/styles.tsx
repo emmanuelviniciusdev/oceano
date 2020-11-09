@@ -56,6 +56,16 @@ export const TermsContent = styled.div`
     color: ${theme.colors.black};
     margin-bottom: 15px;
   }
+
+  h2,
+  li {
+    color: ${theme.colors.black};
+  }
+
+  ul {
+    list-style-type: disc !important;
+    margin: 0 0 15px 40px;
+  }
 `;
 
 export const ActionContent = styled.div`
