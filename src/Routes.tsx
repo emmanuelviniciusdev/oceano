@@ -102,6 +102,14 @@ const Routes: React.FunctionComponent = () => {
       isBlockedFromAuthenticatedUsers,
     } = additionalProps;
     /**
+     * It redirects user to offline page if the browser's network status is
+     * offline.
+     */
+    if (!navigator.onLine && currentLocation.pathname !== '/offline') {
+      history.push('/offline');
+    }
+
+    /**
      * It does nothing while we don't have a reference to user auth state.
      */
     if (isUserReallyLoggedIn === undefined) return;
@@ -118,14 +126,6 @@ const Routes: React.FunctionComponent = () => {
      * It sets page title.
      */
     if (pageTitle) setPageTitle(pageTitle);
-
-    /**
-     * It redirects user to offline page if the browser's network status is
-     * offline.
-     */
-    if (!navigator.onLine && currentLocation.pathname !== '/offline') {
-      history.push('/offline');
-    }
 
     return component;
   };
