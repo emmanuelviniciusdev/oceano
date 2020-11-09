@@ -137,13 +137,13 @@ const TopBar: React.FunctionComponent = () => {
   };
 
   const handleDeleteNote = async () => {
-    if (!myNoteContext?.state) return;
+    if (!myNoteContext?.state || !userContext?.state) return;
 
     setIsDeletingNote(true);
 
     try {
       const { noteId, parentFolderId } = myNoteContext.state;
-      await deleteItem(noteId);
+      await deleteItem(userContext.state.uid, noteId);
       history.push(parentFolderId ? `/notas/${parentFolderId}` : '/notas');
     } catch (err) {
       console.error(err);

@@ -87,10 +87,12 @@ export function createItem(data: ItemDocumentType) {
  * If the item is a folder it deletes the folder and all of its
  * children too.
  *
+ * @param userUID User's ID
  * @param itemId Item's document ID
  * @param type Item's type
  */
 export async function deleteItem(
+  userUID: string,
   itemId: string,
   type: 'note' | 'folder' = 'note'
 ) {
@@ -100,7 +102,7 @@ export async function deleteItem(
       return;
     }
 
-    await _deleteFolder(itemId);
+    await _deleteFolder(userUID, itemId);
   } catch (err) {
     throw err;
   }
@@ -109,9 +111,10 @@ export async function deleteItem(
 /**
  * Deletes a folder and all of its the related items.
  *
+ * @param userUID User's ID
  * @param itemId Item's ID
  */
-async function _deleteFolder(itemId: string) {
+async function _deleteFolder(userUID: string, itemId: string) {
   try {
     /**
      * This function will get all the items related to a given folder
@@ -120,9 +123,10 @@ async function _deleteFolder(itemId: string) {
      * is called again and executes a batch delete in the items of this
      * folder and so on...
      *
+     * @param userUID User's ID
      * @param itemId Item's ID
      */
-    const deleteRelatedItemsBatch = async (itemId: string) => {
+    const deleteRelatedItemsBatch = async (userUID: string, itemId: string) => {
       const batch = firebase.firestore().batch();
 
       /**
@@ -133,6 +137,7 @@ async function _deleteFolder(itemId: string) {
 
       const folderItems = await items()
         .where('parentFolderId', '==', itemId)
+        .where('userUID', '==', userUID)
         .get();
 
       folderItems.docs.forEach(async (doc) => {
@@ -147,11 +152,11 @@ async function _deleteFolder(itemId: string) {
            * When the limit is reached the function is called again to delete
            * the remaining items of the current 'itemId'.
            */
-          await deleteRelatedItemsBatch(itemId);
+          await deleteRelatedItemsBatch(userUID, itemId);
         }
 
         if ((doc.data() as ItemDocumentType).type === 'folder') {
-          await deleteRelatedItemsBatch(doc.id);
+          await deleteRelatedItemsBatch(userUID, doc.id);
         }
       });
 
@@ -159,7 +164,7 @@ async function _deleteFolder(itemId: string) {
     };
 
     await items().doc(itemId).delete();
-    await deleteRelatedItemsBatch(itemId);
+    await deleteRelatedItemsBatch(userUID, itemId);
   } catch (err) {
     throw err;
   }

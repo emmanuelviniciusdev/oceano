@@ -247,10 +247,12 @@ const NoteOrFolder: React.FunctionComponent<NoteOrFolderType> = ({
   };
 
   const deleteNoteOrFolder = async () => {
+    if (!userContext?.state) return;
+
     setIsDeletingItem(true);
 
     try {
-      await deleteItem(id, type);
+      await deleteItem(userContext.state.uid, id, type);
       onDeleteItem(id);
     } catch (err) {
       console.error(err);
